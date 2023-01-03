@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400"
+             x:Class="LiteDB.Studio.Cross.Views.ConnectionView">
+    <UserControl.Styles>
+        <Style Selector="StackPanel.Group">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="DockPanel.Dock" Value="Top" />
+            <Setter Property="Orientation" Value="Vertical" />
+            <Setter Property="Spacing" Value="10"></Setter>
+        </Style>
+        <Style Selector="Label.Group">
+            <Setter Property="Margin" Value="0 0 0 -5" />
+            <Setter Property="FontWeight" Value="DemiBold"></Setter>
+        </Style>
+    </UserControl.Styles>
+    <DockPanel Margin="10">
+        <StackPanel Classes="Group">
+            <Label Classes="Group" Content="Connection mode"/>
+            <StackPanel Orientation="Horizontal" Spacing="50">
+                <RadioButton Content="Direct"/>
+                <RadioButton Content="Shared"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Classes="Group">
+            <Label Classes="Group" Content="Select file"/>
+            <DockPanel>
+                <Button Name="OpenFile" Content="O" 
+                        DockPanel.Dock="Right"
+                        Margin="10 0 0 0"/>
+                <TextBox Name="SelectedFile" Watermark="File path" />
+            </DockPanel>
+        </StackPanel>
+        <StackPanel Classes="Group">
+            <Label Classes="Group" Content="Parameters"/>
+            <Grid ColumnDefinitions="110, *" RowDefinitions="Auto, Auto, Auto">
+                <Label Grid.Column="0" Grid.Row="0">Password</Label>
+                <TextBox Name="PasswordInput" Grid.Column="1" Grid.Row="0"
+                    PasswordChar="*" 
+                    Watermark="Password"
+                    UseFloatingWatermark="True"
+                    TextInputOptions.ContentType="Password"
+                    Margin="0 0 0 10"/>
+                <Label Grid.Column="0" Grid.Row="1">Initial size (MB)</Label>
+                <TextBox Grid.Column="1" Grid.Row="1" 
+                         Margin="0 0 0 10"/>
+                <Label Grid.Column="0" Grid.Row="2">Collation</Label>
+                <StackPanel Grid.Column="1" Grid.Row="2"
+                            Margin="0 0 0 10"
+                            Orientation="Horizontal"
+                            Spacing="5">
+                    <ComboBox />
+                    <Label>/</Label>
+                    <ComboBox />
+                </StackPanel>
+            </Grid>
+            <CheckBox Content="Read only"/>
+            <CheckBox Content="Upgrade from LiteDB v4 (if needed)"/>
+            <StackPanel Orientation="Horizontal" 
+                        Spacing="20" Height="30" HorizontalAlignment="Right">
+                <Button Name="ConnectBtn" Width="100" Content="Connect"/>
+                <Button Name="CancelBtn" Width="100" Content="Cancel"/>
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+</UserControl>
