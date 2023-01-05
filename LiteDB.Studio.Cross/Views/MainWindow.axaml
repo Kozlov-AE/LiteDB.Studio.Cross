@@ -10,25 +10,25 @@
         Title="LiteDB.Studio.Cross" Background="White">
 
     <Design.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
     <Panel>
-        <views:ConnectionView IsVisible="{Binding IsLoadDatabaseNeeded}"/>
-    
-        <DockPanel LastChildFill="True" IsVisible="False">
+        <views:ConnectionView IsVisible="{Binding IsLoadDatabaseNeeded}" />
+
+        <DockPanel LastChildFill="True" IsVisible="{Binding !IsLoadDatabaseNeeded}">
             <Grid ColumnDefinitions="*, 4, 4*" DockPanel.Dock="Top">
-                <views:LeftSideView 
-                    Grid.Column="0" 
-                    Margin="5"/>
-                <GridSplitter 
-                    Grid.Column="1" 
-                    Background="Gray" 
+                <views:LeftSideView
+                    Grid.Column="0"
+                    Margin="5" />
+                <GridSplitter
+                    Grid.Column="1"
+                    Background="Gray"
                     ResizeDirection="Columns" />
-                <views:RigthSideView 
-                    Grid.Column="2" 
-                    Margin="5"/>
+                <views:RigthSideView
+                    Grid.Column="2"
+                    Margin="5" />
             </Grid>
         </DockPanel>
     </Panel>
-    
+
 </Window>

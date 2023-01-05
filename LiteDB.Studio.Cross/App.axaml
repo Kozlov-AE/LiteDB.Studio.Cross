@@ -3,10 +3,10 @@
              xmlns:local="using:LiteDB.Studio.Cross"
              x:Class="LiteDB.Studio.Cross.App">
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <local:ViewLocator />
     </Application.DataTemplates>
-    
+
     <Application.Styles>
-        <SimpleTheme Mode="Light"/>
+        <SimpleTheme Mode="Light" />
     </Application.Styles>
 </Application>

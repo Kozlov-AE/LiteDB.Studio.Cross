@@ -9,12 +9,13 @@
         <LangVersion>11</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <OutputPath>.\bin\Debug\</OutputPath>
+        <OutputPath>.\bin\Debug\</OutputPath>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <OutputPath>.\bin\Release\</OutputPath>
+        <OutputPath>.\bin\Release\</OutputPath>
     </PropertyGroup>
     <ItemGroup>
+        <Folder Include="Models" />
         <Folder Include="Models\" />
         <AvaloniaResource Include="Assets\**" />
         <None Remove=".gitignore" />

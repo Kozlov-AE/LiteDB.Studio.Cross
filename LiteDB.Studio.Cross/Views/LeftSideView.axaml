@@ -2,7 +2,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:LiteDB.Studio.Cross.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LiteDB.Studio.Cross.Views.LeftSideView">
-    <TextBlock Text="Left side view"/>
+    <Design.DataContext>
+        <viewModels:MainWindowViewModel />
+    </Design.DataContext>
+    <StackPanel Orientation="Vertical">
+        <Expander ExpandDirection="Down" Header="{Binding StructureViewModel.DbName}">
+            <StackPanel Orientation="Vertical">
+                <Expander ExpandDirection="Down" Header="System">
+                    <ListBox Items="{Binding StructureViewModel.SysDirectory.Collections}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CollectionName}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Expander>
+                <ListBox Items="{Binding StructureViewModel.Collections}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CollectionName}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Expander>
+    </StackPanel>
 </UserControl>
