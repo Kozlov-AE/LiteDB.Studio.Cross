@@ -4,22 +4,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:LiteDB.Studio.Cross.Views"
+        xmlns:interfaces="clr-namespace:LiteDB.Studio.Cross.Interfaces"
+        xmlns:designTime="clr-namespace:LiteDB.Studio.Cross.ViewModels.DesignTime"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LiteDB.Studio.Cross.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="LiteDB.Studio.Cross" Background="White">
 
     <Design.DataContext>
-        <vm:MainWindowViewModel />
+        <designTime:MainWindowVMDD />
     </Design.DataContext>
     <Panel>
         <views:ConnectionView IsVisible="{Binding IsLoadDatabaseNeeded}" />
-
         <DockPanel LastChildFill="True" IsVisible="{Binding !IsLoadDatabaseNeeded}">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Connection">
+                    <MenuItem Header="Connect" Command="{Binding AskConnectionCommand}"/>
+                    <MenuItem Header="Disconnect" Command="{Binding DisconnectCommand}"/>
+                </MenuItem>
+            </Menu>
             <Grid ColumnDefinitions="*, 4, 4*" DockPanel.Dock="Top">
                 <views:LeftSideView
                     Grid.Column="0"
-                    Margin="5" />
+                    Margin="5"
+                    IsVisible="{Binding IsDbConnected}"/>
                 <GridSplitter
                     Grid.Column="1"
                     Background="Gray"

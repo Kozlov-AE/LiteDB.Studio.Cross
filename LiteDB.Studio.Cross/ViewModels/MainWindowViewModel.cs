@@ -1,22 +1,22 @@
 ﻿using Avalonia.Controls.Shapes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LiteDB.Studio.Cross.Interfaces;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Path = System.IO.Path;
 
 namespace LiteDB.Studio.Cross.ViewModels {
-    public partial class MainWindowViewModel : ViewModelBase {
+    public partial class MainWindowViewModel : ViewModelBase, IMainWindowViewModel {
         private ConnectionString _connectionString;
         private LiteDatabase? _db = null;
 
-        //private const long MB = 1024 * 1024;
-        private long MB = 1024 * 1024;
+        private const long MB = 1024 * 1024;
 
         [ObservableProperty] private bool _isLoadDatabaseNeeded = true;
         [ObservableProperty] private DbConnectionOptionsViewModel _connectionOpts;
         [ObservableProperty] private DatabaseStructureViewModel _structureViewModel;
-
+        [ObservableProperty] private bool _isDbConnected;
         public MainWindowViewModel() {
             _connectionString = new ConnectionString();
             ConnectionOpts = SetConnectionVm(_connectionString);
@@ -62,8 +62,14 @@ namespace LiteDB.Studio.Cross.ViewModels {
 
             return cs;
         }
+        [RelayCommand]
         private void Disconnect() {
             _db?.Dispose();
+            IsDbConnected = false; 
+        }
+        [RelayCommand]
+        private void AskConnection() {
+            IsLoadDatabaseNeeded = true;
         }
         [RelayCommand]
         private void ConnectToDatabase() {
@@ -100,6 +106,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
                 StructureViewModel.Collections.Add(coll);
             }
 
+            IsDbConnected = true;
             IsLoadDatabaseNeeded = false;
         }
     }
