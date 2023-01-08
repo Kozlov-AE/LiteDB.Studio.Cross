@@ -2,7 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:LiteDB.Studio.Cross.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LiteDB.Studio.Cross.Views.RigthSideView">
-    <TextBlock Text="Right side" />
+    <Grid ColumnDefinitions="*" RowDefinitions="*, 4, *">
+        <views:QueryView Grid.Row="0" />
+        <GridSplitter Grid.Row="1" />
+        <views:QueryResultView Grid.Row="2"/>
+    </Grid>
 </UserControl>

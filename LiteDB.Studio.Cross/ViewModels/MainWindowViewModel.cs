@@ -1,9 +1,15 @@
 ﻿using Avalonia.Controls.Shapes;
+using AvaloniaEdit.Document;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiteDB.Studio.Cross.Interfaces;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Text;
 using Path = System.IO.Path;
 
 namespace LiteDB.Studio.Cross.ViewModels {
@@ -17,6 +23,8 @@ namespace LiteDB.Studio.Cross.ViewModels {
         [ObservableProperty] private DbConnectionOptionsViewModel _connectionOpts;
         [ObservableProperty] private DatabaseStructureViewModel _structureViewModel;
         [ObservableProperty] private bool _isDbConnected;
+        [ObservableProperty] private string _queryString;
+        [ObservableProperty] private string _queryResultString;
         public MainWindowViewModel() {
             _connectionString = new ConnectionString();
             ConnectionOpts = SetConnectionVm(_connectionString);
@@ -108,6 +116,31 @@ namespace LiteDB.Studio.Cross.ViewModels {
 
             IsDbConnected = true;
             IsLoadDatabaseNeeded = false;
+        }
+        [RelayCommand]
+        private void SendQuery(string text) {
+            QueryResultString = String.Empty; 
+            var query = text.Replace(Environment.NewLine, " ");
+            if (string.IsNullOrWhiteSpace(query) || _db == null) return;
+            var doc = new BsonDocument();
+            var sql = new StringReader(query);
+            var result = new List<BsonValue>();
+            using (var reader = _db.Execute(sql, doc)) {
+                while (reader.Read()) {
+                    result.Add(reader.Current);
+                }
+            }
+            
+            if (!result.Any()) return;
+            var sb = new StringBuilder();
+            using (var writer = new StringWriter(sb)) {
+            var json = new JsonWriter(writer) { Pretty = true, Indent = 2 };
+                foreach (var d in result) {
+                    json.Serialize(d);
+                    sb.AppendLine();
+                }
+            }
+            QueryResultString = sb.ToString();
         }
     }
 }
