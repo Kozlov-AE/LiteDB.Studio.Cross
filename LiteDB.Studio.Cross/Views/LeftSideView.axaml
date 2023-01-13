@@ -23,7 +23,15 @@
                 <ListBox Items="{Binding StructureViewModel.Collections}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding CollectionName}"/>
+                            <Expander Header="{Binding CollectionName}">
+                                <ListBox Items="{Binding Fields}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding .}"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Expander>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

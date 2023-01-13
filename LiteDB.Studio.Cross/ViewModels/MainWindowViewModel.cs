@@ -117,6 +117,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
             IsDbConnected = true;
             IsLoadDatabaseNeeded = false;
         }
+
         [RelayCommand]
         private void SendQuery(string text) {
             QueryResultString = String.Empty; 
@@ -124,23 +125,28 @@ namespace LiteDB.Studio.Cross.ViewModels {
             if (string.IsNullOrWhiteSpace(query) || _db == null) return;
             var doc = new BsonDocument();
             var sql = new StringReader(query);
-            var result = new List<BsonValue>();
+            var fields = new HashSet<string>(20);
+            var sb = new StringBuilder();
             using (var reader = _db.Execute(sql, doc)) {
                 while (reader.Read()) {
-                    result.Add(reader.Current);
+                    using (var writer = new StringWriter(sb)) {
+                        var json = new JsonWriter(writer) { Pretty = true, Indent = 2 };
+                            json.Serialize(reader.Current);
+                            sb.AppendLine();
+                            foreach (var key in reader.Current.AsDocument.Keys) {
+                                fields.Add(key);
+                        }
+                    }
+                }
+                QueryResultString = sb.ToString();
+                var dc = StructureViewModel.Collections.FirstOrDefault(n =>
+                    n.CollectionName == reader.Collection);
+                if (dc != null) {
+                    foreach (var f in fields) {
+                        dc.Fields.Add(f);
+                    }
                 }
             }
-            
-            if (!result.Any()) return;
-            var sb = new StringBuilder();
-            using (var writer = new StringWriter(sb)) {
-            var json = new JsonWriter(writer) { Pretty = true, Indent = 2 };
-                foreach (var d in result) {
-                    json.Serialize(d);
-                    sb.AppendLine();
-                }
-            }
-            QueryResultString = sb.ToString();
         }
     }
 }
