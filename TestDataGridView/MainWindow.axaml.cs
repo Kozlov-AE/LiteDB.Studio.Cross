@@ -1,4 +1,6 @@
+using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Data;
 using System.Collections.Generic;
 
 namespace TestDataGridView {
@@ -10,6 +12,15 @@ namespace TestDataGridView {
         }
 
         public void LoadGrid(BdDocument doc) {
+            foreach (var key in doc.Keys) {
+                var column = new DataGridTextColumn();
+                column.Header = key;
+                column.IsReadOnly = false;
+                _grid.Columns.Add(column);
+            }
+
+            var row = new DataGridRow();
+
         }
     }
 
