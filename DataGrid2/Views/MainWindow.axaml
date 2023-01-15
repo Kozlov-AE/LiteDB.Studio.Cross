@@ -1,0 +1,36 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DataGrid2.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:DataGrid2.Models"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="DataGrid2.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="DataGrid2">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <DataGrid Name="dataGridEdit" Margin="12" Grid.Row="0">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" Width="2*" x:DataType="models:Person" />
+            <DataGridTextColumn Header="Last" Binding="{Binding LastName}" Width="2*" x:DataType="models:Person" />
+            <DataGridCheckBoxColumn Header="Is Banned" Binding="{Binding IsBanned}" Width="*" x:DataType="models:Person" />
+            <DataGridTemplateColumn Header="Age" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate DataType="models:Person">
+                        <TextBlock Text="{Binding Age, StringFormat='{}{0} years'}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+                <DataGridTemplateColumn.CellEditingTemplate>
+                    <DataTemplate DataType="models:Person">
+                        <NumericUpDown Value="{Binding Age}" FormatString="N0" HorizontalAlignment="Stretch" Minimum="0" Maximum="120" TemplateApplied="NumericUpDown_OnTemplateApplied" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellEditingTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
+    </DataGrid>
+
+</Window>
