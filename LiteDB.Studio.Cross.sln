@@ -8,8 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDataGridView", "TestDat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassGenerationExample", "ClassGenerationExample\ClassGenerationExample.csproj", "{5A001616-9A8C-4942-A989-37AED21F1AFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGrid2", "DataGrid2\DataGrid2.csproj", "{A78EB868-A3C6-4D17-BA76-6AD614DA7128}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,9 +30,5 @@ Global
 		{5A001616-9A8C-4942-A989-37AED21F1AFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A001616-9A8C-4942-A989-37AED21F1AFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A001616-9A8C-4942-A989-37AED21F1AFE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A78EB868-A3C6-4D17-BA76-6AD614DA7128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A78EB868-A3C6-4D17-BA76-6AD614DA7128}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A78EB868-A3C6-4D17-BA76-6AD614DA7128}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A78EB868-A3C6-4D17-BA76-6AD614DA7128}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
