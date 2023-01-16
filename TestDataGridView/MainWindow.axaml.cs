@@ -20,11 +20,11 @@ namespace TestDataGridView {
                 column.Header = key;
                 column.IsReadOnly = false;
                 column.Width = new DataGridLength(100);
-                //column.Binding = new Binding($"P_{key}");
-                column.Binding = new Binding(key);
+                column.Binding = new Binding($"P_{key}");
+                //column.Binding = new Binding(key);
                 _grid.Columns.Add(column);
             }
-
+/*
             var dict1 = new Dictionary<string, string>();
             dict1.Add("FirstName", "Aleksey");
             dict1.Add("LastName", "Kozlov");
@@ -35,16 +35,17 @@ namespace TestDataGridView {
             dict2.Add("LastName", "Petrov");
             dict2.Add("Age", "30");
 
-            var lo = new List<Dictionary<string, string>>() { dict1, dict2 };
-
+            /var lo = new List<Dictionary<string, string>>() { dict1, dict2 };
 
             var rr = ClassGenerator.GenerateType(reqRes.Keys.ToArray(), reqRes.CollectionName, lo);
-            // _myType = ClassGenerator.GenerateType(reqRes.Keys.ToArray(), reqRes.CollectionName);
-            // List<object> objs = new List<object>();
-            // foreach (var doc in reqRes.Docs) {
-            //     objs.Add(ClassGenerator.GetObject(_myType, doc.Values));
-            // }
-            var collectionView1 = new DataGridCollectionView(User.GetUsers());
+*/
+            
+            _myType = ClassGenerator.GenerateType(reqRes.Keys.ToArray(), reqRes.CollectionName);
+            List<object> objs = new List<object>();
+            foreach (var doc in reqRes.Docs) {
+                objs.Add(ClassGenerator.GetObject(_myType, doc.Values));
+            }
+            var collectionView1 = new DataGridCollectionView(objs);
 
             _grid.Items = collectionView1;
         }

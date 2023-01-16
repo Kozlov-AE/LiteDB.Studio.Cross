@@ -6,7 +6,7 @@ using System.Security.AccessControl;
 
 namespace TestDataGridView {
     public class ClassGenerator {
-        public static List<object?> GenerateType(string[] keys, string name, List<Dictionary<string, string>> data) {
+        public static Type GenerateType(string[] keys, string name) {
             var aName = new AssemblyName("ClassGenerator");
             var assBuilder = AssemblyBuilder.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
             var assModule = assBuilder.DefineDynamicModule(aName.Name!);
@@ -44,22 +44,20 @@ namespace TestDataGridView {
                 propPublic.SetSetMethod(propSetAccessor);
             }
 
-            var t = newClass.CreateType();
-
-            var result = new List<object?>();
-            foreach (var d in data) {
-                object? o = Activator.CreateInstance(t);
-                foreach (var dic in data) {
-                    foreach (var dd in dic) {
-                        PropertyInfo pi = t.GetProperty($"P_{dd.Key}");
-                        pi.SetValue(o, dd.Value);
-                    }
-                }
-                result.Add(o);
-            }
-
-            return result;
-            //return newClass.CreateType();
+            //var t = newClass.CreateType();
+            // var result = new List<object?>();
+            // foreach (var d in data) {
+            //     object? o = Activator.CreateInstance(t);
+            //     foreach (var dic in data) {
+            //         foreach (var dd in dic) {
+            //             PropertyInfo pi = t.GetProperty($"P_{dd.Key}");
+            //             pi.SetValue(o, dd.Value);
+            //         }
+            //     }
+            //     result.Add(o);
+            // }
+            //return result;
+            return newClass.CreateType();
         }
 
         public static dynamic GetObject(Type myType, Dictionary<string, string> data) {
