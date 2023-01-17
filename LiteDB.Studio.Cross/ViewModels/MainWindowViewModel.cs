@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls.Shapes;
 using AvaloniaEdit.Document;
+using AvaloniaEdit.Utils;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiteDB.Studio.Cross.Interfaces;
@@ -127,24 +128,48 @@ namespace LiteDB.Studio.Cross.ViewModels {
             var sql = new StringReader(query);
             var fields = new HashSet<string>(20);
             var sb = new StringBuilder();
+            Type type = null;
             using (var reader = _db.Execute(sql, doc)) {
-                while (reader.Read()) {
-                    using (var writer = new StringWriter(sb)) {
-                        var json = new JsonWriter(writer) { Pretty = true, Indent = 2 };
-                            json.Serialize(reader.Current);
-                            sb.AppendLine();
-                            foreach (var key in reader.Current.AsDocument.Keys) {
-                                fields.Add(key);
-                        }
-                    }
-                }
-                QueryResultString = sb.ToString();
                 var dc = StructureViewModel.Collections.FirstOrDefault(n =>
                     n.CollectionName == reader.Collection);
-                if (dc != null) {
-                    foreach (var f in fields) {
-                        dc.Fields.Add(f);
+                while (reader.Read()) {
+                    var bson = reader.Current;
+                    var docs = bson.AsDocument;
+                    var keys = bson.AsDocument.Keys;
+                    var isAdded = false;
+                    Dictionary<string, string> data = new Dictionary<string, string>();
+                    foreach (var key in keys) {
+                        if (fields.Add(key) && !isAdded) {
+                            isAdded = true;
+                        }
                     }
+
+                    try {
+                        if (isAdded) type = DbCollectionClassGenerator.GenerateCollectionClass(keys, reader.Collection);
+
+                        foreach (var value in docs) {
+                            data.Add(value.Key, value.Value.ToString());
+                        }
+
+                        var o = DbCollectionClassGenerator.GetObject(type, data);
+                        dc.Items.Add(o);
+                    }
+                    catch (Exception ex) {
+                        Console.WriteLine(ex.Message);
+                    }
+                    //
+                    // using (var writer = new StringWriter(sb)) {
+                    //     var json = new JsonWriter(writer) { Pretty = true, Indent = 2 };
+                    //         json.Serialize(reader.Current);
+                    //         sb.AppendLine();
+                    //         foreach (var key in reader.Current.AsDocument.Keys) {
+                    //             fields.Add(key);
+                    //     }
+                    // }
+                }
+                //QueryResultString = sb.ToString();
+                if (dc != null) {
+                    dc.Fields.AddRange(fields);
                 }
             }
         }

@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 
 namespace LiteDB.Studio.Cross {
     public class DbCollectionClassGenerator {
-        public static Type GenerateCollectionClass(IEnumerable<(string name, Type type)> props, string name) {
+        public static Type GenerateCollectionClass(IEnumerable<string> props, string name) {
             var aName = new AssemblyName("ClassGenerator");
             var assBuilder = AssemblyBuilder.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
             var assModule = assBuilder.DefineDynamicModule(aName.Name!);
@@ -20,20 +20,20 @@ namespace LiteDB.Studio.Cross {
             
             ConstructorBuilder ctor0 = newClass.DefineDefaultConstructor(MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);
             
-            foreach (var fieldName in props) {
+            foreach (var prp in props) {
                 Type type = typeof(string);
-                FieldBuilder prop = newClass.DefineField('_'+fieldName, type, FieldAttributes.Private);
-                PropertyBuilder propPublic = newClass.DefineProperty(fieldName, PropertyAttributes.HasDefault, type, null);
+                FieldBuilder prop = newClass.DefineField('_'+prp, type, FieldAttributes.Private);
+                PropertyBuilder propPublic = newClass.DefineProperty(prp, PropertyAttributes.HasDefault, type, null);
                 
                 MethodAttributes getSetAttr = MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
                 
-                MethodBuilder propGetAccessor = newClass.DefineMethod($"get_{fieldName}", getSetAttr, type, null);
+                MethodBuilder propGetAccessor = newClass.DefineMethod($"get_{prp}", getSetAttr, type, null);
                 ILGenerator propGetIL = propGetAccessor.GetILGenerator();
                 propGetIL.Emit(OpCodes.Ldarg_0);
                 propGetIL.Emit(OpCodes.Ldfld, prop);
                 propGetIL.Emit(OpCodes.Ret);
                 
-                MethodBuilder propSetAccessor = newClass.DefineMethod($"set_{fieldName}", getSetAttr, null,  new Type[]{type});
+                MethodBuilder propSetAccessor = newClass.DefineMethod($"set_{prp}", getSetAttr, null,  new Type[]{type});
                 ILGenerator propSetIL = propSetAccessor.GetILGenerator();
                 propSetIL.Emit(OpCodes.Ldarg_0);
                 propSetIL.Emit(OpCodes.Ldarg_1);
