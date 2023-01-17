@@ -4,6 +4,7 @@ using AvaloniaEdit.Utils;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiteDB.Studio.Cross.Interfaces;
+using LiteDB.Studio.Cross.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Path = System.IO.Path;
+using PropertyModel = LiteDB.Studio.Cross.Models.PropertyModel;
 
 namespace LiteDB.Studio.Cross.ViewModels {
     public partial class MainWindowViewModel : ViewModelBase, IMainWindowViewModel {
@@ -137,6 +139,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
                     var docs = bson.AsDocument;
                     var keys = bson.AsDocument.Keys;
                     var isAdded = false;
+                    List<PropertyModel> props = new List<PropertyModel>();
                     Dictionary<string, string> data = new Dictionary<string, string>();
                     foreach (var key in keys) {
                         if (fields.Add(key) && !isAdded) {
@@ -148,6 +151,17 @@ namespace LiteDB.Studio.Cross.ViewModels {
                         if (isAdded) type = DbCollectionClassGenerator.GenerateCollectionClass(keys, reader.Collection);
 
                         foreach (var value in docs) {
+                            var val = value.Value;
+                            if (val.IsDateTime) props.Add(new PropertyModel(value.Key, typeof(DateTime)));
+                            else if (val.IsBoolean) props.Add(new PropertyModel(value.Key, typeof(bool)));
+                            else if (val.IsDecimal) props.Add(new PropertyModel(value.Key, typeof(decimal)));
+                            else if (val.IsDouble) props.Add(new PropertyModel(value.Key, typeof(double)));
+                            else if (val.IsInt32) props.Add(new PropertyModel(value.Key, typeof(int)));
+                            else if (val.IsInt64) props.Add(new PropertyModel(value.Key, typeof(long)));
+                            else if (val.IsString) props.Add(new PropertyModel(value.Key, typeof(string)));
+                            else if (val.IsBinary) props.Add(new PropertyModel(value.Key, typeof(Byte[])));
+                            else props.Add(new PropertyModel(value.Key, typeof(string)));
+                            
                             data.Add(value.Key, value.Value.ToString());
                         }
 
