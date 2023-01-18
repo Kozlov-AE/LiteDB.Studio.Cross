@@ -1,4 +1,6 @@
+using CommunityToolkit.Mvvm.Collections;
 using LiteDB.Studio.Cross.Interfaces;
+using LiteDB.Studio.Cross.Models;
 using System.Collections.ObjectModel;
 
 namespace LiteDB.Studio.Cross.ViewModels.DesignTime {
@@ -13,25 +15,43 @@ namespace LiteDB.Studio.Cross.ViewModels.DesignTime {
                 DbName = "System",
                 Collections = new ObservableCollection<DbCollectionViewModel>() {
                     new DbCollectionViewModel() {
-                        CollectionName = "$colls", Fields = new ObservableCollection<string>() { "f1", "f2", "f3" }
+                        CollectionName = "$colls", Fields = new ObservableCollection<PropertyModel>() {
+                            new PropertyModel("f1", typeof(string)),
+                            new PropertyModel("f2", typeof(int)),
+                            new PropertyModel("f3", typeof(bool))
+                        }
                     },
                     new DbCollectionViewModel() {
-                        CollectionName = "$params", Fields = new ObservableCollection<string>() { "f1", "f2", "f3" }
+                        CollectionName = "$params", Fields = new ObservableCollection<PropertyModel>() {
+                            new PropertyModel("f1", typeof(string)),
+                            new PropertyModel("f2", typeof(int)),
+                            new PropertyModel("f3", typeof(bool))
+                        }
                     },
                     new DbCollectionViewModel() {
-                        CollectionName = "opts", Fields = new ObservableCollection<string>() { "f1", "f2", "f3" }
+                        CollectionName = "opts", Fields = new ObservableCollection<PropertyModel>() {
+                            new PropertyModel("f1", typeof(string)),
+                            new PropertyModel("f2", typeof(int)),
+                            new PropertyModel("f3", typeof(bool))
+                        }
                     }
                 }
             },
             Collections = new ObservableCollection<DbCollectionViewModel>() {
                 new DbCollectionViewModel() {
-                    CollectionName = "Collection 1", Fields = new ObservableCollection<string>() {
-                        "C1F1","C1F2","C1F3","C1F3"
+                    CollectionName = "Collection 1", Fields = new ObservableCollection<PropertyModel>() {
+                        new PropertyModel("C1F1", typeof(string)),
+                        new PropertyModel("C1F2", typeof(int)),
+                        new PropertyModel("C1F3", typeof(string)),
+                        new PropertyModel("C1F4", typeof(bool))
                     }
                 },
                 new DbCollectionViewModel() {
-                    CollectionName = "Collection 2", Fields = new ObservableCollection<string>() {
-                        "C2F1","C2F2","C2F3","C2F3"
+                    CollectionName = "Collection 2", Fields = new ObservableCollection<PropertyModel>() {
+                        new PropertyModel("C2F1", typeof(bool)),
+                        new PropertyModel("C3F2", typeof(int)),
+                        new PropertyModel("C3F3", typeof(double)),
+                        new PropertyModel("C3F4", typeof(decimal))
                     }
                 }
 

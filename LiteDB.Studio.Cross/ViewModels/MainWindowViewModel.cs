@@ -101,9 +101,9 @@ namespace LiteDB.Studio.Cross.ViewModels {
             foreach (var doc in sc) {
                 var collection = new DbCollectionViewModel();
                 collection.CollectionName = doc["name"].AsString;
-                collection.Fields = new ObservableCollection<string>();
-                foreach (var key in doc.Keys) {
-                    collection.Fields.Add(key);
+                collection.Fields = new ObservableCollection<PropertyModel>();
+                foreach (var d in doc) {
+                    if (collection.Fields.Any(f => f.Name == d.Key)) collection.Fields.Add(GetDbValueType(d));
                 }
                 StructureViewModel.SysDirectory.Collections.Add(collection);
             }
@@ -113,7 +113,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
             foreach (var name in colls) {
                 var coll = new DbCollectionViewModel();
                 coll.CollectionName = name;
-                coll.Fields = new ObservableCollection<string>();
+                coll.Fields = new ObservableCollection<PropertyModel>();
                 StructureViewModel.Collections.Add(coll);
             }
 
@@ -135,7 +135,8 @@ namespace LiteDB.Studio.Cross.ViewModels {
             using (var reader = _db.Execute(sql, doc)) {
                 var dc = StructureViewModel.Collections.FirstOrDefault(n =>
                     n.CollectionName == reader.Collection);
-                
+                dc.Items.Clear();
+
                 while (reader.Read()) {
                     var bson = reader.Current;
                     var docs = bson.AsDocument;
@@ -145,46 +146,26 @@ namespace LiteDB.Studio.Cross.ViewModels {
                         foreach (var value in docs) {
                             dynamic dataVal = null;
                             var val = value.Value;
-                            if (val.IsDateTime) {
-                                if (fields.Add(new PropertyModel(value.Key, typeof(DateTime))) && !isAdded) isAdded = true;
-                                dataVal = val.AsDateTime;
+                            if (dc.Fields.All(f => f.Name != value.Key)) {
+                                dc.Fields.Add(GetDbValueType(value));
+                                isAdded = true;
                             }
-                            else if (val.IsBoolean) {
-                                if (fields.Add(new PropertyModel(value.Key, typeof(bool))) && !isAdded) isAdded = true;
-                                dataVal = val.AsBoolean;
-                            }
-                            else if (val.IsDecimal) {
-                                if (fields.Add(new PropertyModel(value.Key, typeof(decimal))) && !isAdded) isAdded = true;
-                                dataVal = val.AsDecimal;
-                            }
-                            else if (val.IsDouble) {
-                                if (fields.Add(new PropertyModel(value.Key, typeof(double))) && !isAdded) isAdded = true;
-                                dataVal = val.AsDouble;
-                            }
-                            else if (val.IsInt32) {
-                                if (fields.Add(new PropertyModel(value.Key, typeof(int))) && !isAdded) isAdded = true;
-                                dataVal = val.AsInt32;
-                            }
-                            else if (val.IsInt64) {
-                                if (fields.Add(new PropertyModel(value.Key, typeof(long))) && !isAdded) isAdded = true;
-                                dataVal = val.AsInt64;
-                            }
-                            else if (val.IsString) {
-                                if (fields.Add(new PropertyModel(value.Key, typeof(string))) && !isAdded) isAdded = true;
-                                dataVal = val.AsString;
-                            }
-                            else if (val.IsBinary) {
-                                if (fields.Add(new PropertyModel(value.Key, typeof(Byte[]))) && !isAdded) isAdded = true;
-                                dataVal = val.AsBinary;
-                            }
-                            else {
-                                if (fields.Add(new PropertyModel(value.Key, typeof(string))) && !isAdded) isAdded = true;
-                                dataVal = val.ToString();
-                            }
-                            
+
+                            if (val.IsDateTime) dataVal = val.AsDateTime;
+                            else if (val.IsBoolean) dataVal = val.AsBoolean;
+                            else if (val.IsDecimal) dataVal = val.AsDecimal;
+                            else if (val.IsDouble) dataVal = val.AsDouble;
+                            else if (val.IsInt32) dataVal = val.AsInt32;
+                            else if (val.IsInt64) dataVal = val.AsInt64;
+                            else if (val.IsString) dataVal = val.AsString;
+                            else if (val.IsBinary) dataVal = val.AsBinary;
+                            else dataVal = val.ToString();
+
                             data.Add(value.Key, dataVal);
                         }
-                        if (isAdded) type = DbCollectionClassGenerator.GenerateCollectionClass(fields, reader.Collection);
+
+                        if (isAdded)
+                            type = DbCollectionClassGenerator.GenerateCollectionClass(fields, reader.Collection);
 
                         var o = DbCollectionClassGenerator.GetObject(type, data);
                         dc.Items.Add(o);
@@ -192,23 +173,23 @@ namespace LiteDB.Studio.Cross.ViewModels {
                     catch (Exception ex) {
                         Console.WriteLine(ex.Message);
                     }
-                    //
-                    // using (var writer = new StringWriter(sb)) {
-                    //     var json = new JsonWriter(writer) { Pretty = true, Indent = 2 };
-                    //         json.Serialize(reader.Current);
-                    //         sb.AppendLine();
-                    //         foreach (var key in reader.Current.AsDocument.Keys) {
-                    //             fields.Add(key);
-                    //     }
-                    // }
-                }
-                //QueryResultString = sb.ToString();
-                if (dc != null && fields.Count > 0) {
-                    foreach (var field in fields) {
-                        dc.Fields.Add(field.Name);
-                    } 
                 }
             }
+        }
+
+        private PropertyModel GetDbValueType(KeyValuePair<string, BsonValue> pair) {
+            Type type;
+            var value = pair.Value;
+            if (value.IsString) type = typeof(string);
+            else if (value.IsBoolean) type = typeof(bool);
+            else if (value.IsBinary) type = typeof(byte[]);
+            else if (value.IsDecimal) type = typeof(decimal);
+            else if (value.IsDouble) type = typeof(double);
+            else if (value.IsInt32) type = typeof(int);
+            else if (value.IsInt64) type = typeof(long);
+            else if (value.IsDateTime) type = typeof(DateTime);
+            else type = typeof(string);
+            return new PropertyModel(pair.Key, type);
         }
     }
 }
