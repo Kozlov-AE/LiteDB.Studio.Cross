@@ -128,42 +128,63 @@ namespace LiteDB.Studio.Cross.ViewModels {
             if (string.IsNullOrWhiteSpace(query) || _db == null) return;
             var doc = new BsonDocument();
             var sql = new StringReader(query);
-            var fields = new HashSet<string>(20);
+            var fields = new HashSet<PropertyModel>(30);
             var sb = new StringBuilder();
+            Dictionary<string, dynamic> data = new Dictionary<string, dynamic>();
             Type type = null;
             using (var reader = _db.Execute(sql, doc)) {
                 var dc = StructureViewModel.Collections.FirstOrDefault(n =>
                     n.CollectionName == reader.Collection);
+                
                 while (reader.Read()) {
                     var bson = reader.Current;
                     var docs = bson.AsDocument;
-                    var keys = bson.AsDocument.Keys;
                     var isAdded = false;
-                    List<PropertyModel> props = new List<PropertyModel>();
-                    Dictionary<string, string> data = new Dictionary<string, string>();
-                    foreach (var key in keys) {
-                        if (fields.Add(key) && !isAdded) {
-                            isAdded = true;
-                        }
-                    }
-
+                    data.Clear();
                     try {
-                        if (isAdded) type = DbCollectionClassGenerator.GenerateCollectionClass(keys, reader.Collection);
-
                         foreach (var value in docs) {
+                            dynamic dataVal = null;
                             var val = value.Value;
-                            if (val.IsDateTime) props.Add(new PropertyModel(value.Key, typeof(DateTime)));
-                            else if (val.IsBoolean) props.Add(new PropertyModel(value.Key, typeof(bool)));
-                            else if (val.IsDecimal) props.Add(new PropertyModel(value.Key, typeof(decimal)));
-                            else if (val.IsDouble) props.Add(new PropertyModel(value.Key, typeof(double)));
-                            else if (val.IsInt32) props.Add(new PropertyModel(value.Key, typeof(int)));
-                            else if (val.IsInt64) props.Add(new PropertyModel(value.Key, typeof(long)));
-                            else if (val.IsString) props.Add(new PropertyModel(value.Key, typeof(string)));
-                            else if (val.IsBinary) props.Add(new PropertyModel(value.Key, typeof(Byte[])));
-                            else props.Add(new PropertyModel(value.Key, typeof(string)));
+                            if (val.IsDateTime) {
+                                if (fields.Add(new PropertyModel(value.Key, typeof(DateTime))) && !isAdded) isAdded = true;
+                                dataVal = val.AsDateTime;
+                            }
+                            else if (val.IsBoolean) {
+                                if (fields.Add(new PropertyModel(value.Key, typeof(bool))) && !isAdded) isAdded = true;
+                                dataVal = val.AsBoolean;
+                            }
+                            else if (val.IsDecimal) {
+                                if (fields.Add(new PropertyModel(value.Key, typeof(decimal))) && !isAdded) isAdded = true;
+                                dataVal = val.AsDecimal;
+                            }
+                            else if (val.IsDouble) {
+                                if (fields.Add(new PropertyModel(value.Key, typeof(double))) && !isAdded) isAdded = true;
+                                dataVal = val.AsDouble;
+                            }
+                            else if (val.IsInt32) {
+                                if (fields.Add(new PropertyModel(value.Key, typeof(int))) && !isAdded) isAdded = true;
+                                dataVal = val.AsInt32;
+                            }
+                            else if (val.IsInt64) {
+                                if (fields.Add(new PropertyModel(value.Key, typeof(long))) && !isAdded) isAdded = true;
+                                dataVal = val.AsInt64;
+                            }
+                            else if (val.IsString) {
+                                if (fields.Add(new PropertyModel(value.Key, typeof(string))) && !isAdded) isAdded = true;
+                                dataVal = val.AsString;
+                            }
+                            else if (val.IsBinary) {
+                                if (fields.Add(new PropertyModel(value.Key, typeof(Byte[]))) && !isAdded) isAdded = true;
+                                dataVal = val.AsBinary;
+                            }
+                            else {
+                                if (fields.Add(new PropertyModel(value.Key, typeof(string))) && !isAdded) isAdded = true;
+                                dataVal = val.ToString();
+                            }
                             
-                            data.Add(value.Key, value.Value.ToString());
+                            data.Add(value.Key, dataVal);
                         }
+                        if (isAdded) type = DbCollectionClassGenerator.GenerateCollectionClass(fields, reader.Collection);
 
                         var o = DbCollectionClassGenerator.GetObject(type, data);
                         dc.Items.Add(o);
@@ -182,8 +203,10 @@ namespace LiteDB.Studio.Cross.ViewModels {
                     // }
                 }
                 //QueryResultString = sb.ToString();
-                if (dc != null) {
-                    dc.Fields.AddRange(fields);
+                if (dc != null && fields.Count > 0) {
+                    foreach (var field in fields) {
+                        dc.Fields.Add(field.Name);
+                    } 
                 }
             }
         }

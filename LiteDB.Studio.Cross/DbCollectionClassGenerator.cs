@@ -1,3 +1,4 @@
+using LiteDB.Studio.Cross.Models;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -5,7 +6,7 @@ using System.Reflection.Emit;
 
 namespace LiteDB.Studio.Cross {
     public class DbCollectionClassGenerator {
-        public static Type GenerateCollectionClass(IEnumerable<string> props, string name) {
+        public static Type GenerateCollectionClass(IEnumerable<PropertyModel> props, string name) {
             var aName = new AssemblyName("ClassGenerator");
             var assBuilder = AssemblyBuilder.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
             var assModule = assBuilder.DefineDynamicModule(aName.Name!);
@@ -21,9 +22,9 @@ namespace LiteDB.Studio.Cross {
             ConstructorBuilder ctor0 = newClass.DefineDefaultConstructor(MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);
             
             foreach (var prp in props) {
-                Type type = typeof(string);
-                FieldBuilder prop = newClass.DefineField('_'+prp, type, FieldAttributes.Private);
-                PropertyBuilder propPublic = newClass.DefineProperty(prp, PropertyAttributes.HasDefault, type, null);
+                Type type = prp.Type;
+                FieldBuilder prop = newClass.DefineField('_'+prp.Name, type, FieldAttributes.Private);
+                PropertyBuilder propPublic = newClass.DefineProperty(prp.Name, PropertyAttributes.HasDefault, type, null);
                 
                 MethodAttributes getSetAttr = MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
                 
@@ -47,7 +48,7 @@ namespace LiteDB.Studio.Cross {
             return newClass.CreateType();
         }
         
-        public static dynamic GetObject(Type myType, Dictionary<string, string> data) {
+        public static dynamic GetObject(Type myType, Dictionary<string, dynamic> data) {
             object? result = Activator.CreateInstance(myType);
             foreach (var dic in data) {
                 PropertyInfo pi = myType.GetProperty(dic.Key);
