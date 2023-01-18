@@ -1,4 +1,6 @@
+using CommunityToolkit.Mvvm.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
+using LiteDB.Studio.Cross.Models;
 using System.Collections.ObjectModel;
 
 namespace LiteDB.Studio.Cross.ViewModels {
@@ -10,7 +12,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
     
     public partial class DbCollectionViewModel : ViewModelBase {
         [ObservableProperty] private string? _collectionName;
-        [ObservableProperty] private ObservableCollection<string> _fields;
+        [ObservableProperty] private ObservableCollection<PropertyModel> _fields;
         [ObservableProperty] private ObservableCollection<dynamic> _items = new ObservableCollection<dynamic>();
     }
 }

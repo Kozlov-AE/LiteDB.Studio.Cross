@@ -101,9 +101,9 @@ namespace LiteDB.Studio.Cross.ViewModels {
             foreach (var doc in sc) {
                 var collection = new DbCollectionViewModel();
                 collection.CollectionName = doc["name"].AsString;
-                collection.Fields = new ObservableCollection<string>();
-                foreach (var key in doc.Keys) {
-                    collection.Fields.Add(key);
+                collection.Fields = new ObservableCollection<PropertyModel>();
+                foreach (var d in doc) {
+                    if (collection.Fields.Any(f => f.Name == d.Key)) collection.Fields.Add(GetDbValueType(d));
                 }
                 StructureViewModel.SysDirectory.Collections.Add(collection);
             }
@@ -113,7 +113,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
             foreach (var name in colls) {
                 var coll = new DbCollectionViewModel();
                 coll.CollectionName = name;
-                coll.Fields = new ObservableCollection<string>();
+                coll.Fields = new ObservableCollection<PropertyModel>();
                 StructureViewModel.Collections.Add(coll);
             }
 
@@ -135,6 +135,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
             using (var reader = _db.Execute(sql, doc)) {
                 var dc = StructureViewModel.Collections.FirstOrDefault(n =>
                     n.CollectionName == reader.Collection);
+                dc.Items.Clear();
                 
                 while (reader.Read()) {
                     var bson = reader.Current;
@@ -209,6 +210,21 @@ namespace LiteDB.Studio.Cross.ViewModels {
                     } 
                 }
             }
+        }
+
+        private PropertyModel GetDbValueType(KeyValuePair<string, BsonValue> pair) {
+            Type type;
+            var value = pair.Value;
+            if (value.IsString) type = typeof(string);
+            else if (value.IsBoolean) type = typeof(bool);
+            else if (value.IsBinary) type = typeof(byte[]);
+            else if (value.IsDecimal) type = typeof(decimal);
+            else if (value.IsDouble) type = typeof(double);
+            else if (value.IsInt32) type = typeof(int);
+            else if (value.IsInt64) type = typeof(long);
+            else if (value.IsDateTime) type = typeof(DateTime);
+            else type = typeof(string);
+            return new PropertyModel(pair.Key, type);
         }
     }
 }
