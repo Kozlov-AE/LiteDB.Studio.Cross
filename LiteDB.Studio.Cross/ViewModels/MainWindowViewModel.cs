@@ -28,6 +28,9 @@ namespace LiteDB.Studio.Cross.ViewModels {
         [ObservableProperty] private bool _isDbConnected;
         [ObservableProperty] private string _queryString;
         [ObservableProperty] private string _queryResultString;
+
+        public event Action<DbCollectionViewModel> QueryFinished;
+
         public MainWindowViewModel() {
             _connectionString = new ConnectionString();
             ConnectionOpts = SetConnectionVm(_connectionString);
@@ -135,8 +138,15 @@ namespace LiteDB.Studio.Cross.ViewModels {
             using (var reader = _db.Execute(sql, doc)) {
                 var dc = StructureViewModel.Collections.FirstOrDefault(n =>
                     n.CollectionName == reader.Collection);
-                dc.Items.Clear();
+                if (dc == null) {
+                    dc = new DbCollectionViewModel() {
+                        CollectionName = reader.Collection
+                    };   
+                    StructureViewModel.Collections.Add(dc);
+                }
 
+                dc.Items.Clear();
+                
                 while (reader.Read()) {
                     var bson = reader.Current;
                     var docs = bson.AsDocument;
@@ -173,7 +183,18 @@ namespace LiteDB.Studio.Cross.ViewModels {
                     catch (Exception ex) {
                         Console.WriteLine(ex.Message);
                     }
+                    //
+                    // using (var writer = new StringWriter(sb)) {
+                    //     var json = new JsonWriter(writer) { Pretty = true, Indent = 2 };
+                    //         json.Serialize(reader.Current);
+                    //         sb.AppendLine();
+                    //         foreach (var key in reader.Current.AsDocument.Keys) {
+                    //             fields.Add(key);
+                    //     }
+                    // }
                 }
+                //QueryResultString = sb.ToString();
+                QueryFinished?.Invoke(dc);
             }
         }
 
