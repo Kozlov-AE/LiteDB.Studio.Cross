@@ -5,5 +5,5 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="TestDataGridView.MainWindow"
         Title="TestDataGridView">
-    <DataGrid x:Name="Grid" HeadersVisibility="All" />
+    <DataGrid x:Name="Grid" />
 </Window>

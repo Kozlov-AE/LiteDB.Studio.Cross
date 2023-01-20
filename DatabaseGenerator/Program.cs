@@ -4,14 +4,14 @@ using DatabaseGenerator;
 using LiteDB;
 
 Console.WriteLine("Creating database from 1_county_level_confirmed_cases.csv...");
-var countyLevelConfirmedCases = CountyLevelConfirmedCase.LoadMe("1_county_level_confirmed_cases.csv");
+var countyLevelConfirmedCases = CountryLevelConfirmedCase.LoadMe("1_county_level_confirmed_cases.csv");
 using (var db = new LiteDatabase(@"CoronavirusCaseTracker.db")) {
     if (db.CollectionExists("CountyLevelConfirmedCase")){
-        var col = db.GetCollection<CountyLevelConfirmedCase>();
+        var col = db.GetCollection<CountryLevelConfirmedCase>();
         col.EnsureIndex(x => x.Id, true);
         col.Insert(countyLevelConfirmedCases);
     } else {
-        var col = db.GetCollection<CountyLevelConfirmedCase>();
+        var col = db.GetCollection<CountryLevelConfirmedCase>();
         col.EnsureIndex(x => x.Id, true);
         col.Insert(countyLevelConfirmedCases);
     }

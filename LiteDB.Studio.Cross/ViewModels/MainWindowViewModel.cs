@@ -28,6 +28,9 @@ namespace LiteDB.Studio.Cross.ViewModels {
         [ObservableProperty] private bool _isDbConnected;
         [ObservableProperty] private string _queryString;
         [ObservableProperty] private string _queryResultString;
+
+        public event Action<DbCollectionViewModel> QueryFinished;
+
         public MainWindowViewModel() {
             _connectionString = new ConnectionString();
             ConnectionOpts = SetConnectionVm(_connectionString);
@@ -135,6 +138,13 @@ namespace LiteDB.Studio.Cross.ViewModels {
             using (var reader = _db.Execute(sql, doc)) {
                 var dc = StructureViewModel.Collections.FirstOrDefault(n =>
                     n.CollectionName == reader.Collection);
+                if (dc == null) {
+                    dc = new DbCollectionViewModel() {
+                        CollectionName = reader.Collection
+                    };   
+                    StructureViewModel.Collections.Add(dc);
+                }
+
                 dc.Items.Clear();
                 
                 while (reader.Read()) {
@@ -204,11 +214,13 @@ namespace LiteDB.Studio.Cross.ViewModels {
                     // }
                 }
                 //QueryResultString = sb.ToString();
-                if (dc != null && fields.Count > 0) {
+                if (fields.Count > 0) {
                     foreach (var field in fields) {
                         dc.Fields.Add(field.Name);
                     } 
                 }
+
+                QueryFinished?.Invoke(dc);
             }
         }
 
@@ -226,5 +238,6 @@ namespace LiteDB.Studio.Cross.ViewModels {
             else type = typeof(string);
             return new PropertyModel(pair.Key, type);
         }
+
     }
 }

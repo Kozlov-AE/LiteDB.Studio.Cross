@@ -5,7 +5,7 @@ namespace DatabaseGenerator {
     public class CoronavirusCaseTracker {
     }
 
-    public class CountyLevelConfirmedCase {
+    public class CountryLevelConfirmedCase {
         public string Id { get; set; }
         public DateTime LastUpdate { get; set; }
         public string LocationType { get; set; }
@@ -22,8 +22,8 @@ namespace DatabaseGenerator {
         public int Deaths { get; set; }
         public double DeathsPer100000 { get; set; }
 
-        public static List<CountyLevelConfirmedCase> LoadMe(string path) {
-            var result = new List<CountyLevelConfirmedCase>(3300);
+        public static List<CountryLevelConfirmedCase> LoadMe(string path) {
+            var result = new List<CountryLevelConfirmedCase>(3300);
             using (TextFieldParser parser = new TextFieldParser(path)) {
                 int i = 1;
                 parser.TrimWhiteSpace = true;
@@ -35,7 +35,7 @@ namespace DatabaseGenerator {
                         i--;
                     }
                     else{
-                        var @case = new CountyLevelConfirmedCase();
+                        var @case = new CountryLevelConfirmedCase();
                         var @date = fields[0][..^4];
                         @case.LastUpdate = DateTime.Parse(@date);
                         @case.LocationType = fields[1];
