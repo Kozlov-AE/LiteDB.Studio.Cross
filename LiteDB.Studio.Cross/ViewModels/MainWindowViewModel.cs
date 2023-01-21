@@ -135,7 +135,17 @@ namespace LiteDB.Studio.Cross.ViewModels {
             var sb = new StringBuilder();
             Dictionary<string, dynamic> data = new Dictionary<string, dynamic>();
             Type type = null;
-            using (var reader = _db.Execute(sql, doc)) {
+            int newTypeCounter = 0;
+            IBsonDataReader reader;
+            try {
+                reader = _db.Execute(sql, doc);
+            }
+            catch (Exception e) {
+                Console.WriteLine(e);
+                return;
+            }
+            using (reader) {
+                if (!reader.HasValues) return;
                 var dc = StructureViewModel.Collections.FirstOrDefault(n =>
                     n.CollectionName == reader.Collection);
                 if (dc == null) {
@@ -144,8 +154,8 @@ namespace LiteDB.Studio.Cross.ViewModels {
                     };   
                     StructureViewModel.Collections.Add(dc);
                 }
-
                 dc.Items.Clear();
+                if (dc.Fields.Count != 0) type = DbCollectionClassGenerator.GenerateCollectionClass(dc.Fields, reader.Collection);
                 
                 while (reader.Read()) {
                     var bson = reader.Current;
@@ -175,13 +185,13 @@ namespace LiteDB.Studio.Cross.ViewModels {
                         }
 
                         if (isAdded)
-                            type = DbCollectionClassGenerator.GenerateCollectionClass(fields, reader.Collection);
-
-                        var o = DbCollectionClassGenerator.GetObject(type, data);
+                            type = DbCollectionClassGenerator.GenerateCollectionClass(dc.Fields, $"{reader.Collection}_{++newTypeCounter}");
+                        if (type == null) return;
+                        var o =  DbCollectionClassGenerator.GetObject(type, data);
                         dc.Items.Add(o);
                     }
                     catch (Exception ex) {
-                        Console.WriteLine(ex.Message);
+                        Console.WriteLine(ex);
                     }
                     //
                     // using (var writer = new StringWriter(sb)) {

@@ -9,5 +9,6 @@
     <Application.Styles>
         <StyleInclude Source="avares://AvaloniaEdit/AvaloniaEdit.xaml" />
         <SimpleTheme Mode="Light" />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml"/>
     </Application.Styles>
 </Application>

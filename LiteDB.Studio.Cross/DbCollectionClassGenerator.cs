@@ -48,11 +48,11 @@ namespace LiteDB.Studio.Cross {
             return newClass.CreateType();
         }
         
-        public static dynamic GetObject(Type myType, Dictionary<string, dynamic> data) {
+        public static dynamic? GetObject(Type myType, Dictionary<string, dynamic> data) {
             object? result = Activator.CreateInstance(myType);
             foreach (var dic in data) {
-                PropertyInfo pi = myType.GetProperty(dic.Key);
-                pi.SetValue(result, dic.Value);
+                PropertyInfo? pi = myType.GetProperty(dic.Key);
+                if (pi != null) pi.SetValue(result, dic.Value);
             }
             return result;
         }
