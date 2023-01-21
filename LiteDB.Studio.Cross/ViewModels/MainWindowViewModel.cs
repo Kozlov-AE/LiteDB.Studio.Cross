@@ -11,7 +11,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Path = System.IO.Path;
 using PropertyModel = LiteDB.Studio.Cross.Models.PropertyModel;
 
@@ -193,17 +196,9 @@ namespace LiteDB.Studio.Cross.ViewModels {
                     catch (Exception ex) {
                         Console.WriteLine(ex);
                     }
-                    //
-                    // using (var writer = new StringWriter(sb)) {
-                    //     var json = new JsonWriter(writer) { Pretty = true, Indent = 2 };
-                    //         json.Serialize(reader.Current);
-                    //         sb.AppendLine();
-                    //         foreach (var key in reader.Current.AsDocument.Keys) {
-                    //             fields.Add(key);
-                    //     }
-                    // }
                 }
-                //QueryResultString = sb.ToString();
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                QueryResultString = System.Text.Json.JsonSerializer.Serialize(dc.Items, options);
                 QueryFinished?.Invoke(dc);
             }
         }
