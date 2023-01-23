@@ -24,7 +24,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
         private readonly DatabaseService _dbService; 
         
         private ConnectionString _connectionString;
-        private LiteDatabase? _db = null;
+        private ILiteDatabase _db = null;
 
         private const long MB = 1024 * 1024;
 
@@ -133,7 +133,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
             if (_db == null) return;
             var res = _dbService.SendQuery(_db, text);
             var options = new JsonSerializerOptions { WriteIndented = true };
-            QueryResultString = System.Text.Json.JsonSerializer.Serialize(res.Items);
+            QueryResultString = System.Text.Json.JsonSerializer.Serialize(res.Items, options);
             QueryFinished?.Invoke(res);
         }
     }
