@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
+using LiteDB.Studio.Cross.Models;
 using LiteDB.Studio.Cross.ViewModels;
 using System;
 
@@ -27,21 +28,22 @@ namespace LiteDB.Studio.Cross.Views {
         }
 
 
-        private void ViewModel_QueryFinished(DbCollectionViewModel cvm) {
-            LoadTable(cvm);
+        private void ViewModel_QueryFinished(DbQuerryResultModel qrm) {
+            LoadTable(qrm);
         }
 
-        private void LoadTable(DbCollectionViewModel cvm) {
+        private void LoadTable(DbQuerryResultModel qrm) {
             _table.Columns.Clear();
-            foreach (var item in cvm.Fields) {
+            foreach (var prop in qrm.Collection.Properties) {
                 DataGridColumn col = new DataGridTextColumn() {
-                    Header = item.Name,
+                    Header = prop.Name,
+                    CanUserSort = true,
                     IsReadOnly = false,
-                    Binding = new Binding(item.Name)
+                    Binding = new Binding($"Values[{prop.Name}]")
                 };
                 _table.Columns.Add(col);
             }
-            _table.Items = cvm.Items;
+            _table.Items = qrm.Items;
         }
     }
 }
