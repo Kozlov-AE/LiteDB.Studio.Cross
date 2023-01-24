@@ -3,59 +3,59 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:LiteDB.Studio.Cross.ViewModels"
+             xmlns:designTime="clr-namespace:LiteDB.Studio.Cross.ViewModels.DesignTime"
+             xmlns:models="clr-namespace:LiteDB.Studio.Cross.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LiteDB.Studio.Cross.Views.LeftSideView">
     <Design.DataContext>
-        <viewModels:ConnectionsExplorerViewModel />
+        <designTime:ConnectionsExplorerVMDD />
     </Design.DataContext>
-    <ListBox 
-        Items="{Binding Connections}"
-        SelectedItem="{Binding SelectedConnection}">
-        <ListBox.ItemTemplate>
+    <TreeView Items="{Binding Connections}">
+        <TreeView.ItemTemplate>
             <DataTemplate>
-                <StackPanel Orientation="Horizontal">
-                    <Expander ExpandDirection="Down" Header="{Binding Name}">
-                        <StackPanel Orientation="Vertical">
-                            <Expander Header="System"
-                                      Margin="5 0 0 0">
-                                <ListBox Items="{Binding SystemCollections}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Expander ExpandDirection="Down" Header="{Binding CollectionName}">
-                                                <ListBox Items="{Binding Properties}">
-                                                    <ListBox.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Label Content="{Binding Name}"/>
-                                                        </DataTemplate>
-                                                    </ListBox.ItemTemplate>
-                                                </ListBox>
-                                            </Expander>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </Expander>
-                            <ListBox Items="{Binding UserCollections}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Expander ExpandDirection="Down" Header="{Binding CollectionName}">
-                                            <ListBox Items="{Binding Properties}">
-                                                <ListBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Label Content="{Binding Name}"/>
-                                                    </DataTemplate>
-                                                </ListBox.ItemTemplate>
-                                            </ListBox>
-                                        </Expander>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </StackPanel>
-                    </Expander>
-                    <Button Content="X" 
-                            Command="{Binding $parent[UserControl].DataContext.DisconnectCommand}"
-                            CommandParameter="{Binding .}"/>
-                </StackPanel>
+                <TreeView>
+                    <TreeViewItem Header="{Binding Name}">
+                        <TreeViewItem Header="System" Items="{Binding SystemCollections}">
+                            <TreeViewItem.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding CollectionName}" />
+                                </DataTemplate>
+                            </TreeViewItem.ItemTemplate>
+                        </TreeViewItem> 
+                        <TreeView Items="{Binding UserCollections}">
+                            <TreeView.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding CollectionName}" />
+                                </DataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView> 
+                    </TreeViewItem> 
+                    <TextBlock Text="{Binding Name}"/>
+                </TreeView>
             </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>    
+        </TreeView.ItemTemplate>
+        <!-- <TreeView.DataTemplates> -->
+        <!--         <TreeDataTemplate ItemsSource="{Binding SystemCollections}"> -->
+        <!--             <TextBlock Text="{Binding Name}"/> -->
+        <!--         </TreeDataTemplate> -->
+        <!--         <DataTemplate DataType="models:DbCollectionModel"> -->
+        <!--             <TextBlock Text="{Binding CollectionName}"/> -->
+        <!--         </DataTemplate> -->
+        <!-- </TreeView.DataTemplates> -->
+            <!-- <StackPanel Orientation="Vertical"> -->
+                <!--     ~1~ <TreeViewItem Header="System"> @1@ -->
+                <!--     ~1~         <TreeDataTemplate ItemsSource="{Binding SystemCollections}"> @1@ -->
+                <!--     ~1~             <TextBlock Text="{Binding Name}"/> @1@ -->
+                <!--     ~1~         </TreeDataTemplate> @1@ -->
+                <!--     ~1~ </TreeViewItem> @1@ -->
+                <!--     <TreeView Items="{Binding UserCollections}"> -->
+                <!--         <TreeView.ItemTemplate> -->
+                <!--             <TreeDataTemplate ItemsSource="{Binding UserCollections}"> -->
+                <!--                 <TextBlock Text="{Binding Name}"/> -->
+                <!--             </TreeDataTemplate> -->
+                <!--         </TreeView.ItemTemplate> -->
+                <!--     </TreeView> -->
+                <!-- </StackPanel> -->
+        <!-- </TreeView.ItemTemplate> -->
+    </TreeView>
 </UserControl>
