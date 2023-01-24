@@ -20,14 +20,13 @@
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="Connection">
                     <MenuItem Header="Connect" Command="{Binding AskConnectionCommand}"/>
-                    <MenuItem Header="Disconnect" Command="{Binding DisconnectCommand}"/>
                 </MenuItem>
             </Menu>
             <Grid ColumnDefinitions="*, 4, 4*" DockPanel.Dock="Top">
                 <views:LeftSideView
                     Grid.Column="0"
                     Margin="5"
-                    IsVisible="{Binding IsDbConnected}"/>
+                    DataContext="{Binding ConnectionsExplorer}"/>
                 <GridSplitter
                     Grid.Column="1"
                     Background="Gray"

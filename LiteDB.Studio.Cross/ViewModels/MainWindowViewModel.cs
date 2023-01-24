@@ -24,7 +24,6 @@ namespace LiteDB.Studio.Cross.ViewModels {
         private readonly DatabaseService _dbService; 
         
         private ConnectionString _connectionString;
-        private ILiteDatabase _db = null;
 
         private const long MB = 1024 * 1024;
 
@@ -34,12 +33,14 @@ namespace LiteDB.Studio.Cross.ViewModels {
         [ObservableProperty] private bool _isDbConnected;
         [ObservableProperty] private string _queryString;
         [ObservableProperty] private string _queryResultString;
+        [ObservableProperty] private  ConnectionsExplorerViewModel _connectionsExplorer;
 
         public event Action<DbQuerryResultModel> QueryFinished;
 
         public MainWindowViewModel() {
             _dbService = new DatabaseService();
             _connectionString = new ConnectionString();
+            _connectionsExplorer = new ConnectionsExplorerViewModel();
             ConnectionOpts = SetConnectionVm(_connectionString);
             StructureViewModel = new DatabaseStructureViewModel();
         }
@@ -83,55 +84,23 @@ namespace LiteDB.Studio.Cross.ViewModels {
 
             return cs;
         }
-        [RelayCommand]
-        private void Disconnect() {
-            _db?.Dispose();
-            IsDbConnected = false; 
-        }
+
         [RelayCommand]
         private void AskConnection() {
             IsLoadDatabaseNeeded = true;
         }
         [RelayCommand]
         private void ConnectToDatabase() {
+            var connect = new ConnectionModel();
             _connectionString = ConfigureConnectionString(_connectionOpts);
-            Disconnect();
-            _db = new LiteDatabase(_connectionString);
-            StructureViewModel = new DatabaseStructureViewModel();
-            StructureViewModel.DbName = Path.GetFileName(_connectionString.Filename);
-            
-            StructureViewModel.SysDirectory = new DatabaseStructureViewModel();
-            StructureViewModel.SysDirectory.DbName = "System";
-            var sc = _db.GetCollection("$cols")
-                .Query()
-                .Where("type = 'system'")
-                .OrderBy("name")
-                .ToDocuments();
-            StructureViewModel.SysDirectory.Collections = new ObservableCollection<DbCollectionViewModel>();
-            foreach (var doc in sc) {
-                var collection = new DbCollectionViewModel();
-                collection.CollectionName = doc["name"].AsString;
-                collection.Fields = new ObservableCollection<PropertyModel>();
-                StructureViewModel.SysDirectory.Collections.Add(collection);
-            }
-
-            StructureViewModel.Collections = new ObservableCollection<DbCollectionViewModel>();
-            var colls = _db.GetCollectionNames().OrderBy(x => x);
-            foreach (var name in colls) {
-                var coll = new DbCollectionViewModel();
-                coll.CollectionName = name;
-                coll.Fields = new ObservableCollection<PropertyModel>();
-                StructureViewModel.Collections.Add(coll);
-            }
-
-            IsDbConnected = true;
+            if (!connect.Connect(_connectionString)) return;
+            ConnectionsExplorer.Connections.Add(connect);
             IsLoadDatabaseNeeded = false;
         }
-
         [RelayCommand]
         private void SendQuery(string text) {
-            if (_db == null) return;
-            var res = _dbService.SendQuery(_db, text);
+            if (ConnectionsExplorer.SelectedConnection == null) return;
+            var res = ConnectionsExplorer.SelectedConnection.SendQuery(text);
             var options = new JsonSerializerOptions { WriteIndented = true };
             QueryResultString = System.Text.Json.JsonSerializer.Serialize(res.Items, options);
             QueryFinished?.Invoke(res);

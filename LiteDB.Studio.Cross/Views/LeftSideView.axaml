@@ -6,36 +6,56 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LiteDB.Studio.Cross.Views.LeftSideView">
     <Design.DataContext>
-        <viewModels:MainWindowViewModel />
+        <viewModels:ConnectionsExplorerViewModel />
     </Design.DataContext>
-    <StackPanel Orientation="Vertical">
-        <Expander ExpandDirection="Down" Header="{Binding StructureViewModel.DbName}">
-            <StackPanel Orientation="Vertical">
-                <Expander ExpandDirection="Down" Header="System">
-                    <ListBox Items="{Binding StructureViewModel.SysDirectory.Collections}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding CollectionName}"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Expander>
-                <ListBox Items="{Binding StructureViewModel.Collections}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Expander Header="{Binding CollectionName}">
-                                <ListBox Items="{Binding Fields}">
+    <ListBox 
+        Items="{Binding Connections}"
+        SelectedItem="{Binding SelectedConnection}">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <Expander ExpandDirection="Down" Header="{Binding Name}">
+                        <StackPanel Orientation="Vertical">
+                            <Expander Header="System"
+                                      Margin="5 0 0 0">
+                                <ListBox Items="{Binding SystemCollections}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding .}"/>
+                                            <Expander ExpandDirection="Down" Header="{Binding CollectionName}">
+                                                <ListBox Items="{Binding Properties}">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Label Content="{Binding Name}"/>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </Expander>
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
                                 </ListBox>
                             </Expander>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
-        </Expander>
-    </StackPanel>
+                            <ListBox Items="{Binding UserCollections}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Expander ExpandDirection="Down" Header="{Binding CollectionName}">
+                                            <ListBox Items="{Binding Properties}">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Label Content="{Binding Name}"/>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                        </Expander>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </Expander>
+                    <Button Content="X" 
+                            Command="{Binding $parent[UserControl].DataContext.DisconnectCommand}"
+                            CommandParameter="{Binding .}"/>
+                </StackPanel>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>    
 </UserControl>

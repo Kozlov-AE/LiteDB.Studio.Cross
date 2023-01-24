@@ -1,4 +1,5 @@
 using AvaloniaEdit.Utils;
+using LiteDB.Studio.Cross.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,12 +9,13 @@ namespace LiteDB.Studio.Cross.Models {
     public class ConnectionModel {
         private ILiteDatabase _db;
         private string _dbPath;
+        private readonly DatabaseService _databaseService = new DatabaseService();
         public string Name { get; set; }
         public List<DbCollectionModel> SystemCollections { get; set; } = new List<DbCollectionModel>();
         public List<DbCollectionModel> UserCollections { get; set; } = new List<DbCollectionModel>();
         public bool IsDbConnected;
 
-        public ConnectionModel(ConnectionString cs) {
+        public bool Connect(ConnectionString cs) {
             try {
                 _db = new LiteDatabase(cs);
                 Name = Path.GetFileName(cs.Filename);
@@ -42,6 +44,18 @@ namespace LiteDB.Studio.Cross.Models {
                 Console.WriteLine(ex);
                 IsDbConnected = false;
             }
+
+            return IsDbConnected;
         }
+        public bool Disconnect() {
+            _db.Dispose();
+            IsDbConnected = false;
+            return !IsDbConnected;
+        }
+
+        public DbQuerryResultModel? SendQuery(string text) {
+            return _databaseService.SendQuery(_db, text);
+        }
+
     }
 }
