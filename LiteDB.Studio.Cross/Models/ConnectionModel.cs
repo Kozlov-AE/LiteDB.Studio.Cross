@@ -54,7 +54,12 @@ namespace LiteDB.Studio.Cross.Models {
         }
 
         public DbQuerryResultModel? SendQuery(string text) {
-            return _databaseService.SendQuery(_db, text);
+            var result =  _databaseService.SendQuery(_db, text);
+            if (result == null) return null;
+            var coll = UserCollections.FirstOrDefault(c => c.CollectionName == result.Collection.CollectionName);
+            if (coll == null) coll = result.Collection;
+            coll.Properties.AddRange(result.Collection.Properties.Where(p => coll.Properties.Any(cp => cp.Name == p.Name)));
+            return result;
         }
 
     }
