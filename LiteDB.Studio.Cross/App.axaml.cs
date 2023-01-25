@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using LiteDB.Studio.Cross.ViewModels;
 using LiteDB.Studio.Cross.Views;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace LiteDB.Studio.Cross {
@@ -15,12 +16,11 @@ namespace LiteDB.Studio.Cross {
 
         public override void OnFrameworkInitializationCompleted() {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-                desktop.MainWindow = new MainWindow { DataContext = new MainWindowViewModel() };
+                var mv = Services.GetRequiredService<MainWindowViewModel>();
+                desktop.MainWindow = new MainWindow { DataContext = mv };
             }
 
             base.OnFrameworkInitializationCompleted();
         }
-
-
     }
 }

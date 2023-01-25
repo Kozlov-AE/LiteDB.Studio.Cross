@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
 namespace LiteDB.Studio.Cross.Interfaces {
-    public interface ILastOpenedDbStoryService {
+    public interface IOpenDbHistory {
         void AddToStory(string path);
-        IEnumerable<string> GetStory();
+        IEnumerable<string> GetHistory();
     }
 }

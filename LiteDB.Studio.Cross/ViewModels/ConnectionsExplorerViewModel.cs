@@ -1,5 +1,7 @@
+using AvaloniaEdit.Utils;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LiteDB.Studio.Cross.Interfaces;
 using LiteDB.Studio.Cross.Models;
 using System.Collections.ObjectModel;
 
@@ -9,12 +11,12 @@ namespace LiteDB.Studio.Cross.ViewModels {
         [ObservableProperty] private ConnectionModel _selectedConnection;
 
         public ConnectionsExplorerViewModel() {
-            _connections = new ObservableCollection<ConnectionModel>();
+            Connections = new ObservableCollection<ConnectionModel>();
         }
-        
+
         [RelayCommand]
         private void Disconnect(ConnectionModel conn) {
-            if (conn.Disconnect()) _connections.Remove(conn);
+            if (conn.Disconnect()) Connections.Remove(conn);
         }
     }
 }

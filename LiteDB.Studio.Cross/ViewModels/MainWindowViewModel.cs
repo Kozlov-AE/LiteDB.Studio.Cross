@@ -33,16 +33,19 @@ namespace LiteDB.Studio.Cross.ViewModels {
         [ObservableProperty] private bool _isDbConnected;
         [ObservableProperty] private string _queryString;
         [ObservableProperty] private string _queryResultString;
-        [ObservableProperty] private  ConnectionsExplorerViewModel _connectionsExplorer;
+        [ObservableProperty] private ConnectionsExplorerViewModel _connectionsExplorer;
+        [ObservableProperty] private ObservableCollection<string> _openDbHistory = new ObservableCollection<string>();
 
         public event Action<DbQuerryResultModel> QueryFinished;
 
-        public MainWindowViewModel() {
+        public MainWindowViewModel(IOpenDbHistory history) {
             _dbService = new DatabaseService();
             _connectionString = new ConnectionString();
-            _connectionsExplorer = new ConnectionsExplorerViewModel();
+
+            ConnectionsExplorer = new ConnectionsExplorerViewModel();
             ConnectionOpts = SetConnectionVm(_connectionString);
             StructureViewModel = new DatabaseStructureViewModel();
+            OpenDbHistory.AddRange(history.GetHistory());
         }
 
         private DbConnectionOptionsViewModel SetConnectionVm(ConnectionString cs) {

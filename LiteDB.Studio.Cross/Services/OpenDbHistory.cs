@@ -4,11 +4,11 @@ using System.IO;
 using System.Text.Json;
 
 namespace LiteDB.Studio.Cross.Services {
-    public class LastOpenedDbStoryService : ILastOpenedDbStoryService {
+    public class OpenDbHistory : IOpenDbHistory {
         private string _savePath = "OpennedHistory.json";
         private Queue<string> _story = new();
 
-        public IEnumerable<string> GetStory() { return _story; }
+        public IEnumerable<string> GetHistory() { return _story; }
         public void AddToStory(string path) {
             if (!_story.Contains(path)) {
                 if (_story.Count > 9)
