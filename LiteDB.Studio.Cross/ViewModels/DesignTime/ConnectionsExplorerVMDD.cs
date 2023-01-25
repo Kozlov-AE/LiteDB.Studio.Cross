@@ -16,18 +16,18 @@ namespace LiteDB.Studio.Cross.ViewModels.DesignTime {
                         new DbCollectionModel() { CollectionName = "$Sys3" },
                     },
                     UserCollections = new List<DbCollectionModel>() {
-                        new DbCollectionModel() { CollectionName = "My collection 1" },
-                        new DbCollectionModel() { CollectionName = "My collection 2" },
-                        new DbCollectionModel() { CollectionName = "My collection 3" },
+                        new DbCollectionModel() { CollectionName = "My collection 1", Properties = new HashSet<PropertyModel>()},
+                        new DbCollectionModel() { CollectionName = "My collection 2", Properties = new HashSet<PropertyModel>()},
+                        new DbCollectionModel() { CollectionName = "My collection 3", Properties = new HashSet<PropertyModel>()},
                     }
                 },
                 new ConnectionModel() {
                     Name = "Connection 2",
                     IsDbConnected = true,
                     SystemCollections = new List<DbCollectionModel>() {
-                            new DbCollectionModel() { CollectionName = "$2 - Sys1" },
-                            new DbCollectionModel() { CollectionName = "$2 - Sys2" },
-                            new DbCollectionModel() { CollectionName = "$2 - Sys3" },
+                            new DbCollectionModel() { CollectionName = "$2 - Sys1", Properties = new HashSet<PropertyModel>()},
+                            new DbCollectionModel() { CollectionName = "$2 - Sys2", Properties = new HashSet<PropertyModel>()},
+                            new DbCollectionModel() { CollectionName = "$2 - Sys3", Properties = new HashSet<PropertyModel>()},
                         },
                     UserCollections = new List<DbCollectionModel>() {
                         new DbCollectionModel() { CollectionName = "2 - My collection 1" },

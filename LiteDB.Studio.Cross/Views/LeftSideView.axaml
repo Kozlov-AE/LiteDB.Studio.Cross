@@ -11,51 +11,29 @@
         <designTime:ConnectionsExplorerVMDD />
     </Design.DataContext>
     <TreeView Items="{Binding Connections}">
-        <TreeView.ItemTemplate>
-            <DataTemplate>
-                <TreeView>
-                    <TreeViewItem Header="{Binding Name}">
-                        <TreeViewItem Header="System" Items="{Binding SystemCollections}">
-                            <TreeViewItem.ItemTemplate>
-                                <DataTemplate>
-                                    <Label Content="{Binding CollectionName}" />
-                                </DataTemplate>
-                            </TreeViewItem.ItemTemplate>
-                        </TreeViewItem> 
-                        <TreeView Items="{Binding UserCollections}">
-                            <TreeView.ItemTemplate>
-                                <DataTemplate>
-                                    <Label Content="{Binding CollectionName}" />
-                                </DataTemplate>
-                            </TreeView.ItemTemplate>
-                        </TreeView> 
-                    </TreeViewItem> 
-                    <TextBlock Text="{Binding Name}"/>
-                </TreeView>
+        <TreeView.DataTemplates>
+            <DataTemplate DataType="models:ConnectionModel">
+                <StackPanel Orientation="Vertical">
+                    <TreeView>
+                        <TreeViewItem Header="{Binding Name}">
+                            <TreeViewItem Header="System" Items="{Binding SystemCollections}">
+                            </TreeViewItem>
+                            <TreeViewItem Header="Collections" Items="{Binding UserCollections}">
+                                
+                            </TreeViewItem>
+                        </TreeViewItem>
+                    </TreeView>
+                </StackPanel>
             </DataTemplate>
-        </TreeView.ItemTemplate>
-        <!-- <TreeView.DataTemplates> -->
-        <!--         <TreeDataTemplate ItemsSource="{Binding SystemCollections}"> -->
-        <!--             <TextBlock Text="{Binding Name}"/> -->
-        <!--         </TreeDataTemplate> -->
-        <!--         <DataTemplate DataType="models:DbCollectionModel"> -->
-        <!--             <TextBlock Text="{Binding CollectionName}"/> -->
-        <!--         </DataTemplate> -->
-        <!-- </TreeView.DataTemplates> -->
-            <!-- <StackPanel Orientation="Vertical"> -->
-                <!--     ~1~ <TreeViewItem Header="System"> @1@ -->
-                <!--     ~1~         <TreeDataTemplate ItemsSource="{Binding SystemCollections}"> @1@ -->
-                <!--     ~1~             <TextBlock Text="{Binding Name}"/> @1@ -->
-                <!--     ~1~         </TreeDataTemplate> @1@ -->
-                <!--     ~1~ </TreeViewItem> @1@ -->
-                <!--     <TreeView Items="{Binding UserCollections}"> -->
-                <!--         <TreeView.ItemTemplate> -->
-                <!--             <TreeDataTemplate ItemsSource="{Binding UserCollections}"> -->
-                <!--                 <TextBlock Text="{Binding Name}"/> -->
-                <!--             </TreeDataTemplate> -->
-                <!--         </TreeView.ItemTemplate> -->
-                <!--     </TreeView> -->
-                <!-- </StackPanel> -->
-        <!-- </TreeView.ItemTemplate> -->
+            <TreeDataTemplate DataType="models:ConnectionModel" ItemsSource="{Binding UserCollections}">
+                <TextBlock Foreground="Red" Text="{Binding Name}" />
+            </TreeDataTemplate>
+            <TreeDataTemplate DataType="models:ConnectionModel" ItemsSource="{Binding SystemCollections}">
+                <TextBlock Foreground="Green" Text="{Binding Name}" />
+            </TreeDataTemplate>
+            <DataTemplate DataType="models:DbCollectionModel">
+                <TextBlock Text="{Binding CollectionName}" />
+            </DataTemplate>
+        </TreeView.DataTemplates>
     </TreeView>
 </UserControl>
