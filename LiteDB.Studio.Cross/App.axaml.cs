@@ -3,10 +3,13 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using LiteDB.Studio.Cross.ViewModels;
 using LiteDB.Studio.Cross.Views;
+using System;
 
 namespace LiteDB.Studio.Cross {
     public partial class App : Application {
+        public IServiceProvider Services { get; private set; }
         public override void Initialize() {
+            Services = IoC.ConfigureServices();
             AvaloniaXamlLoader.Load(this);
         }
 
@@ -17,5 +20,7 @@ namespace LiteDB.Studio.Cross {
 
             base.OnFrameworkInitializationCompleted();
         }
+
+
     }
 }
