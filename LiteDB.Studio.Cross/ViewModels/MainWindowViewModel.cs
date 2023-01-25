@@ -91,8 +91,9 @@ namespace LiteDB.Studio.Cross.ViewModels {
         }
         [RelayCommand]
         private void ConnectToDatabase() {
+            if (ConnectionsExplorer.Connections.Any(c => c.FileName == ConnectionOpts.DbPath)) return;
             var connect = new ConnectionModel();
-            _connectionString = ConfigureConnectionString(_connectionOpts);
+            _connectionString = ConfigureConnectionString(ConnectionOpts);
             if (!connect.Connect(_connectionString)) return;
             ConnectionsExplorer.Connections.Add(connect);
             IsLoadDatabaseNeeded = false;

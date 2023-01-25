@@ -1,4 +1,7 @@
 ﻿using Avalonia;
+using Projektanker.Icons.Avalonia;
+using Projektanker.Icons.Avalonia.FontAwesome;
+using Projektanker.Icons.Avalonia.MaterialDesign;
 using System;
 
 namespace LiteDB.Studio.Cross {
@@ -16,7 +19,9 @@ namespace LiteDB.Studio.Cross {
         public static AppBuilder BuildAvaloniaApp() {
             return AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .LogToTrace();
+                .LogToTrace().WithIcons(container => container
+                    .Register<FontAwesomeIconProvider>()
+                    .Register<MaterialDesignIconProvider>());
         }
     }
 }

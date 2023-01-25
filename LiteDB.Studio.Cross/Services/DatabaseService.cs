@@ -54,7 +54,6 @@ namespace LiteDB.Studio.Cross.Services {
                 return result;
             }
         }
-
         private PropertyModel GetDbValueType(KeyValuePair<string, BsonValue> pair) {
             Type type;
             var value = pair.Value;
