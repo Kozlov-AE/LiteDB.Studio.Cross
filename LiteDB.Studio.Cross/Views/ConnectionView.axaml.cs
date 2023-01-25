@@ -5,6 +5,7 @@ using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Remote.Protocol.Designer;
 using LiteDB.Studio.Cross.ViewModels;
 
 namespace LiteDB.Studio.Cross.Views {
@@ -62,6 +63,7 @@ namespace LiteDB.Studio.Cross.Views {
                 await new OpenFileDialog() {
                     Title = "Open file", Directory = initialDirectory, InitialFileName = initialFileName
                 }.ShowAsync(GetWindow());
+            if (result?.Length == 0) return;
             _selectedFile = this.Find<TextBox>("SelectedFile");
             if (_selectedFile != null) {
                 _selectedFile.Text = result?.First();
