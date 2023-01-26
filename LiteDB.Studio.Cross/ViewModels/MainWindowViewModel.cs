@@ -5,11 +5,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiteDB.Studio.Cross.Interfaces;
 using LiteDB.Studio.Cross.Models;
+using LiteDB.Studio.Cross.Models.EventArgs;
 using LiteDB.Studio.Cross.Services;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -22,8 +24,8 @@ using PropertyModel = LiteDB.Studio.Cross.Models.PropertyModel;
 namespace LiteDB.Studio.Cross.ViewModels {
     public partial class MainWindowViewModel : ViewModelBase, IMainWindowViewModel {
         private readonly DatabaseService _dbService; 
-        
         private ConnectionString _connectionString;
+        private readonly IOpenDbHistoryService _historyService;
 
         private const long MB = 1024 * 1024;
 
@@ -33,19 +35,54 @@ namespace LiteDB.Studio.Cross.ViewModels {
         [ObservableProperty] private bool _isDbConnected;
         [ObservableProperty] private string _queryString;
         [ObservableProperty] private string _queryResultString;
+        [ObservableProperty] private string _selectedHistoryItem;
         [ObservableProperty] private ConnectionsExplorerViewModel _connectionsExplorer;
-        [ObservableProperty] private ObservableCollection<string> _openDbHistory = new ObservableCollection<string>();
+        [ObservableProperty] private ObservableCollection<string> _openDbHistory;
 
         public event Action<DbQuerryResultModel> QueryFinished;
 
-        public MainWindowViewModel(IOpenDbHistory history) {
+        public MainWindowViewModel(IOpenDbHistoryService historyService) {
             _dbService = new DatabaseService();
             _connectionString = new ConnectionString();
+            _historyService = historyService;
 
             ConnectionsExplorer = new ConnectionsExplorerViewModel();
             ConnectionOpts = SetConnectionVm(_connectionString);
             StructureViewModel = new DatabaseStructureViewModel();
-            OpenDbHistory.AddRange(history.GetHistory());
+            OpenDbHistory = new ObservableCollection<string>();
+            OpenDbHistory.AddRange(historyService.GetHistory());
+            this.PropertyChanged += OnPropertyChanged;
+            ConnectionOpts.PropertyChanged += ConnectionOptsOnPropertyChanged;
+            historyService.OpenDbHistoryChanged += HistoryServiceOnOpenDbHistoryChanged;
+        }
+
+        private void ConnectionOptsOnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
+            switch (e.PropertyName) {
+                case "DbPath":
+                    SelectedHistoryItem = string.Empty;
+                    break;
+            }
+        }
+
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
+            switch (e.PropertyName) {
+                case "SelectedHistoryItem":
+                    if (!string.IsNullOrEmpty(SelectedHistoryItem))
+                        ConnectionOpts.DbPath = SelectedHistoryItem;
+                    break;
+            }
+        }
+
+        private void HistoryServiceOnOpenDbHistoryChanged(object? sender, OpenDbHistoryEventArgs e) {
+            switch (e.EventType) {
+                case OpenDbHistoryEventTypes.PathAdded:
+                    OpenDbHistory.Add(e.ChangedPath);
+                    break;
+                case OpenDbHistoryEventTypes.PathRemoved:
+                    var p = OpenDbHistory.FirstOrDefault(p => p == e.ChangedPath);
+                    if (!string.IsNullOrWhiteSpace(p)) OpenDbHistory.Remove(p);
+                    break;
+            }
         }
 
         private DbConnectionOptionsViewModel SetConnectionVm(ConnectionString cs) {
@@ -94,11 +131,12 @@ namespace LiteDB.Studio.Cross.ViewModels {
         }
         [RelayCommand]
         private void ConnectToDatabase() {
-            if (ConnectionsExplorer.Connections.Any(c => c.FileName == ConnectionOpts.DbPath)) return;
+            if (ConnectionsExplorer.Connections.Any(c => c.FileName == ConnectionOpts.DbPath) || string.IsNullOrWhiteSpace(ConnectionOpts.DbPath)) return;
             var connect = new ConnectionModel();
             _connectionString = ConfigureConnectionString(ConnectionOpts);
             if (!connect.Connect(_connectionString)) return;
             ConnectionsExplorer.Connections.Add(connect);
+            _historyService.AddToStory(ConnectionOpts.DbPath);
             IsLoadDatabaseNeeded = false;
         }
         [RelayCommand]

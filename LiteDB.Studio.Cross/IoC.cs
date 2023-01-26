@@ -12,7 +12,7 @@ namespace LiteDB.Studio.Cross {
     public static class IoC {
         public static IServiceProvider ConfigureServices(){
             var services = new ServiceCollection();
-            services.AddSingleton<IOpenDbHistory, OpenDbHistory>();
+            services.AddSingleton<IOpenDbHistoryService, OpenDbHistoryService>();
             services.AddSingleton<MainWindowViewModel>();
 
             return services.BuildServiceProvider();

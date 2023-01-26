@@ -12,14 +12,15 @@ namespace LiteDB.Studio.Cross.Views {
     public partial class ConnectionView : UserControl {
         private Button _openFileButton;
         private Button _cancelButton;
-        private TextBox _selectedFile;
+        private TextBox? _selectedFile;
         private ComboBox _cultureBox;
         private ComboBox _sortBox;
+        private MainWindowViewModel _viewModel;
 
         private Window GetWindow() {
             return VisualRoot as Window ?? throw new NullReferenceException("Invalid Owner");
         }
-
+        
         public ConnectionView() {
             InitializeComponent();
             _openFileButton = this.Find<Button>("OpenFileButton");
@@ -48,10 +49,13 @@ namespace LiteDB.Studio.Cross.Views {
             }
         }
 
+        protected override void OnDataContextChanged(EventArgs e) {
+            base.OnDataContextChanged(e);
+            if (DataContext is MainWindowViewModel vm) _viewModel = vm;
+        }
+
         private void HideConnectionView(object? sender, RoutedEventArgs e) {
-            if (DataContext is not null && DataContext is MainWindowViewModel vm) {
-                vm.IsLoadDatabaseNeeded = false;
-            }
+            _viewModel.IsLoadDatabaseNeeded = false;
         }
 
         private async void OpenFileButtonOnClick(object? sender, RoutedEventArgs e) {

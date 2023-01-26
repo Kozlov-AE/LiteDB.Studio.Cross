@@ -1,80 +1,96 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:viewModels="clr-namespace:LiteDB.Studio.Cross.ViewModels"
-             xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400"
-             x:Class="LiteDB.Studio.Cross.Views.ConnectionView">
-    <Design.DataContext>
-        <viewModels:MainWindowViewModel />
-    </Design.DataContext>
-    <UserControl.Styles>
-        <Style Selector="StackPanel.Group">
-            <Setter Property="Margin" Value="5" />
-            <Setter Property="DockPanel.Dock" Value="Top" />
-            <Setter Property="Orientation" Value="Vertical" />
-            <Setter Property="Spacing" Value="10" />
-        </Style>
-        <Style Selector="Label.Group">
-            <Setter Property="Margin" Value="0 0 0 -5" />
-            <Setter Property="FontWeight" Value="DemiBold" />
-        </Style>
-    </UserControl.Styles>
-    <DockPanel Margin="10">
-        <StackPanel Classes="Group">
-            <Label Classes="Group" Content="Connection mode" />
-            <StackPanel Orientation="Horizontal" Spacing="50">
-                <RadioButton Content="Direct" IsChecked="{Binding ConnectionOpts.IsDirect}" />
-                <RadioButton Content="Shared" IsChecked="{Binding ConnectionOpts.IsShared}" />
-            </StackPanel>
-        </StackPanel>
-        <StackPanel Classes="Group">
-            <Label Classes="Group" Content="Select file" />
-            <DockPanel>
-                <Button i:Attached.Icon="fa-regular fa-folder-open"
-                        x:Name="OpenFileButton"
-                        DockPanel.Dock="Right"
-                        Margin="10 0 0 0" />
-                <TextBox x:Name="SelectedFile" Text="{Binding ConnectionOpts.DbPath}" Watermark="File path" />
-            </DockPanel>
-        </StackPanel>
-        <StackPanel Classes="Group">
-            <Label Classes="Group" Content="Parameters" />
-            <Grid ColumnDefinitions="110, *" RowDefinitions="Auto, Auto, Auto">
-                <Label Grid.Column="0" Grid.Row="0">Password</Label>
-                <TextBox Name="PasswordInput" Grid.Column="1" Grid.Row="0"
-                         PasswordChar="*"
-                         Watermark="Password"
-                         UseFloatingWatermark="False"
-                         TextInputOptions.ContentType="Password"
-                         Margin="0 0 0 10"
-                         Text="{Binding ConnectionOpts.Password}" />
-                <Label Grid.Column="0" Grid.Row="1">Initial size (MB)</Label>
-                <TextBox Grid.Column="1" Grid.Row="1"
-                         Margin="0 0 0 10"
-                         Text="{Binding ConnectionOpts.InitSize}" />
-                <Label Grid.Column="0" Grid.Row="2">Collation</Label>
-                <StackPanel Grid.Column="1" Grid.Row="2"
-                            Margin="0 0 0 10"
-                            Orientation="Horizontal"
-                            Spacing="5">
-                    <ComboBox x:Name="CultureBox"
-                              MinWidth="70"
-                              SelectedItem="{Binding ConnectionOpts.Culture}" />
-                    <Label>/</Label>
-                    <ComboBox x:Name="SortBox"
-                              MinWidth="70"
-                              SelectedItem="{Binding ConnectionOpts.Sort}" />
-                </StackPanel>
-            </Grid>
-            <CheckBox Content="Read only" IsChecked="{Binding ConnectionOpts.IsReadOnly}" />
-            <CheckBox Content="Upgrade from LiteDB v4 (if needed)" IsChecked="{Binding ConnectionOpts.IsUpgrade}" />
-            <StackPanel Orientation="Horizontal"
-                        Spacing="20" Height="30" HorizontalAlignment="Right">
-                <Button Name="ConnectBtn" Width="100" Content="Connect" Command="{Binding ConnectToDatabaseCommand}" />
-                <Button Name="CancelBtn" Width="100" Content="Cancel" />
-            </StackPanel>
-        </StackPanel>
-    </DockPanel>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:viewModels="clr-namespace:LiteDB.Studio.Cross.ViewModels"
+			 xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
+			 mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400"
+			 x:Class="LiteDB.Studio.Cross.Views.ConnectionView">
+	<Design.DataContext>
+		<viewModels:MainWindowViewModel />
+	</Design.DataContext>
+	<UserControl.Styles>
+		<Style Selector="StackPanel.Group">
+			<Setter Property="Margin" Value="5" />
+			<Setter Property="DockPanel.Dock" Value="Top" />
+			<Setter Property="Orientation" Value="Vertical" />
+			<Setter Property="Spacing" Value="10" />
+		</Style>
+		<Style Selector="Label.Group">
+			<Setter Property="Margin" Value="0 0 0 -5" />
+			<Setter Property="FontWeight" Value="DemiBold" />
+		</Style>
+	</UserControl.Styles>
+	<DockPanel Margin="10">
+		<StackPanel Classes="Group">
+			<Label Classes="Group" Content="Connection mode" />
+			<StackPanel Orientation="Horizontal" Spacing="50">
+				<RadioButton Content="Direct" IsChecked="{Binding ConnectionOpts.IsDirect}" />
+				<RadioButton Content="Shared" IsChecked="{Binding ConnectionOpts.IsShared}" />
+			</StackPanel>
+		</StackPanel>
+		<StackPanel Classes="Group">
+			<Label Classes="Group" Content="Select file" />
+			<DockPanel>
+				<ScrollViewer DockPanel.Dock="Bottom"
+					HorizontalScrollBarVisibility="Auto"
+					VerticalScrollBarVisibility="Auto">
+					<ListBox
+						Items="{Binding OpenDbHistory}"
+						Margin="0 5"
+						Height="50"
+						SelectionMode="Single" 
+						SelectedItem="{Binding SelectedHistoryItem}">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding}" />
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</ScrollViewer>
+				<Button i:Attached.Icon="fa-regular fa-folder-open"
+						x:Name="OpenFileButton"
+						DockPanel.Dock="Right"
+						Margin="10 0 0 0" />
+				<TextBox x:Name="SelectedFile" Text="{Binding ConnectionOpts.DbPath, Mode=TwoWay}" Watermark="File path" />
+			</DockPanel>
+		</StackPanel>
+		<StackPanel Classes="Group">
+			<Label Classes="Group" Content="Parameters" />
+			<Grid ColumnDefinitions="110, *" RowDefinitions="Auto, Auto, Auto">
+				<Label Grid.Column="0" Grid.Row="0">Password</Label>
+				<TextBox Name="PasswordInput" Grid.Column="1" Grid.Row="0"
+						 PasswordChar="*"
+						 Watermark="Password"
+						 UseFloatingWatermark="False"
+						 TextInputOptions.ContentType="Password"
+						 Margin="0 0 0 10"
+						 Text="{Binding ConnectionOpts.Password}" />
+				<Label Grid.Column="0" Grid.Row="1">Initial size (MB)</Label>
+				<TextBox Grid.Column="1" Grid.Row="1"
+						 Margin="0 0 0 10"
+						 Text="{Binding ConnectionOpts.InitSize}" />
+				<Label Grid.Column="0" Grid.Row="2">Collation</Label>
+				<StackPanel Grid.Column="1" Grid.Row="2"
+							Margin="0 0 0 10"
+							Orientation="Horizontal"
+							Spacing="5">
+					<ComboBox x:Name="CultureBox"
+							  MinWidth="70"
+							  SelectedItem="{Binding ConnectionOpts.Culture}" />
+					<Label>/</Label>
+					<ComboBox x:Name="SortBox"
+							  MinWidth="70"
+							  SelectedItem="{Binding ConnectionOpts.Sort}" />
+				</StackPanel>
+			</Grid>
+			<CheckBox Content="Read only" IsChecked="{Binding ConnectionOpts.IsReadOnly}" />
+			<CheckBox Content="Upgrade from LiteDB v4 (if needed)" IsChecked="{Binding ConnectionOpts.IsUpgrade}" />
+			<StackPanel Orientation="Horizontal"
+						Spacing="20" Height="30" HorizontalAlignment="Right">
+				<Button Name="ConnectBtn" Width="100" Content="Connect" Command="{Binding ConnectToDatabaseCommand}" />
+				<Button Name="CancelBtn" Width="100" Content="Cancel" />
+			</StackPanel>
+		</StackPanel>
+	</DockPanel>
 </UserControl>
