@@ -1,0 +1,29 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:hamburger_tabs.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:hamburgerMenu="clr-namespace:AppControls.HamburgerMenu;assembly=AppControls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="hamburger_tabs.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="hamburger_tabs">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <Grid>
+        <hamburgerMenu:HamburgerMenu>
+            <TabItem Header="hhh___123">
+                <Label>123</Label>
+            </TabItem>
+            <TabItem Header="hhh___sdfsdf">
+                <Label>sdfsdf</Label>
+            </TabItem>
+            <TabItem Header="hhh___ythtrr">
+                <Label>ythtrr</Label>
+            </TabItem>
+        </hamburgerMenu:HamburgerMenu>
+    </Grid>
+    
+</Window>
