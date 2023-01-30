@@ -19,7 +19,7 @@
                 HorizontalScrollBarVisibility="Auto">
                 <Interaction.Behaviors>
                     <behaviors:DocumentTextBindingBehavior
-                        Text="{Binding QueryResultString}"/>
+                        Text="{Binding ResultVm.QueryResultString}"/>
                     <behaviors:CustomizeEditorBehavior />
                 </Interaction.Behaviors>
             </avaloniaEdit:TextEditor>
