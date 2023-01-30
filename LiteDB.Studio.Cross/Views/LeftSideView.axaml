@@ -15,7 +15,9 @@
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">
-                    <Expander ExpandDirection="Down" Header="{Binding Name}">
+                    <!-- <Button i:Attached.Icon="fa-light fa-book"/> -->
+                    <Expander ExpandDirection="Down" Margin="10 0 0 0"
+                            Header="{Binding Name}">   
                         <StackPanel Orientation="Vertical">
                             <Expander Header="System"
                                       Margin="5 0 0 0">
