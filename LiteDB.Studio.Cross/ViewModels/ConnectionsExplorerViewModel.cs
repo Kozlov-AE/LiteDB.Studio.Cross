@@ -7,15 +7,15 @@ using System.Collections.ObjectModel;
 
 namespace LiteDB.Studio.Cross.ViewModels {
     public partial class ConnectionsExplorerViewModel : ViewModelBase {
-        [ObservableProperty] private ObservableCollection<ConnectionModel> _connections;
-        [ObservableProperty] private ConnectionModel _selectedConnection;
+        [ObservableProperty] private ObservableCollection<ConnectionExplorerItemViewModel> _connections;
+        [ObservableProperty] private ConnectionExplorerItemViewModel _selectedConnection;
 
         public ConnectionsExplorerViewModel() {
-            Connections = new ObservableCollection<ConnectionModel>();
+            Connections = new ObservableCollection<ConnectionExplorerItemViewModel>();
         }
-
+        
         [RelayCommand]
-        private void Disconnect(ConnectionModel conn) {
+        private void Disconnect(ConnectionExplorerItemViewModel conn) {
             if (conn.Disconnect()) Connections.Remove(conn);
         }
     }

@@ -26,18 +26,21 @@ namespace LiteDB.Studio.Cross.ViewModels {
         private readonly DatabaseService _dbService; 
         private ConnectionString _connectionString;
         private readonly IOpenDbHistoryService _historyService;
+        private List<RightSideViewModel> _rightSideViewModels;
 
         private const long MB = 1024 * 1024;
 
         [ObservableProperty] private bool _isLoadDatabaseNeeded = true;
-        [ObservableProperty] private DbConnectionOptionsViewModel _connectionOpts;
-        [ObservableProperty] private DatabaseStructureViewModel _structureViewModel;
         [ObservableProperty] private bool _isDbConnected;
         [ObservableProperty] private string _queryString;
         [ObservableProperty] private string _queryResultString;
         [ObservableProperty] private string _selectedHistoryItem;
-        [ObservableProperty] private ConnectionsExplorerViewModel _connectionsExplorer;
         [ObservableProperty] private ObservableCollection<string> _openDbHistory;
+        
+        [ObservableProperty] private DbConnectionOptionsViewModel _connectionOpts;
+        [ObservableProperty] private DatabaseStructureViewModel _structureViewModel;
+        [ObservableProperty] private ConnectionsExplorerViewModel _connectionsExplorer;
+        [ObservableProperty] private RightSideViewModel _rightSideViewModel;
 
         public event Action<DbQuerryResultModel> QueryFinished;
 
@@ -51,6 +54,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
             StructureViewModel = new DatabaseStructureViewModel();
             OpenDbHistory = new ObservableCollection<string>();
             OpenDbHistory.AddRange(historyService.GetHistory());
+            
             this.PropertyChanged += OnPropertyChanged;
             ConnectionOpts.PropertyChanged += ConnectionOptsOnPropertyChanged;
             historyService.OpenDbHistoryChanged += HistoryServiceOnOpenDbHistoryChanged;
