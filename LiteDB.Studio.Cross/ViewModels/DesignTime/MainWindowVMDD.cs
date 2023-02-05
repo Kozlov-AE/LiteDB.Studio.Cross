@@ -7,7 +7,7 @@ namespace LiteDB.Studio.Cross.ViewModels.DesignTime {
     public class MainWindowVMDD : IMainWindowViewModel {
         public bool IsLoadDatabaseNeeded { get; set; } = false;
         public bool IsDbConnected { get; set; } = true;
-        public DbConnectionOptionsViewModel ConnectionOpts { get; set; }
+        public ConnectionParametersViewModel ConnectionOpts { get; set; }
 
         public DatabaseStructureViewModel StructureViewModel { get; set; } = new DatabaseStructureViewModel() {
             DbName = "MyDatabase",

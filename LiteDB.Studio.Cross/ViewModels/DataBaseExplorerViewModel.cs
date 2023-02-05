@@ -8,4 +8,8 @@ public partial class DataBaseExplorerViewModel: ViewModelBase {
     public DataBaseExplorerViewModel() {
         Databases = new();
     }
+
+    private void AddDatabase(DatabaseViewModel vm) {
+        Databases.Add(vm);
+    }
 }

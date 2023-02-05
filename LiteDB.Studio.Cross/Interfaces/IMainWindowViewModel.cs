@@ -4,7 +4,7 @@ namespace LiteDB.Studio.Cross.Interfaces {
     public interface IMainWindowViewModel {
         bool IsLoadDatabaseNeeded { get; set; }
         bool IsDbConnected { get; set; }
-        DbConnectionOptionsViewModel ConnectionOpts { get; set; }
+        ConnectionParametersViewModel ConnectionOpts { get; set; }
         DatabaseStructureViewModel StructureViewModel  { get; set; }
         
     } 

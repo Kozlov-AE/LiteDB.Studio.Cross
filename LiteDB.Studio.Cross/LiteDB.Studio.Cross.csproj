@@ -7,6 +7,7 @@
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
         <LangVersion>11</LangVersion>
+        <Version>0.0.5</Version>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <OutputPath>.\bin\Debug\</OutputPath>
@@ -15,6 +16,7 @@
         <OutputPath>.\bin\Release\</OutputPath>
     </PropertyGroup>
     <ItemGroup>
+        <Folder Include="Mappers" />
         <Folder Include="Models\" />
         <AvaloniaResource Include="Assets\**" />
         <None Remove=".gitignore" />
@@ -39,11 +41,15 @@
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
         <PackageReference Include="FluentAvaloniaUI" Version="2.0.0-preview4" />
         <PackageReference Include="LiteDB" Version="5.0.15" />
+        <PackageReference Include="Mapster" Version="7.4.0-pre05" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
         <PackageReference Include="Projektanker.Icons.Avalonia" Version="6.3.0-preview4" />
         <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome" Version="6.3.0-preview4" />
         <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="6.3.0-preview4" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\LiteDB.Studio.Cross.Contracts\LiteDB.Studio.Cross.Contracts.csproj" />
     </ItemGroup>
 </Project>

@@ -23,7 +23,29 @@ using PropertyModel = LiteDB.Studio.Cross.Models.PropertyModel;
 
 namespace LiteDB.Studio.Cross.ViewModels {
     public partial class MainWindowViewModel : ViewModelBase, IMainWindowViewModel {
-        private readonly DatabaseService _dbService; 
+        [ObservableProperty] private DataBaseExplorerViewModel _dbExplorerVm;
+        [ObservableProperty] private DataBaseWorkspaceViewModel _dbWorkspaceVm;
+
+
+        [RelayCommand] private void Connect(ConnectionParametersViewModel vm) {
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        private readonly DatabaseService_OLD _dbServiceOld; 
         private ConnectionString _connectionString;
         private readonly IOpenDbHistoryService _historyService;
         private List<RightSideViewModel> _rightSideViewModels;
@@ -37,7 +59,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
         [ObservableProperty] private string _selectedHistoryItem;
         [ObservableProperty] private ObservableCollection<string> _openDbHistory;
         
-        [ObservableProperty] private DbConnectionOptionsViewModel _connectionOpts;
+        [ObservableProperty] private ConnectionParametersViewModel _connectionOpts;
         [ObservableProperty] private DatabaseStructureViewModel _structureViewModel;
         [ObservableProperty] private ConnectionsExplorerViewModel _connectionsExplorer;
         [ObservableProperty] private RightSideViewModel _rightSideViewModel;
@@ -45,7 +67,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
         public event Action<DbQuerryResultModel> QueryFinished;
 
         public MainWindowViewModel(IOpenDbHistoryService historyService) {
-            _dbService = new DatabaseService();
+            _dbServiceOld = new DatabaseService_OLD();
             _connectionString = new ConnectionString();
             _historyService = historyService;
 
@@ -89,8 +111,8 @@ namespace LiteDB.Studio.Cross.ViewModels {
             }
         }
 
-        private DbConnectionOptionsViewModel SetConnectionVm(ConnectionString cs) {
-            var result = new DbConnectionOptionsViewModel() {
+        private ConnectionParametersViewModel SetConnectionVm(ConnectionString cs) {
+            var result = new ConnectionParametersViewModel() {
                 IsDirect = cs.Connection == ConnectionType.Direct,
                 IsShared = cs.Connection == ConnectionType.Shared,
                 DbPath = cs.Filename,
@@ -106,7 +128,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
 
             return result;
         }
-        private ConnectionString ConfigureConnectionString(DbConnectionOptionsViewModel vm) {
+        private ConnectionString ConfigureConnectionString(ConnectionParametersViewModel vm) {
             var cs = new ConnectionString();
             cs.Connection = vm.IsDirect ? ConnectionType.Direct : ConnectionType.Shared;
             cs.Filename = vm.DbPath;

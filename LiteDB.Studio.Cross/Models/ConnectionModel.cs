@@ -11,7 +11,7 @@ namespace LiteDB.Studio.Cross.Models {
         private ILiteDatabase _db;
         private string _fileName;
 
-        private readonly DatabaseService _databaseService = new DatabaseService();
+        private readonly DatabaseService_OLD _databaseServiceOld = new DatabaseService_OLD();
         public string Name { get; set; }
         public List<DbCollectionModel> SystemCollections { get; set; } = new List<DbCollectionModel>();
         public List<DbCollectionModel> UserCollections { get; set; } = new List<DbCollectionModel>();
@@ -59,7 +59,7 @@ namespace LiteDB.Studio.Cross.Models {
         }
 
         public DbQuerryResultModel? SendQuery(string text) {
-            var result =  _databaseService.SendQuery(_db, text);
+            var result =  _databaseServiceOld.SendQuery(_db, text);
             if (result == null) return null;
             var coll = UserCollections.FirstOrDefault(c => c.CollectionName == result.Collection.CollectionName);
             if (coll == null) coll = result.Collection;

@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 
 namespace LiteDB.Studio.Cross.Services {
-    public class DatabaseService {
+    public class DatabaseService_OLD {
         public DbQuerryResultModel? SendQuery(ILiteDatabase db, string text) {
             var query = text.Replace(Environment.NewLine, " ");
             var doc = new BsonDocument();

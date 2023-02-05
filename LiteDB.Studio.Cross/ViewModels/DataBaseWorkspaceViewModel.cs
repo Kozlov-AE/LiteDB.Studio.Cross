@@ -6,7 +6,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
     /// <summary>
     /// ViewModel for the workspace
     /// </summary>
-    public partial class DataBaseWorkspaseViewModel : ViewModelBase {
+    public partial class DataBaseWorkspaceViewModel : ViewModelBase {
         [ObservableProperty] private ObservableCollection<QueryViewModel> _queries;
     }
     /// <summary>
