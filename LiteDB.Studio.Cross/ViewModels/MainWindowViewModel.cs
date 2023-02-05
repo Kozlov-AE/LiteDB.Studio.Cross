@@ -23,12 +23,23 @@ using PropertyModel = LiteDB.Studio.Cross.Models.PropertyModel;
 
 namespace LiteDB.Studio.Cross.ViewModels {
     public partial class MainWindowViewModel : ViewModelBase, IMainWindowViewModel {
+        private readonly IOpenDbHistoryService _historyService;
+        private readonly DataBaseConnectionsManagerService _connectionsManagerService;
+        
         [ObservableProperty] private DataBaseExplorerViewModel _dbExplorerVm;
         [ObservableProperty] private DataBaseWorkspaceViewModel _dbWorkspaceVm;
+
+        public MainWindowViewModel(
+                    IOpenDbHistoryService historyService, 
+                    DataBaseConnectionsManagerService connectionsManagerService) {
+            _connectionsManagerService = connectionsManagerService;
+            _historyService = historyService;
+        }
 
 
         [RelayCommand] private void Connect(ConnectionParametersViewModel vm) {
             
+            var connection = _connectionsManagerService.Connect()
         }
         
         
@@ -47,7 +58,6 @@ namespace LiteDB.Studio.Cross.ViewModels {
         
         private readonly DatabaseService_OLD _dbServiceOld; 
         private ConnectionString _connectionString;
-        private readonly IOpenDbHistoryService _historyService;
         private List<RightSideViewModel> _rightSideViewModels;
 
         private const long MB = 1024 * 1024;
