@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassGenerationExample", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteDB.Studio.Cross.Contracts", "LiteDB.Studio.Cross.Contracts\LiteDB.Studio.Cross.Contracts.csproj", "{892E7A2A-77EA-4EF1-9396-F589D5590E30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteDB.Studio.Cross.DbCommunication_V5", "LiteDB.Studio.Cross.DbCommunication_V5\LiteDB.Studio.Cross.DbCommunication_V5.csproj", "{2968D345-BE05-4B09-9CF2-F3DCBD693D6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,5 +41,9 @@ Global
 		{892E7A2A-77EA-4EF1-9396-F589D5590E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{892E7A2A-77EA-4EF1-9396-F589D5590E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{892E7A2A-77EA-4EF1-9396-F589D5590E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2968D345-BE05-4B09-9CF2-F3DCBD693D6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2968D345-BE05-4B09-9CF2-F3DCBD693D6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2968D345-BE05-4B09-9CF2-F3DCBD693D6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2968D345-BE05-4B09-9CF2-F3DCBD693D6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

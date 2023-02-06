@@ -1,45 +1,49 @@
-﻿using Avalonia.Controls.Shapes;
-using AvaloniaEdit.Document;
-using AvaloniaEdit.Utils;
+﻿using AvaloniaEdit.Utils;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LiteDB.Studio.Cross.Contracts.DTO;
 using LiteDB.Studio.Cross.Interfaces;
 using LiteDB.Studio.Cross.Models;
 using LiteDB.Studio.Cross.Models.EventArgs;
 using LiteDB.Studio.Cross.Services;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using MapsterMapper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using Path = System.IO.Path;
-using PropertyModel = LiteDB.Studio.Cross.Models.PropertyModel;
 
 namespace LiteDB.Studio.Cross.ViewModels {
     public partial class MainWindowViewModel : ViewModelBase, IMainWindowViewModel {
         private readonly IOpenDbHistoryService _historyService;
         private readonly DataBaseConnectionsManagerService _connectionsManagerService;
+        private readonly IMapper _mapper;
+        private readonly ViewModelsFactory _vmFactory;
         
         [ObservableProperty] private DataBaseExplorerViewModel _dbExplorerVm;
         [ObservableProperty] private DataBaseWorkspaceViewModel _dbWorkspaceVm;
 
         public MainWindowViewModel(
                     IOpenDbHistoryService historyService, 
-                    DataBaseConnectionsManagerService connectionsManagerService) {
+                    DataBaseConnectionsManagerService connectionsManagerService,
+                    IMapper mapper, ViewModelsFactory vmFactory) {
             _connectionsManagerService = connectionsManagerService;
+            _mapper = mapper;
+            _vmFactory = vmFactory;
             _historyService = historyService;
+            
+            var dbE = _vmFactory.GetViewModel(typeof(DataBaseExplorerViewModel));
+            if (dbE is DataBaseExplorerViewModel dbe) DbExplorerVm = dbe;
+            var dbW = _vmFactory.GetViewModel(typeof(DataBaseWorkspaceViewModel));
+            if (dbW is DataBaseWorkspaceViewModel dbw) DbWorkspaceVm = dbw;
         }
 
 
         [RelayCommand] private void Connect(ConnectionParametersViewModel vm) {
-            
-            var connection = _connectionsManagerService.Connect()
+            var connection = _connectionsManagerService.Connect(_mapper.Map<ConnectionParametersDto>(vm));
+            var dbVm = _mapper.Map<DatabaseViewModel>(connection);
+            DbExplorerVm.Databases.Add(dbVm);
         }
         
         
@@ -76,10 +80,12 @@ namespace LiteDB.Studio.Cross.ViewModels {
 
         public event Action<DbQuerryResultModel> QueryFinished;
 
-        public MainWindowViewModel(IOpenDbHistoryService historyService) {
+        public MainWindowViewModel(IOpenDbHistoryService historyService, IMapper mapper, ViewModelsFactory vmFactory) {
             _dbServiceOld = new DatabaseService_OLD();
             _connectionString = new ConnectionString();
             _historyService = historyService;
+            _mapper = mapper;
+            _vmFactory = vmFactory;
 
             ConnectionsExplorer = new ConnectionsExplorerViewModel();
             ConnectionOpts = SetConnectionVm(_connectionString);

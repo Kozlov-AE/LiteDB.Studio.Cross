@@ -7,6 +7,8 @@ namespace LiteDB.Studio.Cross.MapsterConfig {
         public void Register(TypeAdapterConfig config) {
             config.NewConfig<ConnectionParametersDto, ConnectionParametersViewModel>()
                 .RequireDestinationMemberSource(true);
+            config.NewConfig<DataBaseDto, DatabaseViewModel>()
+                .RequireDestinationMemberSource(true);
         }
     }
 }
