@@ -5,9 +5,14 @@ using LiteDB.Studio.Cross.Contracts.Interfaces;
 namespace LiteDB.Studio.Cross.DbCommunicationV5;
 
 public class DbCommunicationServiceV5 : IDbCommunicationService {
-    public IConnection Connect(ConnectionParametersDto parameters) {
-        var db = new LiteDatabase(ConfigureConnectionString(parameters));
-        return new DbConnectionV5(db);
+    public IConnection? Connect(ConnectionParametersDto parameters) {
+        try {
+            var db = new LiteDatabase(ConfigureConnectionString(parameters));
+            return new DbConnectionV5(db);
+        }
+        catch (Exception ex) {
+            return null;
+        }
     }
     
     private ConnectionString ConfigureConnectionString(ConnectionParametersDto parameters) {

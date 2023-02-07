@@ -7,19 +7,16 @@ using System.Collections.Generic;
 namespace LiteDB.Studio.Cross.Services {
     public class ConnectionsManager {
         private Dictionary<string, IConnection> _connections;
-        private readonly DbCommunicationsFabric _communicationsFabric;
+        private readonly DbConnectionsFabric _connectionsFabric;
 
-        public ConnectionsManager(DbCommunicationsFabric communicationsFabric) {
-            _communicationsFabric = communicationsFabric;
+        public ConnectionsManager(DbConnectionsFabric connectionsFabric) {
+            _connectionsFabric = connectionsFabric;
         }
 
         public string AddConnection(ConnectionParametersDto connectionString) {
             if (_connections.ContainsKey(connectionString.DbPath)) return string.Empty;
             try {
-                string version = string.Empty;
-                //todo Define the db version;
-                var comm = _communicationsFabric.GetCommunicationService(version);
-                var db = comm.Connect(connectionString);
+                var db = _connectionsFabric.ConnectToDb(connectionString);
                 _connections.Add(connectionString.DbPath, db);
                 return connectionString.DbPath;
             }
@@ -34,7 +31,7 @@ namespace LiteDB.Studio.Cross.Services {
                 var collects = conn.GetCollectionNames();
                 throw new NotImplementedException("GetCollections not implemented");
             }
-            else return null;
+            return null;
         }
         
     }
