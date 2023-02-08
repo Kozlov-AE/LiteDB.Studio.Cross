@@ -19,20 +19,20 @@
         <DockPanel LastChildFill="True" IsVisible="{Binding !IsLoadDatabaseNeeded}">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="Connection">
-                    <MenuItem Header="Connect" Command="{Binding AskConnectionCommand}"/>
+                    <MenuItem Header="Connect" Command="{Binding AskConnection()}"/>
                 </MenuItem>
             </Menu>
             <Grid ColumnDefinitions="*, 4, 4*" DockPanel.Dock="Top">
                 <views:LeftSideView
                     Grid.Column="0"
                     Margin="5"
-                    DataContext="{Binding ConnectionsExplorer}"/>
+                    DataContext="{Binding DbExplorerVm}"/>
                 <GridSplitter
                     Grid.Column="1"
                     Background="Gray"
                     ResizeDirection="Columns" />
                 <views:RigthSideView
-                    DataContext="RightSideVm"
+                    DataContext="{Binding DbWorkspaceVm}"
                     Grid.Column="2"
                     Margin="5" />
             </Grid>

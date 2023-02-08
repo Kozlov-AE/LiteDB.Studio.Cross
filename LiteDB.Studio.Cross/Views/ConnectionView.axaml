@@ -88,7 +88,9 @@
 			<CheckBox Content="Upgrade from LiteDB v4 (if needed)" IsChecked="{Binding ConnectionOpts.IsUpgrade}" />
 			<StackPanel Orientation="Horizontal"
 						Spacing="20" Height="30" HorizontalAlignment="Right">
-				<Button Name="ConnectBtn" Width="100" Content="Connect" Command="{Binding ConnectToDatabaseCommand}" />
+				<Button Name="ConnectBtn" Width="100" Content="Connect" 
+				        Command="{Binding ConnectCommand}" 
+				        CommandParameter="{Binding ConnectionOpts}"/>
 				<Button Name="CancelBtn" Width="100" Content="Cancel" />
 			</StackPanel>
 		</StackPanel>
