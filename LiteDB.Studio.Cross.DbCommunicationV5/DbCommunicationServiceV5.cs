@@ -11,13 +11,13 @@ public class DbCommunicationServiceV5 : IDbCommunicationService {
             return new DbConnectionV5(db);
         }
         catch (Exception ex) {
-            return null;
+            throw;
         }
     }
     
     private ConnectionString ConfigureConnectionString(ConnectionParametersDto parameters) {
         var cs = new ConnectionString();
-        cs.Connection = parameters.IsDirect ? ConnectionType.Direct : ConnectionType.Shared;
+        cs.Connection = parameters.IsShared ? ConnectionType.Shared : ConnectionType.Direct;
         cs.Filename = parameters.DbPath;
         cs.ReadOnly = parameters.IsReadOnly;
         cs.Upgrade = parameters.IsUpgrade;

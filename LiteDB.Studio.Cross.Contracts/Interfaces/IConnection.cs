@@ -1,3 +1,5 @@
+using LiteDB.Studio.Cross.Contracts.DTO;
+
 namespace LiteDB.Studio.Cross.Contracts.Interfaces {
     public interface IConnection {
         /// <summary>
@@ -14,5 +16,11 @@ namespace LiteDB.Studio.Cross.Contracts.Interfaces {
         /// </summary>
         /// <returns></returns>
         IEnumerable<string> GetSystemCollectionNames();
+        /// <summary>
+        /// Send query to database
+        /// </summary>
+        /// <param name="query">Query string</param>
+        /// <returns>Result</returns>
+        QueryResultDto SendQuery(string query);
     }
 }

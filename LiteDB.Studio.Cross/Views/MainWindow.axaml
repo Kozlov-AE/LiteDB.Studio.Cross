@@ -5,21 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:LiteDB.Studio.Cross.Views"
         xmlns:interfaces="clr-namespace:LiteDB.Studio.Cross.Interfaces"
-        xmlns:designTime="clr-namespace:LiteDB.Studio.Cross.ViewModels.DesignTime"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LiteDB.Studio.Cross.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="LiteDB.Studio.Cross" Background="White">
 
     <Design.DataContext>
-        <designTime:MainWindowVMDD />
+        <vm:MainWindowViewModel />
     </Design.DataContext>
     <Panel>
         <views:ConnectionView IsVisible="{Binding IsLoadDatabaseNeeded}" />
         <DockPanel LastChildFill="True" IsVisible="{Binding !IsLoadDatabaseNeeded}">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="Connection">
-                    <MenuItem Header="Connect" Command="{Binding AskConnection()}"/>
+                    <MenuItem Header="Connect" Command="{Binding AskConnectionCommand}"/>
                 </MenuItem>
             </Menu>
             <Grid ColumnDefinitions="*, 4, 4*" DockPanel.Dock="Top">
@@ -32,7 +31,7 @@
                     Background="Gray"
                     ResizeDirection="Columns" />
                 <views:RigthSideView
-                    DataContext="{Binding DbWorkspaceVm}"
+                    DataContext="{Binding DbExplorerVm.SelectedDbVm}"
                     Grid.Column="2"
                     Margin="5" />
             </Grid>

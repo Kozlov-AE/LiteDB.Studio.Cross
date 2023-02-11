@@ -1,8 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace LiteDB.Studio.Cross.Contracts.DTO {
     public class ConnectionParametersDto {
         public bool IsDirect { get; set; }
-        public bool IsShared { get; set; }
-        public string?  DbPath { get; set; }
+        public bool IsShared { get; set; } = true;
+        [Required(ErrorMessage = "The database path is not specified")]
+        public string  DbPath { get; set; }
         public string? Password { get; set; }
         public string? InitSize { get; set; }
         public string? Culture { get; set; }

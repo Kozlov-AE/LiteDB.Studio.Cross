@@ -3,26 +3,33 @@ using LiteDB.Studio.Cross.Contracts.Interfaces;
 using LiteDB.Studio.Cross.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace LiteDB.Studio.Cross.Services {
     public class ConnectionsManager {
-        private Dictionary<string, IConnection> _connections;
+        private readonly Dictionary<string, IConnection> _connections = new();
         private readonly DbConnectionsFabric _connectionsFabric;
 
         public ConnectionsManager(DbConnectionsFabric connectionsFabric) {
             _connectionsFabric = connectionsFabric;
         }
 
-        public string AddConnection(ConnectionParametersDto connectionString) {
-            if (_connections.ContainsKey(connectionString.DbPath)) return string.Empty;
+        public DataBaseDto? Connect(ConnectionParametersDto connectionString) {
+            if (_connections.ContainsKey(connectionString.DbPath)) return null;
+            var result = new DataBaseDto();
             try {
-                var db = _connectionsFabric.ConnectToDb(connectionString);
+                var db = _connectionsFabric.GetConnection(connectionString);
+                if (db == null) return null;
                 _connections.Add(connectionString.DbPath, db);
-                return connectionString.DbPath;
+                result.Id = connectionString.DbPath;
+                result.Name = Path.GetFileName(connectionString.DbPath);
+                result.DbCollections = db.GetCollectionNames();
+                result.SysCollections = db.GetSystemCollectionNames();
+                return result;
             }
             catch (Exception e) {
                 Console.WriteLine(e);
-                return string.Empty;
+                return null;
             }
         }
 

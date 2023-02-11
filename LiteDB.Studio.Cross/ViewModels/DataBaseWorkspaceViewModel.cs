@@ -1,4 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using LiteDB.Studio.Cross.Interfaces;
+using LiteDB.Studio.Cross.Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -6,8 +8,20 @@ namespace LiteDB.Studio.Cross.ViewModels {
     /// <summary>
     /// ViewModel for the workspace
     /// </summary>
-    public partial class DataBaseWorkspaceViewModel : ViewModelBase {
+    public partial class DataBaseWorkspaceViewModel : ViewModelBase, IDataBaseWorkspaceViewModel {
+        private readonly ConnectionsManager _connectionsManager;
+        private string _connectionId;
         [ObservableProperty] private ObservableCollection<QueryViewModel> _queries;
+
+        public DataBaseWorkspaceViewModel(ConnectionsManager connectionsManager) {
+            _connectionsManager = connectionsManager;
+            Queries = new ObservableCollection<QueryViewModel>();
+            Queries.Add(new QueryViewModel());
+        }
+
+        public void SetConnectionId(string id) {
+            _connectionId = id;
+        }
     }
     /// <summary>
     /// ViewModel for a query
