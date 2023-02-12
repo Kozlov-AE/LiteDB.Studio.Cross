@@ -21,14 +21,18 @@
                         <StackPanel Orientation="Vertical">
                             <Expander Header="System"
                                       Margin="5 0 0 0">
-                                <ListBox Items="{Binding SystemCollections}">
+                                <ListBox Items="{Binding SysCollections.Collections}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <Expander ExpandDirection="Down" Header="{Binding CollectionName}">
-                                                <ListBox Items="{Binding Properties}">
+                                            <Expander ExpandDirection="Down" Header="{Binding Name}">
+                                                <ListBox Items="{Binding Fields}">
                                                     <ListBox.ItemTemplate>
                                                         <DataTemplate>
-                                                            <Label Content="{Binding Name}"/>
+                                                            <TextBlock>
+                                                                <Run>{Binding Name}</Run>
+                                                                <Run>: </Run>
+                                                                <Run>{Binding FType}</Run>
+                                                            </TextBlock>
                                                         </DataTemplate>
                                                     </ListBox.ItemTemplate>
                                                 </ListBox>
@@ -40,11 +44,15 @@
                             <ListBox Items="{Binding UserCollections}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Expander ExpandDirection="Down" Header="{Binding CollectionName}">
-                                            <ListBox Items="{Binding Properties}">
+                                        <Expander ExpandDirection="Down" Header="{Binding Name}">
+                                            <ListBox Items="{Binding Fields}">
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Label Content="{Binding Name}"/>
+                                                        <TextBlock>
+                                                            <Run>{Binding Name}</Run>
+                                                            <Run>: </Run>
+                                                            <Run>{Binding FType}</Run>
+                                                        </TextBlock>
                                                     </DataTemplate>
                                                 </ListBox.ItemTemplate>
                                             </ListBox>
