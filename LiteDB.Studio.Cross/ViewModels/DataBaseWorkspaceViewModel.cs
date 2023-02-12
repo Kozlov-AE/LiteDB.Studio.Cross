@@ -35,7 +35,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
     /// ViewModel for a table presentation of request result
     /// </summary>
     public partial class DbTableViewModel : ViewModelBase {
-        [ObservableProperty] private ObservableCollection<FieldViewModel> _fields;
+        [ObservableProperty] private ObservableCollection<DbCollectionFieldViewModel> _fields;
         [ObservableProperty] private ObservableCollection<TableRowViewModel> _rows;
     }
     public partial class TableRowViewModel : ViewModelBase {

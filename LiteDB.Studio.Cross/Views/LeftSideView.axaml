@@ -7,11 +7,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LiteDB.Studio.Cross.Views.LeftSideView">
     <Design.DataContext>
-        <viewModels:ConnectionsExplorerViewModel />
+        <viewModels:DataBaseExplorerViewModel />
     </Design.DataContext>
     <ListBox 
-        Items="{Binding Connections}"
-        SelectedItem="{Binding SelectedConnection}">
+        Items="{Binding Databases}"
+        SelectedItem="{Binding SelectedDbVm}">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">
