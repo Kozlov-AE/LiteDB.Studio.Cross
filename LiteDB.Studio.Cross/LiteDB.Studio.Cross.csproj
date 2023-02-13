@@ -41,8 +41,6 @@
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
         <PackageReference Include="FluentAvaloniaUI" Version="2.0.0-preview4" />
         <PackageReference Include="LiteDB" Version="5.0.15" />
-        <PackageReference Include="Mapster" Version="7.4.0-pre05" />
-        <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1-pre01" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
         <PackageReference Include="Projektanker.Icons.Avalonia" Version="6.3.0-preview4" />
@@ -55,21 +53,6 @@
       <ProjectReference Include="..\LiteDB.Studio.Cross.DbCommunicationV4\LiteDB.Studio.Cross.DbCommunicationV4.csproj" />
       <ProjectReference Include="..\LiteDB.Studio.Cross.DbCommunicationV5\LiteDB.Studio.Cross.DbCommunicationV5.csproj" />
     </ItemGroup>
-
-    <Target Name="Mapster">
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet build" />
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore" />
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster model -a &quot;$(TargetDir)$(ProjectName).dll&quot;" />
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster extension -a &quot;$(TargetDir)$(ProjectName).dll&quot;" />
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster mapper -a &quot;$(TargetDir)$(ProjectName).dll&quot;" />
-    </Target>
-    <Target Name="Mapster" AfterTargets="AfterBuild">
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet tool restore" />
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster model -a &quot;$(TargetDir)$(ProjectName).dll&quot;" />
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster extension -a &quot;$(TargetDir)$(ProjectName).dll&quot;" />
-        <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet mapster mapper -a &quot;$(TargetDir)$(ProjectName).dll&quot;" />
-    </Target>
-
     <ItemGroup>
         <Generated Include="**\*.g.cs" />
     </ItemGroup>
