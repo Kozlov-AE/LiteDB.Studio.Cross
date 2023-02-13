@@ -4,12 +4,13 @@ using LiteDB.Studio.Cross.DbCommunicationV4;
 using LiteDB.Studio.Cross.DbCommunicationV5;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 
 namespace LiteDB.Studio.Cross.Services {
     public class DbConnectionsFabric {
-        private readonly ServiceProvider _services;
+        private readonly IServiceProvider _services;
         private readonly string[] _versions = { "5", "4" };
-        public DbConnectionsFabric(ServiceProvider services) {
+        public DbConnectionsFabric(IServiceProvider services) {
             _services = services;
         }
 
@@ -28,15 +29,16 @@ namespace LiteDB.Studio.Cross.Services {
             return null;
         }
 
-        private IDbCommunicationService GetCommunicationService(string dbVersion) {
+        private IDbCommunicationService? GetCommunicationService(string dbVersion) {
+            var services = _services.GetServices<IDbCommunicationService>();
             switch (dbVersion) {
                 case "5":
-                    return _services.GetRequiredService<DbCommunicationServiceV5>();
+                    return services.FirstOrDefault(s => s is DbCommunicationServiceV5);
                 case "4":
-                    return _services.GetRequiredService<DbCommunicationServiceV4>();
+                    return services.FirstOrDefault(s => s is DbCommunicationServiceV4);
             }
 
-            return _services.GetRequiredService<DbCommunicationServiceV5>();
+            return services.FirstOrDefault(s => s is DbCommunicationServiceV5);
         }
     }
 }

@@ -6,7 +6,6 @@ using LiteDB.Studio.Cross.Interfaces;
 using LiteDB.Studio.Cross.Models;
 using LiteDB.Studio.Cross.Models.EventArgs;
 using LiteDB.Studio.Cross.Services;
-using MapsterMapper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,7 +17,6 @@ namespace LiteDB.Studio.Cross.ViewModels {
     public partial class MainWindowViewModel : ViewModelBase {
         private readonly IOpenDbHistoryService _historyService;
         private readonly ConnectionsManager _connectionsManager;
-        private readonly IMapper _mapper;
         private readonly ViewModelsFactory _vmFactory;
 
         [ObservableProperty] private bool _isLoadDatabaseNeeded = true;
@@ -32,9 +30,8 @@ namespace LiteDB.Studio.Cross.ViewModels {
         public MainWindowViewModel(
                     IOpenDbHistoryService historyService, 
                     ConnectionsManager connectionsManager,
-                    IMapper mapper, ViewModelsFactory vmFactory) {
+                    ViewModelsFactory vmFactory) {
             _connectionsManager = connectionsManager;
-            _mapper = mapper;
             _vmFactory = vmFactory;
             _historyService = historyService;
             
@@ -47,7 +44,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
         
         [RelayCommand] private void Connect(ConnectionParametersViewModel vm) {
             if (DbExplorerVm.Databases.Any(d => d.Id == vm.DbPath)) return;
-            var connection = _connectionsManager.Connect(_mapper.Map<ConnectionParametersDto>(vm));
+            var connection = _connectionsManager.Connect(vm.Map());
             if (connection != null) {
                 var dbVm = _vmFactory.GetDatabaseViewModel(connection);
                 DbExplorerVm.Databases.Add(dbVm);

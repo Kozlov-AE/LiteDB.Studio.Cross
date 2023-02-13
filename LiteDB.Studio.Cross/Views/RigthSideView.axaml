@@ -5,11 +5,20 @@
              xmlns:views="clr-namespace:LiteDB.Studio.Cross.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LiteDB.Studio.Cross.Views.RigthSideView">
-    <TabControl Items="{Binding QueryResults}">
-        <Grid ColumnDefinitions="*" RowDefinitions="*, 4, *">
-            <views:QueryView Grid.Row="0" />
-            <GridSplitter Grid.Row="1" />
-            <views:QueryResultView Grid.Row="2"/>
-        </Grid>
+    <TabControl Items="{Binding Queries}">
+        <TabControl.ItemTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Name}" />
+            </DataTemplate>
+        </TabControl.ItemTemplate>
+        <TabControl.ContentTemplate>
+            <DataTemplate>
+                <Grid ColumnDefinitions="*" RowDefinitions="*, 4, *">
+                    <views:QueryView Grid.Row="0" />
+                    <GridSplitter Grid.Row="1" />
+                    <views:QueryResultView Grid.Row="2"/>
+                </Grid>
+            </DataTemplate>
+        </TabControl.ContentTemplate>
     </TabControl>
 </UserControl>

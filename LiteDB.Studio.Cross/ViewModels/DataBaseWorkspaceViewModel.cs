@@ -27,6 +27,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
     /// ViewModel for a query
     /// </summary>
     public partial class QueryViewModel : ViewModelBase {
+        [ObservableProperty] private string _name;
         [ObservableProperty] private string _query;
         [ObservableProperty] private DbTableViewModel _tableVm;
         [ObservableProperty] private string _json;
