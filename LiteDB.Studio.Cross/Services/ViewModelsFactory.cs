@@ -35,7 +35,7 @@ namespace LiteDB.Studio.Cross.Services {
             vm.Workspace = GetWorkspaceVm(dto.Id);
             return vm;
         }
-
+        
         public ViewModelBase? GetViewModel(Type type) {
             var vm = _services.GetService(type);
             return vm as ViewModelBase;

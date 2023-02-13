@@ -19,7 +19,8 @@ namespace LiteDB.Studio.Cross {
         public static AppBuilder BuildAvaloniaApp() {
             return AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .LogToTrace().WithIcons(container => container
+                .LogToTrace()
+                .WithIcons(container => container
                     .Register<FontAwesomeIconProvider>()
                     .Register<MaterialDesignIconProvider>());
         }
