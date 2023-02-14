@@ -22,6 +22,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
         public void SetConnectionId(string id) {
             _connectionId = id;
         }
+
     }
     /// <summary>
     /// ViewModel for a query
@@ -32,9 +33,13 @@ namespace LiteDB.Studio.Cross.ViewModels {
         [ObservableProperty] private DbTableViewModel _tableVm;
         [ObservableProperty] private string _json;
 
-        public QueryViewModel() {
+        public QueryViewModel(ConnectionsManager connectionsManager) {
             TableVm = new();
         }
+        private void SendQuery(string text) {
+            var res = _connectionsManager.SendQuery(_connectionId, text);
+        }
+
     }
     /// <summary>
     /// ViewModel for a table presentation of request result

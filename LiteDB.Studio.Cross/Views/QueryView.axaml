@@ -9,7 +9,7 @@
                  AcceptsReturn="True" 
                  TextWrapping="Wrap" 
                  Watermark="Input your query"
-                 Text="{Binding QueryString}"/>
+                 Text="{Binding Query}"/>
         <Button Content="Run"
                 HorizontalAlignment="Right"
                 Command="{Binding SendQueryCommand}"

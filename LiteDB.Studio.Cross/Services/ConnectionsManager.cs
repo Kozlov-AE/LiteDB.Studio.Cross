@@ -32,11 +32,18 @@ namespace LiteDB.Studio.Cross.Services {
                 return null;
             }
         }
-
         public List<DbCollectionModel>? GetCollections(string fileName) {
             if (_connections.TryGetValue(fileName, out var conn)) {
                 var collects = conn.GetCollectionNames();
                 throw new NotImplementedException("GetCollections not implemented");
+            }
+            return null;
+        }
+
+        //todo Change from null to custom exception
+        public QueryResultDto? SendQuery(string connectionId, string text) {
+            if (_connections.TryGetValue(connectionId, out var conn)) {
+                return conn.SendQuery(text);
             }
             return null;
         }

@@ -31,7 +31,7 @@
                     Background="Gray"
                     ResizeDirection="Columns" />
                 <views:RigthSideView
-                    DataContext="{Binding DbExplorerVm.SelectedDbVm}"
+                    DataContext="{Binding DbExplorerVm.SelectedDbVm.Workspace}"
                     Grid.Column="2"
                     Margin="5" />
             </Grid>
