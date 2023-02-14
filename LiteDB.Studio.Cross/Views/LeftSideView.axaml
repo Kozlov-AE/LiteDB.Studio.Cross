@@ -41,7 +41,7 @@
                                     </ListBox.ItemTemplate>
                                 </ListBox>
                             </Expander>
-                            <ListBox Items="{Binding UserCollections}">
+                            <ListBox Items="{Binding DbCollections.Collections}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Expander ExpandDirection="Down" Header="{Binding Name}">
