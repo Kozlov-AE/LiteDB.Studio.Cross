@@ -6,11 +6,12 @@ using Avalonia.Markup.Xaml;
 using LiteDB.Studio.Cross.Models;
 using LiteDB.Studio.Cross.ViewModels;
 using System;
+using System.ComponentModel;
 
 namespace LiteDB.Studio.Cross.Views {
     public partial class QueryResultTableView : UserControl {
         private DataGrid _table;
-        private MainWindowViewModel _vm;
+        private QueryViewModel _vm;
 
         public QueryResultTableView() {
             InitializeComponent();
@@ -23,18 +24,26 @@ namespace LiteDB.Studio.Cross.Views {
 
 
         private void QueryResultTableView_DataContextChanged(object? sender, EventArgs e) {
-            if (this.DataContext is MainWindowViewModel mwm) _vm = mwm;
-            _vm.QueryFinished += ViewModel_QueryFinished;
+            if (this.DataContext is QueryViewModel qwm) _vm = qwm;
+            _vm.PropertyChanged += VmOnPropertyChanged;
+        }
+
+        private void VmOnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
+            switch (e.PropertyName) {
+                case "TableVm":
+                    LoadTable(_vm.TableVm);
+                    break;
+            }
         }
 
 
-        private void ViewModel_QueryFinished(DbQuerryResultModel qrm) {
-            LoadTable(qrm);
+        private void ViewModel_QueryFinished(DbTableViewModel tvm) {
+            LoadTable(tvm);
         }
 
-        private void LoadTable(DbQuerryResultModel qrm) {
+        private void LoadTable(DbTableViewModel tvm) {
             _table.Columns.Clear();
-            foreach (var prop in qrm.Collection.Properties) {
+            foreach (var prop in tvm.Fields) {
                 DataGridColumn col = new DataGridTextColumn() {
                     Header = prop.Name,
                     CanUserSort = true,
@@ -43,7 +52,8 @@ namespace LiteDB.Studio.Cross.Views {
                 };
                 _table.Columns.Add(col);
             }
-            _table.Items = qrm.Items;
+
+            _table.Items = tvm.Rows;
         }
     }
 }

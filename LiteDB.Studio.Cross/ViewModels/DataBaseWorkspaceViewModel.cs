@@ -31,6 +31,10 @@ namespace LiteDB.Studio.Cross.ViewModels {
         [ObservableProperty] private string _query;
         [ObservableProperty] private DbTableViewModel _tableVm;
         [ObservableProperty] private string _json;
+
+        public QueryViewModel() {
+            TableVm = new();
+        }
     }
     /// <summary>
     /// ViewModel for a table presentation of request result
@@ -38,9 +42,18 @@ namespace LiteDB.Studio.Cross.ViewModels {
     public partial class DbTableViewModel : ViewModelBase {
         [ObservableProperty] private ObservableCollection<DbCollectionFieldViewModel> _fields;
         [ObservableProperty] private ObservableCollection<TableRowViewModel> _rows;
+
+        public DbTableViewModel() {
+            Fields = new ();
+            Rows = new();
+        }
     }
     public partial class TableRowViewModel : ViewModelBase {
         [ObservableProperty] private Dictionary<string, string> _items;
+
+        public TableRowViewModel() {
+            Items = new();
+        }
     }
 }
 
