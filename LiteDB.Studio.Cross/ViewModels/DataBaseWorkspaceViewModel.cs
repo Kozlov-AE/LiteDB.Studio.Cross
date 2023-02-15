@@ -89,8 +89,8 @@ namespace LiteDB.Studio.Cross.ViewModels {
             foreach (var item in dto.Items){
                 if (item == null) continue;
                 var row = new TableRowViewModel();
-                foreach (var cell in item.Cells){
-                    row.Items.Add(cell.Name, cell.Value.ToString());
+                foreach (var cell in item){
+                    row.Items.Add(cell.Key, cell.Value);
                 }
                 Rows.Add(row);
             }

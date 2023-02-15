@@ -46,7 +46,7 @@ namespace LiteDB.Studio.Cross.DbCommunicationV5 {
                 if (!reader.HasValues) return null;
                 result = new ();
                 while (reader.Read()) {
-                    QueryResulCollectionItem item = new ();
+                    Dictionary<string, dynamic> item = new ();
                     var bson = reader.Current;
                     var docs = bson.AsDocument;
                     foreach (var value in docs) {
@@ -62,7 +62,7 @@ namespace LiteDB.Studio.Cross.DbCommunicationV5 {
                         else if (val.IsInt64) dataVal = val.AsInt64;
                         else if (val.IsBinary) dataVal = val.AsBinary;
                         else dataVal = val.ToString();
-                        item.Cells.Add(new QueryResulCollectionItemCell(value.Key, dataVal));
+                        item.Add(value.Key, dataVal);
                     }
                     result.Items.Add(item);
                 }
