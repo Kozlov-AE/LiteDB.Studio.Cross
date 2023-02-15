@@ -9,7 +9,7 @@
              x:Class="LiteDB.Studio.Cross.Views.QueryResultView">
     <TabControl>
         <TabItem Header="Table">
-            <views:QueryResultTableView />
+            <views:QueryResultTableView DataContext="{Binding TableVm}" />
         </TabItem>
         <TabItem Header="Json">
             <avaloniaEdit:TextEditor

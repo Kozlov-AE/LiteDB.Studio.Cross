@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace LiteDB.Studio.Cross.Views {
     public partial class QueryResultTableView : UserControl {
         private DataGrid _table;
-        private QueryViewModel _vm;
+        private DbTableViewModel _vm;
 
         public QueryResultTableView() {
             InitializeComponent();
@@ -24,21 +24,8 @@ namespace LiteDB.Studio.Cross.Views {
 
 
         private void QueryResultTableView_DataContextChanged(object? sender, EventArgs e) {
-            if (this.DataContext is QueryViewModel qwm) _vm = qwm;
-            _vm.PropertyChanged += VmOnPropertyChanged;
-        }
-
-        private void VmOnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
-            switch (e.PropertyName) {
-                case "TableVm":
-                    LoadTable(_vm.TableVm);
-                    break;
-            }
-        }
-
-
-        private void ViewModel_QueryFinished(DbTableViewModel tvm) {
-            LoadTable(tvm);
+            if (this.DataContext is DbTableViewModel tvm) _vm = tvm;
+            _vm.TableUpdated += () => LoadTable(_vm);
         }
 
         private void LoadTable(DbTableViewModel tvm) {
@@ -48,12 +35,12 @@ namespace LiteDB.Studio.Cross.Views {
                     Header = prop.Name,
                     CanUserSort = true,
                     IsReadOnly = false,
-                    Binding = new Binding($"Values[{prop.Name}]")
+                    Binding = new Binding($"Items[{prop.Name}]")
                 };
                 _table.Columns.Add(col);
             }
 
             _table.Items = tvm.Rows;
-        }
+        } 
     }
 }

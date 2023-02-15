@@ -17,6 +17,7 @@ namespace LiteDB.Studio.Cross.Services {
         public IDataBaseWorkspaceViewModel GetWorkspaceVm(string id) {
             var vm = _services.GetRequiredService<DataBaseWorkspaceViewModel>();
             vm.SetConnectionId(id);
+            vm.AddQueryModel();
             return vm;
         }
 
@@ -33,6 +34,13 @@ namespace LiteDB.Studio.Cross.Services {
                 vm.SysCollections.Collections.Add(new CollectionViewModel{Name = name});
             }
             vm.Workspace = GetWorkspaceVm(dto.Id);
+            return vm;
+        }
+
+        public QueryViewModel GetQueryVm(string name, string connetionId) {
+            var vm = _services.GetRequiredService<QueryViewModel>();
+            vm.Name = name;
+            vm.SetConnectionId(connetionId);
             return vm;
         }
         
