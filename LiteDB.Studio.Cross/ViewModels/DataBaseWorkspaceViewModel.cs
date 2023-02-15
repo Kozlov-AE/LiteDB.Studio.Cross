@@ -82,6 +82,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
         }
 
         public void SetTable(QueryResultDto dto) {
+            
             foreach (var field in dto.Fields) {
                 DbCollectionFieldViewModel fVm = new DbCollectionFieldViewModel() { Name = field };
                 Fields.Add(fVm);
@@ -98,7 +99,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
         }
     }
     public partial class TableRowViewModel : ViewModelBase {
-        [ObservableProperty] private Dictionary<string, string> _items;
+        [ObservableProperty] private Dictionary<string, dynamic> _items;
 
         public TableRowViewModel() {
             Items = new();
