@@ -24,8 +24,11 @@ namespace LiteDB.Studio.Cross.Views {
 
 
         private void QueryResultTableView_DataContextChanged(object? sender, EventArgs e) {
-            if (this.DataContext is DbTableViewModel tvm) _vm = tvm;
-            _vm.TableUpdated += () => LoadTable(_vm);
+            if (this.DataContext is DbTableViewModel tvm) {
+                _vm = tvm;
+                _vm.TableUpdated += () => LoadTable(_vm);
+                if (_vm.Rows.Any()) LoadTable(_vm);
+            }
         }
 
         private void LoadTable(DbTableViewModel tvm) {
