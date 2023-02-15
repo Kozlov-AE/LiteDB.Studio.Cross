@@ -19,6 +19,8 @@ namespace LiteDB.Studio.Cross.Services {
                 try {
                     var comm = GetCommunicationService(version);
                     var db = comm.Connect(parameters);
+                    if (db == null) continue;
+                    _ = db.GetCollectionNames();
                     return db;
                 }
                 catch (Exception e) {
@@ -30,15 +32,20 @@ namespace LiteDB.Studio.Cross.Services {
         }
 
         private IDbCommunicationService? GetCommunicationService(string dbVersion) {
-            var services = _services.GetServices<IDbCommunicationService>();
-            switch (dbVersion) {
-                case "5":
-                    return services.FirstOrDefault(s => s is DbCommunicationServiceV5);
-                case "4":
-                    return services.FirstOrDefault(s => s is DbCommunicationServiceV4);
-            }
+            try {
+                var services = _services.GetServices<IDbCommunicationService>();
+                switch (dbVersion) {
+                    case "5":
+                        return services.FirstOrDefault(s => s is DbCommunicationServiceV5);
+                    case "4":
+                        return services.FirstOrDefault(s => s is DbCommunicationServiceV4);
+                }
 
-            return services.FirstOrDefault(s => s is DbCommunicationServiceV5);
+                return services.FirstOrDefault(s => s is DbCommunicationServiceV5);
+            }
+            catch (Exception ex) {
+                throw;
+            }
         }
     }
 }

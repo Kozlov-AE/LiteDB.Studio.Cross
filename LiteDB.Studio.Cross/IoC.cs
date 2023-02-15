@@ -18,7 +18,9 @@ namespace LiteDB.Studio.Cross {
             try {
                 services.AddSingleton<ConnectionsManager>();
                 services.AddSingleton<IDbCommunicationService, DbCommunicationServiceV5>();
-                services.AddSingleton<IConnection, DbConnectionV5>();
+                services.AddSingleton<IDbCommunicationService, DbCommunicationServiceV4>();
+                // services.AddSingleton<IConnection, DbConnectionV5>();
+                // services.AddSingleton<IConnection, DbConnectionV4>();
                 services.AddTransient<DbConnectionsFabric>();
                 services.AddSingleton<ViewModelsFactory>();
                 services.AddSingleton<IOpenDbHistoryService, OpenDbHistoryService>();

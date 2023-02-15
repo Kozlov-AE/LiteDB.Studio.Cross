@@ -7,6 +7,7 @@ using LiteDB.Studio.Cross.Models;
 using LiteDB.Studio.Cross.ViewModels;
 using System;
 using System.ComponentModel;
+using System.Linq;
 
 namespace LiteDB.Studio.Cross.Views {
     public partial class QueryResultTableView : UserControl {
