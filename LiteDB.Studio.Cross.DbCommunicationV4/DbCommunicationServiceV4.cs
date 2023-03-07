@@ -7,7 +7,8 @@ namespace LiteDB.Studio.Cross.DbCommunicationV4;
 public class DbCommunicationServiceV4 : IDbCommunicationService {
     public IConnection Connect(ConnectionParametersDto parameters) {
         try {
-            var db = new LiteDatabase(ConfigureConnectionString(parameters));
+            var cs = ConfigureConnectionString(parameters);
+            var db = new LiteDatabase(cs);
             return new DbConnectionV4(db);
         }
         catch (Exception ex) {

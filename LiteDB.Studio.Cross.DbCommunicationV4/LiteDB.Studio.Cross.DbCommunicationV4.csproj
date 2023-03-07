@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -13,6 +13,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\LiteDB.Studio.Cross.Contracts\LiteDB.Studio.Cross.Contracts.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="LiteDB.4.1.4.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

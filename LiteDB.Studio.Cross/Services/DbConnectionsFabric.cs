@@ -25,6 +25,7 @@ namespace LiteDB.Studio.Cross.Services {
                 }
                 catch (Exception e) {
                     Console.WriteLine(e);
+                    continue;
                 }
             }
 
@@ -38,10 +39,11 @@ namespace LiteDB.Studio.Cross.Services {
                     case "5":
                         return services.FirstOrDefault(s => s is DbCommunicationServiceV5);
                     case "4":
-                        return services.FirstOrDefault(s => s is DbCommunicationServiceV4);
+                        //return services.FirstOrDefault(s => s is DbCommunicationServiceV4);
+                        return new DbCommunicationServiceV4();
                 }
-
-                return services.FirstOrDefault(s => s is DbCommunicationServiceV5);
+                return new DbCommunicationServiceV4();
+                //return services.FirstOrDefault(s => s is DbCommunicationServiceV5);
             }
             catch (Exception ex) {
                 throw;
