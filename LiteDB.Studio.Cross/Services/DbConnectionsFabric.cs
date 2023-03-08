@@ -18,7 +18,7 @@ namespace LiteDB.Studio.Cross.Services {
             foreach (var version in _versions) {
                 try {
                     var comm = GetCommunicationService(version);
-                    var db = comm.Connect(parameters);
+                    var db = comm?.Connect(parameters);
                     if (db == null) continue;
                     _ = db.GetCollectionNames();
                     return db;

@@ -1,11 +1,14 @@
+extern alias LiteDBv4;
 using LiteDB.Studio.Cross.Contracts.DTO;
 using LiteDB.Studio.Cross.Contracts.Interfaces;
+using LdbV4 = LiteDBv4::LiteDB;
 
 namespace LiteDB.Studio.Cross.DbCommunicationV4
 {
+    //
     public class DbConnectionV4 : IConnection {
-        private readonly LiteDatabase _db;
-        public DbConnectionV4(LiteDatabase db) {
+        private readonly LdbV4.LiteDatabase _db;
+        public DbConnectionV4(LdbV4.LiteDatabase db) {
             _db = db;
         }
         public void Disconnect() {
