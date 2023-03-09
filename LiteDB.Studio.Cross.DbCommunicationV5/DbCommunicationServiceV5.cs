@@ -1,13 +1,15 @@
-﻿using LiteDB.Studio.Cross.Contracts;
+﻿extern alias LiteDBv5;
+using LiteDB.Studio.Cross.Contracts;
 using LiteDB.Studio.Cross.Contracts.DTO;
 using LiteDB.Studio.Cross.Contracts.Interfaces;
+using LdbV5 = LiteDBv5::LiteDB;
 
 namespace LiteDB.Studio.Cross.DbCommunicationV5;
 
 public class DbCommunicationServiceV5 : IDbCommunicationService {
     public IConnection? Connect(ConnectionParametersDto parameters) {
         try {
-            var db = new LiteDatabase(ConfigureConnectionString(parameters));
+            var db = new LdbV5.LiteDatabase(ConfigureConnectionString(parameters));
             return new DbConnectionV5(db);
         }
         catch (Exception ex) {
@@ -15,9 +17,9 @@ public class DbCommunicationServiceV5 : IDbCommunicationService {
         }
     }
     
-    private ConnectionString ConfigureConnectionString(ConnectionParametersDto parameters) {
-        var cs = new ConnectionString();
-        cs.Connection = parameters.IsShared ? ConnectionType.Shared : ConnectionType.Direct;
+    private LdbV5.ConnectionString ConfigureConnectionString(ConnectionParametersDto parameters) {
+        var cs = new LdbV5.ConnectionString();
+        cs.Connection = parameters.IsShared ? LdbV5.ConnectionType.Shared : LdbV5.ConnectionType.Direct;
         cs.Filename = parameters.DbPath;
         cs.ReadOnly = parameters.IsReadOnly;
         cs.Upgrade = parameters.IsUpgrade;
@@ -32,7 +34,7 @@ public class DbCommunicationServiceV5 : IDbCommunicationService {
                 collation += "/" + parameters.Sort;
             }
 
-            cs.Collation = new Collation(collation);
+            cs.Collation = new LdbV5.Collation(collation);
         }
 
         return cs;

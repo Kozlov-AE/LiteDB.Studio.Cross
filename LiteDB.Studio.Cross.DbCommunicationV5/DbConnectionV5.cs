@@ -1,12 +1,13 @@
-using LiteDB.Engine;
+extern alias LiteDBv5;
+using LdbV5 = LiteDBv5::LiteDB;
 using LiteDB.Studio.Cross.Contracts.DTO;
 using LiteDB.Studio.Cross.Contracts.Interfaces;
 
 namespace LiteDB.Studio.Cross.DbCommunicationV5 {
     public class DbConnectionV5 : IConnection {
-        private readonly ILiteDatabase _db;
+        private readonly LdbV5.ILiteDatabase _db;
 
-        public DbConnectionV5(ILiteDatabase db) {
+        public DbConnectionV5(LdbV5.ILiteDatabase db) {
             _db = db;
         }
         public void Disconnect() {
@@ -30,9 +31,9 @@ namespace LiteDB.Studio.Cross.DbCommunicationV5 {
         }
         public QueryResultDto SendQuery(string text) {
             var query = text.Replace(Environment.NewLine, " ");
-            var doc = new BsonDocument();
+            var doc = new LdbV5.BsonDocument();
             var sql = new StringReader(query);
-            IBsonDataReader reader;
+            LdbV5.IBsonDataReader reader;
             try {
                 reader = _db.Execute(sql, doc);
             }
