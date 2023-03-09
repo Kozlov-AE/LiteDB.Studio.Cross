@@ -8,9 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <!--<PackageReference Include="LiteDB" Version="5.0.15" />-->
 		<Reference Include="LiteDb" Version="5.0.15.0" Culture="neutral" PublicKeyToken="4ee40123013c9f27">
-			<HintPath>LiteDB.5.0.15.dll</HintPath>
+			<HintPath>DBv5\LiteDB.dll</HintPath>
 			<Aliases>LiteDBv5</Aliases>
 		</Reference>
     </ItemGroup>
@@ -20,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="LiteDB.5.0.15.dll">
+      <None Update="DBv5\LiteDB.dll">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

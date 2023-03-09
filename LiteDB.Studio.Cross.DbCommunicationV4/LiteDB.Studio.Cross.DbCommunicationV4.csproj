@@ -21,9 +21,10 @@
 	</Target>-->
 
     <ItemGroup>
-		<Reference Include="LiteDB" Version="4.1.4">
-			<HintPath>LiteDB.4.1.4.dll</HintPath>
+		<Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27">
+			<HintPath>DBv4\LiteDB.dll</HintPath>
 			<Aliases>LiteDBv4</Aliases>
+            <SpecificVersion>true</SpecificVersion>
 		</Reference>
     </ItemGroup>
 
@@ -32,7 +33,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="LiteDB.4.1.4.dll">
+      <None Update="DBv4\LiteDB.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>

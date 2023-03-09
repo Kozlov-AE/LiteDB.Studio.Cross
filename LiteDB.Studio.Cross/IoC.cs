@@ -6,10 +6,6 @@ using LiteDB.Studio.Cross.Services;
 using LiteDB.Studio.Cross.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LiteDB.Studio.Cross {
     public static class IoC {
@@ -19,8 +15,6 @@ namespace LiteDB.Studio.Cross {
                 services.AddSingleton<ConnectionsManager>();
                 services.AddSingleton<IDbCommunicationService, DbCommunicationServiceV5>();
                 services.AddSingleton<IDbCommunicationService, DbCommunicationServiceV4>();
-                // services.AddSingleton<IConnection, DbConnectionV5>();
-                // services.AddSingleton<IConnection, DbConnectionV4>();
                 services.AddTransient<DbConnectionsFabric>();
                 services.AddSingleton<ViewModelsFactory>();
                 services.AddSingleton<IOpenDbHistoryService, OpenDbHistoryService>();
