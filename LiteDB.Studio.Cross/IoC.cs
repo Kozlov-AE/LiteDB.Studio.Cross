@@ -1,5 +1,4 @@
 ﻿using LiteDB.Studio.Cross.Contracts.Interfaces;
-using LiteDB.Studio.Cross.DbCommunicationV4;
 using LiteDB.Studio.Cross.DbCommunicationV5;
 using LiteDB.Studio.Cross.Interfaces;
 using LiteDB.Studio.Cross.Services;
@@ -14,7 +13,6 @@ namespace LiteDB.Studio.Cross {
             try {
                 services.AddSingleton<ConnectionsManager>();
                 services.AddSingleton<IDbCommunicationService, DbCommunicationServiceV5>();
-                services.AddSingleton<IDbCommunicationService, DbCommunicationServiceV4>();
                 services.AddTransient<DbConnectionsFabric>();
                 services.AddSingleton<ViewModelsFactory>();
                 services.AddSingleton<IOpenDbHistoryService, OpenDbHistoryService>();

@@ -5,13 +5,29 @@
         <Nullable>enable</Nullable>
         <TargetFrameworks>net6.0</TargetFrameworks>
         <RootNamespace>LiteDB.Studio.Cross.DbCommunicationV5</RootNamespace>
-    </PropertyGroup>
+
+		<Configuration>
+			<runtime>
+				<assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+					<dependentAssembly>
+						<assemblyIdentity	name="LiteDB"
+											Culture="neutral"
+											PublicKeyToken="4ee40123013c9f27"/>
+						<codeBase version="5.0.15" href="DBv5\LiteDB.dll"/>
+						<codeBase version="4.1.4" href="DBv4\LiteDB.dll"/>
+					</dependentAssembly>
+				</assemblyBinding>
+			</runtime>
+		</Configuration>
+
+	</PropertyGroup>
 
     <ItemGroup>
-		<Reference Include="LiteDb" Version="5.0.15.0" Culture="neutral" PublicKeyToken="4ee40123013c9f27">
+		<!--<Reference Include="LiteDb" Version="5.0.15.0" Culture="neutral" PublicKeyToken="4ee40123013c9f27">
 			<HintPath>DBv5\LiteDB.dll</HintPath>
 			<Aliases>LiteDBv5</Aliases>
-		</Reference>
+		</Reference>-->
+		<PackageReference Include="LiteDb" Version="5.0.15" />
     </ItemGroup>
 
 	<ItemGroup>

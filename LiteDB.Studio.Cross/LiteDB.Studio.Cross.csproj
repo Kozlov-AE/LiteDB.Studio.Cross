@@ -49,7 +49,6 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\LiteDB.Studio.Cross.Contracts\LiteDB.Studio.Cross.Contracts.csproj" />
-      <ProjectReference Include="..\LiteDB.Studio.Cross.DbCommunicationV4\LiteDB.Studio.Cross.DbCommunicationV4.csproj" />
       <ProjectReference Include="..\LiteDB.Studio.Cross.DbCommunicationV5\LiteDB.Studio.Cross.DbCommunicationV5.csproj" />
     </ItemGroup>
     <ItemGroup>
