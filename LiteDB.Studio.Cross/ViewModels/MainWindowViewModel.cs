@@ -34,11 +34,10 @@ namespace LiteDB.Studio.Cross.ViewModels {
             _connectionsManager = connectionsManager;
             _vmFactory = vmFactory;
             _historyService = historyService;
-            
+
+            ConnectionOpts = _vmFactory.GetConnectionParametersViewModel();
             var dbE = _vmFactory.GetViewModel(typeof(DataBaseExplorerViewModel));
             if (dbE is DataBaseExplorerViewModel dbe) DbExplorerVm = dbe;
-            var cP = _vmFactory.GetViewModel(typeof(ConnectionParametersViewModel));
-            if (cP is ConnectionParametersViewModel cp) ConnectionOpts = cp;
 
         }
         
@@ -50,11 +49,13 @@ namespace LiteDB.Studio.Cross.ViewModels {
                 DbExplorerVm.Databases.Add(dbVm);
                 IsLoadDatabaseNeeded = false;
                 _historyService.AddToStory(vm.DbPath!);
+                ConnectionOpts = null;
             }
         }
         
         [RelayCommand]
         private void AskConnection() {
+            if (ConnectionOpts == null) ConnectionOpts = _vmFactory.GetConnectionParametersViewModel();
             IsLoadDatabaseNeeded = true;
         }
     }

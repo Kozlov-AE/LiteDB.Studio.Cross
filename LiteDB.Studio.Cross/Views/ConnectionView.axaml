@@ -36,11 +36,11 @@
 					HorizontalScrollBarVisibility="Auto"
 					VerticalScrollBarVisibility="Auto">
 					<ListBox
-						Items="{Binding OpenDbHistory}"
+						Items="{Binding ConnectionOpts.OpenDbHistory}"
 						Margin="0 5"
 						Height="50"
 						SelectionMode="Single" 
-						SelectedItem="{Binding SelectedHistoryItem}">
+						SelectedItem="{Binding ConnectionOpts.SelectedHistoryItem}">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding}" />

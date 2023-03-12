@@ -43,6 +43,10 @@ namespace LiteDB.Studio.Cross.Services {
             vm.SetConnectionId(connetionId);
             return vm;
         }
+
+        public ConnectionParametersViewModel GetConnectionParametersViewModel(){
+            return _services.GetRequiredService<ConnectionParametersViewModel>();
+        }
         
         public ViewModelBase? GetViewModel(Type type) {
             var vm = _services.GetService(type);

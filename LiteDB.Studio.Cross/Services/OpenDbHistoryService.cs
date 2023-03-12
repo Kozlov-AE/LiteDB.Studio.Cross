@@ -19,23 +19,21 @@ namespace LiteDB.Studio.Cross.Services {
         public event EventHandler<OpenDbHistoryEventArgs>? OpenDbHistoryChanged;
 
         public void AddToStory(string path) {
-            if (!_story.Contains(path)) {
-                var str = _story.FirstOrDefault(s => s == path);
-                if (!string.IsNullOrWhiteSpace(str)) {
-                    _story.Remove(str);
-                    OpenDbHistoryChanged?.Invoke(this, new OpenDbHistoryEventArgs(OpenDbHistoryEventTypes.PathRemoved, str));
-                }
-                
-                if (_story.Count > 9) {
-                    var p = _story.Last();
-                    _story.RemoveLast();
-                    OpenDbHistoryChanged?.Invoke(this, new OpenDbHistoryEventArgs(OpenDbHistoryEventTypes.PathRemoved, p));
-                }
-
-                _story.AddFirst(path);
-                OpenDbHistoryChanged?.Invoke(this, new OpenDbHistoryEventArgs(OpenDbHistoryEventTypes.PathAdded, path));
-                Save();
+            var str = _story.FirstOrDefault(s => s == path);
+            if (!string.IsNullOrWhiteSpace(str)) {
+                _story.Remove(str);
+                OpenDbHistoryChanged?.Invoke(this, new OpenDbHistoryEventArgs(OpenDbHistoryEventTypes.PathRemoved, str));
             }
+                
+            if (_story.Count > 9) {
+                var p = _story.Last();
+                _story.RemoveLast();
+                OpenDbHistoryChanged?.Invoke(this, new OpenDbHistoryEventArgs(OpenDbHistoryEventTypes.PathRemoved, p));
+            }
+
+            _story.AddFirst(path);
+            OpenDbHistoryChanged?.Invoke(this, new OpenDbHistoryEventArgs(OpenDbHistoryEventTypes.PathAdded, path));
+            Save();
         }
         private void Save() {
             var json = System.Text.Json.JsonSerializer.Serialize(_story, new JsonSerializerOptions() { WriteIndented = true });

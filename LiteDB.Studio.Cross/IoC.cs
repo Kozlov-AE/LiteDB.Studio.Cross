@@ -19,7 +19,7 @@ namespace LiteDB.Studio.Cross {
                 
                 services.AddTransient<DataBaseWorkspaceViewModel>();
                 services.AddTransient<DatabaseViewModel>();
-                services.AddSingleton<ConnectionParametersViewModel>();
+                services.AddTransient<ConnectionParametersViewModel>();
                 services.AddTransient<QueryViewModel>();
                 services.AddSingleton<DataBaseExplorerViewModel>();
                 services.AddSingleton<MainWindowViewModel>();
