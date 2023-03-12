@@ -15,7 +15,7 @@ using System.Text.Json;
 
 namespace LiteDB.Studio.Cross.ViewModels {
     public partial class MainWindowViewModel : ViewModelBase {
-        private readonly IOpenDbHistoryService _historyService;
+        private readonly OpenDbHistoryService _historyService;
         private readonly ConnectionsManager _connectionsManager;
         private readonly ViewModelsFactory _vmFactory;
 
@@ -28,7 +28,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
         public event Action<DbQuerryResultModel> QueryFinished;
 
         public MainWindowViewModel(
-                    IOpenDbHistoryService historyService, 
+                    OpenDbHistoryService historyService, 
                     ConnectionsManager connectionsManager,
                     ViewModelsFactory vmFactory) {
             _connectionsManager = connectionsManager;
@@ -49,6 +49,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
                 var dbVm = _vmFactory.GetDatabaseViewModel(connection);
                 DbExplorerVm.Databases.Add(dbVm);
                 IsLoadDatabaseNeeded = false;
+                _historyService.AddToStory(vm.DbPath!);
             }
         }
         

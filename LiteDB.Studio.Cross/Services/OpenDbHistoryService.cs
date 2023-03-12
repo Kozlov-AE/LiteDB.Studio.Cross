@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text.Json;
 
 namespace LiteDB.Studio.Cross.Services {
-    public class OpenDbHistoryService : IOpenDbHistoryService {
+    public class OpenDbHistoryService {
         private string _savePath = "OpennedHistory.json";
         private LinkedList<string> _story = new();
 

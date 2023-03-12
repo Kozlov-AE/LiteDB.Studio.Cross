@@ -2,6 +2,7 @@ using AvaloniaEdit.Utils;
 using CommunityToolkit.Mvvm.ComponentModel;
 using LiteDB.Studio.Cross.Interfaces;
 using LiteDB.Studio.Cross.Models.EventArgs;
+using LiteDB.Studio.Cross.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ using System.Linq;
 
 namespace LiteDB.Studio.Cross.ViewModels {
     public partial class ConnectionParametersViewModel : ViewModelBase {
-        private readonly IOpenDbHistoryService _historyService;
+        private readonly OpenDbHistoryService _historyService;
         
         [ObservableProperty] private ObservableCollection<string> _openDbHistory;
         [ObservableProperty] private string _selectedHistoryItem;
@@ -24,7 +25,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
         [ObservableProperty] private bool _isReadOnly;
         [ObservableProperty] private bool _isUpgrade;
 
-        public ConnectionParametersViewModel(IOpenDbHistoryService historyService) {
+        public ConnectionParametersViewModel(OpenDbHistoryService historyService) {
             _historyService = historyService;
             _historyService.OpenDbHistoryChanged += HistoryServiceOnOpenDbHistoryChanged;
             OpenDbHistory = new ObservableCollection<string>();
