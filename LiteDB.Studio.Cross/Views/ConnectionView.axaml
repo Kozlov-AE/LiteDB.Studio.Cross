@@ -90,7 +90,8 @@
 						Spacing="20" Height="30" HorizontalAlignment="Right">
 				<Button Name="ConnectBtn" Width="100" Content="Connect" 
 				        Command="{Binding ConnectCommand}" 
-				        CommandParameter="{Binding ConnectionOpts}"/>
+				        CommandParameter="{Binding ConnectionOpts}"
+				        IsEnabled="{Binding ConnectionOpts.DbPath, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
 				<Button Name="CancelBtn" Width="100" Content="Cancel" />
 			</StackPanel>
 		</StackPanel>

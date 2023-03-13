@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using LiteDB.Studio.Cross.Interfaces;
 using LiteDB.Studio.Cross.Models.EventArgs;
 using LiteDB.Studio.Cross.Services;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -27,9 +28,10 @@ namespace LiteDB.Studio.Cross.ViewModels {
 
         public ConnectionParametersViewModel(OpenDbHistoryService historyService) {
             _historyService = historyService;
-            _historyService.OpenDbHistoryChanged += HistoryServiceOnOpenDbHistoryChanged;
+            //_historyService.OpenDbHistoryChanged += HistoryServiceOnOpenDbHistoryChanged;
             OpenDbHistory = new ObservableCollection<string>();
             OpenDbHistory.AddRange(historyService.GetHistory());
+            SelectedHistoryItem = String.Empty;
             PropertyChanged += OnPropertyChanged;
             IsShared = true;
         }

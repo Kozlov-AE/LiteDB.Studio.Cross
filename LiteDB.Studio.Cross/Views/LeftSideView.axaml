@@ -64,8 +64,7 @@
                     </Expander>
                     <Button i:Attached.Icon="fa-thin fa-circle-xmark"
                             VerticalAlignment="Top"
-                            Command="{Binding $parent[UserControl].DataContext.DisconnectCommand}"
-                            CommandParameter="{Binding .}"/>
+                            Command="{Binding DisconnectCommand} "/>
                 </StackPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>

@@ -38,7 +38,6 @@ namespace LiteDB.Studio.Cross.ViewModels {
             ConnectionOpts = _vmFactory.GetConnectionParametersViewModel();
             var dbE = _vmFactory.GetViewModel(typeof(DataBaseExplorerViewModel));
             if (dbE is DataBaseExplorerViewModel dbe) DbExplorerVm = dbe;
-
         }
         
         [RelayCommand] private void Connect(ConnectionParametersViewModel vm) {

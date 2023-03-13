@@ -10,6 +10,8 @@ namespace LiteDB.Studio.Cross.Services {
         private readonly Dictionary<string, IConnection> _connections = new();
         private readonly DbConnectionsFabric _connectionsFabric;
 
+        public event Action<string> DatabaseDisconnected;
+
         public ConnectionsManager(DbConnectionsFabric connectionsFabric) {
             _connectionsFabric = connectionsFabric;
         }
@@ -32,6 +34,15 @@ namespace LiteDB.Studio.Cross.Services {
                 return null;
             }
         }
+
+        public bool Disconnect(string id) {
+            if (_connections.Remove(id, out var db)) {
+                db.Disconnect();
+                OnDatabaseDisconnected(id);
+                return true;
+            }
+            return false;
+        }
         public List<DbCollectionModel>? GetCollections(string fileName) {
             if (_connections.TryGetValue(fileName, out var conn)) {
                 var collects = conn.GetCollectionNames();
@@ -47,6 +58,9 @@ namespace LiteDB.Studio.Cross.Services {
             }
             return null;
         }
-        
+
+        protected virtual void OnDatabaseDisconnected(string id) {
+            DatabaseDisconnected?.Invoke(id);
+        }
     }
 }
