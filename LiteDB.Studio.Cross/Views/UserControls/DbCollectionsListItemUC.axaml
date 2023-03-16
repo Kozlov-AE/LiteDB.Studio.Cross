@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:LiteDB.Studio.Cross.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="LiteDB.Studio.Cross.Views.UserControls.DbCollectionsListItemUC">
+    <Design.DataContext>
+        <viewModels:CollectionViewModel />
+    </Design.DataContext>
+    <Expander ExpandDirection="Down" Header="{Binding Name}">
+        <ListBox Items="{Binding Fields}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Run>{Binding Name}</Run>
+                        <Run>: </Run>
+                        <Run>{Binding FType}</Run>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Expander.ContextMenu>
+            <MenuItem Header="Load">
+                <MenuItem Header="10 items" Command="{Binding . }" />
+                <MenuItem Header="100 items" />
+                <MenuItem Header="1000 items" />
+            </MenuItem>                            
+        </Expander.ContextMenu>
+    </Expander>
+</UserControl>
