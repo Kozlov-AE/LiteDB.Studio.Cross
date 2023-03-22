@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using AvaloniaEdit;
 
 namespace LiteDB.Studio.Cross.Views {
     public partial class QueryResultView : UserControl {

@@ -6,7 +6,7 @@
              xmlns:views="clr-namespace:LiteDB.Studio.Cross.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LiteDB.Studio.Cross.Views.DataBaseWorkspaseView">
-    <TabControl Items="{Binding Queries}">
+    <TabControl Items="{Binding Queries}" SelectedItem="{Binding SelectedQuery}">
         <TabControl.ContentTemplate>
             <DataTemplate x:DataType="viewModels:QueryViewModel">
                 <views:QueryResultView />

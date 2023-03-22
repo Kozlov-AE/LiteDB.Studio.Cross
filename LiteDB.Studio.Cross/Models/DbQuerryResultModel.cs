@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace LiteDB.Studio.Cross.Models {

@@ -1,12 +1,10 @@
 using AvaloniaEdit.Utils;
 using CommunityToolkit.Mvvm.ComponentModel;
-using LiteDB.Studio.Cross.Interfaces;
 using LiteDB.Studio.Cross.Models.EventArgs;
 using LiteDB.Studio.Cross.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace LiteDB.Studio.Cross.ViewModels {

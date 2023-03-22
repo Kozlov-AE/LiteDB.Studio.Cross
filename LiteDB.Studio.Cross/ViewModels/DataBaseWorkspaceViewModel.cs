@@ -1,70 +1,81 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiteDB.Studio.Cross.Contracts.DTO;
-using LiteDB.Studio.Cross.Interfaces;
+using LiteDB.Studio.Cross.Models.EventArgs;
 using LiteDB.Studio.Cross.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace LiteDB.Studio.Cross.ViewModels {
     /// <summary>
     /// ViewModel for the workspace
     /// </summary>
-    public partial class DataBaseWorkspaceViewModel : ViewModelBase, IDataBaseWorkspaceViewModel {
+    public partial class DataBaseWorkspaceViewModel : ViewModelBase {
         private readonly ConnectionsManager _connectionsManager;
         private readonly ViewModelsFactory _vmFactory;
         private string _connectionId;
         [ObservableProperty] private ObservableCollection<QueryViewModel> _queries;
+        [ObservableProperty] private QueryViewModel _selectedQueryVm;
 
-        public DataBaseWorkspaceViewModel(ConnectionsManager connectionsManager, ViewModelsFactory vmFactory) {
-            _connectionsManager = connectionsManager;
-            _vmFactory = vmFactory;
+        public event EventHandler<DataBaseWorkspaceQueryEventArgs> SendQueryEvent; 
+
+        public DataBaseWorkspaceViewModel() {
             Queries = new ObservableCollection<QueryViewModel>();
+            AddQueryModel();
         }
-        public void SetConnectionId(string id) {
-            _connectionId = id;
-        }
-
         public void AddQueryModel() {
-            var newName = (Queries.Count + 1).ToString();
-            var vm = _vmFactory.GetQueryVm(newName, _connectionId);
+            var vm = new QueryViewModel();
+            vm.Name = (Queries.Count + 1).ToString();
+            vm.SendQueryEvent += SendQueryEventHandler;
             Queries.Add(vm);
+            SelectedQueryVm = vm;
+        }
+        
+        public void SetQueryResult(QueryResultDto dto, string queryViewName) {
+            var qv = Queries.FirstOrDefault(q => q.Name == queryViewName);
+            if (qv == null) return;
+            qv.SetQueryResult(dto);
         }
 
+        private void SendQueryEventHandler(object? sender, string text) {
+            OnSendQueryEvent(new DataBaseWorkspaceQueryEventArgs(((QueryViewModel)sender!).Name, text));
+        }
+
+        protected virtual void OnSendQueryEvent(DataBaseWorkspaceQueryEventArgs e) {
+            SendQueryEvent?.Invoke(this, e);
+        }
     }
     /// <summary>
     /// ViewModel for a query
     /// </summary>
     public partial class QueryViewModel : ViewModelBase {
-        private string _connectionId;
-        
         [ObservableProperty] private string _name;
         [ObservableProperty] private string _query;
         [ObservableProperty] private DbTableViewModel _tableVm;
         [ObservableProperty] private string _json;
-        
-        private readonly ConnectionsManager _connectionsManager;
 
-        public QueryViewModel(ConnectionsManager connectionsManager) {
-            _connectionsManager = connectionsManager;
+        public event EventHandler<string> SendQueryEvent;
+
+        public QueryViewModel() {
             TableVm = new();
         }
         [RelayCommand]
         private async Task SendQuery(string text) {
-            var res = await Task.Run(() => _connectionsManager.SendQuery(_connectionId, text));
-            if (res != null){
-                TableVm.SetTable(res);
-                var sOpts = new JsonSerializerOptions { WriteIndented = true };
-                var json = System.Text.Json.JsonSerializer.Serialize(res.Items, sOpts);
-                Json = json;
-            }
+            OnSendQueryEvent(text);
         }
-        public void SetConnectionId(string id) {
-            _connectionId = id;
+
+        public void SetQueryResult(QueryResultDto dto) {
+            TableVm.SetTable(dto);
+            var sOpts = new JsonSerializerOptions { WriteIndented = true };
+            var json = System.Text.Json.JsonSerializer.Serialize(dto.Items, sOpts);
+            Json = json;
+        }
+        protected virtual void OnSendQueryEvent(string e) {
+            SendQueryEvent?.Invoke(this, e);
         }
     }
     /// <summary>
@@ -82,7 +93,8 @@ namespace LiteDB.Studio.Cross.ViewModels {
         }
 
         public void SetTable(QueryResultDto dto) {
-            
+            Fields.Clear();
+            Rows.Clear();
             foreach (var field in dto.Fields) {
                 DbCollectionFieldViewModel fVm = new DbCollectionFieldViewModel() { Name = field };
                 Fields.Add(fVm);

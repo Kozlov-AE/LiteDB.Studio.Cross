@@ -5,7 +5,6 @@ using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Remote.Protocol.Designer;
 using LiteDB.Studio.Cross.ViewModels;
 
 namespace LiteDB.Studio.Cross.Views {

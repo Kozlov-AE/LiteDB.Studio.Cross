@@ -1,12 +1,8 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
-using LiteDB.Studio.Cross.Models;
 using LiteDB.Studio.Cross.ViewModels;
 using System;
-using System.ComponentModel;
 using System.Linq;
 
 namespace LiteDB.Studio.Cross.Views {

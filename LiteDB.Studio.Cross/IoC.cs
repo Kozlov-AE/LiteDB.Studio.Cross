@@ -1,6 +1,5 @@
 ﻿using LiteDB.Studio.Cross.Contracts.Interfaces;
 using LiteDB.Studio.Cross.DbCommunicationV5;
-using LiteDB.Studio.Cross.Interfaces;
 using LiteDB.Studio.Cross.Services;
 using LiteDB.Studio.Cross.ViewModels;
 using Microsoft.Extensions.DependencyInjection;

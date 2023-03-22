@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:LiteDB.Studio.Cross.ViewModels"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LiteDB.Studio.Cross.Views.UserControls.DbCollectionsListItemUC">
     <Design.DataContext>
@@ -21,11 +22,25 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Expander.ContextMenu>
-            <MenuItem Header="Load">
-                <MenuItem Header="10 items" Command="{Binding . }" />
-                <MenuItem Header="100 items" />
-                <MenuItem Header="1000 items" />
-            </MenuItem>                            
+            <ContextMenu>
+                <MenuItem Header="Load">
+                    <MenuItem Header="10 items" Command="{Binding LoadItemsCommand}">
+                        <MenuItem.CommandParameter>
+                            <system:Int32>10</system:Int32>
+                        </MenuItem.CommandParameter>
+                    </MenuItem>
+                    <MenuItem Header="100 items" Command="{Binding LoadItemsCommand}">
+                        <MenuItem.CommandParameter>
+                            <system:Int32>100</system:Int32>
+                        </MenuItem.CommandParameter>
+                    </MenuItem>
+                    <MenuItem Header="1000 items" Command="{Binding LoadItemsCommand}">
+                        <MenuItem.CommandParameter>
+                            <system:Int32>1000</system:Int32>
+                        </MenuItem.CommandParameter>
+                    </MenuItem>
+                </MenuItem>                            
+            </ContextMenu>
         </Expander.ContextMenu>
     </Expander>
 </UserControl>

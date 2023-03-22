@@ -62,5 +62,20 @@ namespace LiteDB.Studio.Cross.Services {
         protected virtual void OnDatabaseDisconnected(string id) {
             DatabaseDisconnected?.Invoke(id);
         }
+        /// <summary>
+        /// Send query to database and get a few items for collection
+        /// </summary>
+        /// <param name="name">Collection name</param>
+        /// <param name="count">Count of items</param>
+        /// <param name="id">ConnectionId</param>
+        /// <returns><see cref="QueryResultDto"/> if successful or <see langword="null"/></returns>
+        public QueryResultDto? GetItems(string? name, int count, string id) {
+            if (_connections.TryGetValue(id, out var connection)) {
+                var query = $@"SELECT $ FROM {name} LIMIT {count}";
+                return connection.SendQuery(query);
+            }
+
+            return null;
+        }
     }
 }

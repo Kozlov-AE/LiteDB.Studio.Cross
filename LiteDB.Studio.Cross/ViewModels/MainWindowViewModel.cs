@@ -1,17 +1,9 @@
-﻿using AvaloniaEdit.Utils;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LiteDB.Studio.Cross.Contracts.DTO;
-using LiteDB.Studio.Cross.Interfaces;
 using LiteDB.Studio.Cross.Models;
-using LiteDB.Studio.Cross.Models.EventArgs;
 using LiteDB.Studio.Cross.Services;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text.Json;
 
 namespace LiteDB.Studio.Cross.ViewModels {
     public partial class MainWindowViewModel : ViewModelBase {
@@ -25,8 +17,6 @@ namespace LiteDB.Studio.Cross.ViewModels {
         [ObservableProperty] private DataBaseWorkspaceViewModel _dbWorkspaceVm;
         [ObservableProperty] private ConnectionParametersViewModel _connectionOpts;
         
-        public event Action<DbQuerryResultModel> QueryFinished;
-
         public MainWindowViewModel(
                     OpenDbHistoryService historyService, 
                     ConnectionsManager connectionsManager,
@@ -44,7 +34,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
             if (DbExplorerVm.Databases.Any(d => d.Id == vm.DbPath)) return;
             var connection = _connectionsManager.Connect(vm.Map());
             if (connection != null) {
-                var dbVm = _vmFactory.GetDatabaseViewModel(connection);
+                var dbVm = new DatabaseViewModel(_connectionsManager, connection);
                 DbExplorerVm.Databases.Add(dbVm);
                 IsLoadDatabaseNeeded = false;
                 _historyService.AddToStory(vm.DbPath!);

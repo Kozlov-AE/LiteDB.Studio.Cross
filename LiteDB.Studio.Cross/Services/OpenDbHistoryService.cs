@@ -1,5 +1,4 @@
-﻿using LiteDB.Studio.Cross.Interfaces;
-using LiteDB.Studio.Cross.Models.EventArgs;
+﻿using LiteDB.Studio.Cross.Models.EventArgs;
 using System;
 using System.Collections.Generic;
 using System.IO;

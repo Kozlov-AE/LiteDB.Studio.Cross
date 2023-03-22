@@ -3,7 +3,6 @@ using LiteDB.Studio.Cross.Contracts.Interfaces;
 using LiteDB.Studio.Cross.DbCommunicationV5;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Linq;
 
 namespace LiteDB.Studio.Cross.Services {
     public class DbConnectionsFabric {
