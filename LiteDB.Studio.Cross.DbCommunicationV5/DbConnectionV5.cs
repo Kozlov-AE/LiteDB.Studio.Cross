@@ -23,6 +23,7 @@ namespace LiteDB.Studio.Cross.DbCommunicationV5 {
                 .ToDocuments();
             List<string> result = new(15);
             foreach (var doc in sc) {
+                if (doc["name"] == "$query") continue;
                 result.Add(doc["name"].AsString);
             }
             return result;
