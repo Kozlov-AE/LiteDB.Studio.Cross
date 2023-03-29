@@ -12,7 +12,8 @@ namespace TestDataGridView {
 
         public MainWindow() {
             InitializeComponent();
-            _grid = this.Find<DataGrid>("Grid");
+            _grid = Grid;
+            //_grid = this.Find<DataGrid>("Grid");
             //LoadGrid(GenerateData());
             //LoadGrid(GenerateDataInList());
             LoadGrid(GenerateDataDic());

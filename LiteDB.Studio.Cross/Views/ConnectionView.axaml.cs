@@ -11,7 +11,7 @@ namespace LiteDB.Studio.Cross.Views {
     public partial class ConnectionView : UserControl {
         private Button _openFileButton;
         private Button _cancelButton;
-        private TextBox? _selectedFile;
+        private TextBox _selectedFile;
         private ComboBox _cultureBox;
         private ComboBox _sortBox;
         private MainWindowViewModel _viewModel;
@@ -20,32 +20,29 @@ namespace LiteDB.Studio.Cross.Views {
             return VisualRoot as Window ?? throw new NullReferenceException("Invalid Owner");
         }
         
+        
         public ConnectionView() {
             InitializeComponent();
+            InitControlsProps();
+        }
+
+        private void InitControlsProps() {
             _openFileButton = this.Find<Button>("OpenFileButton");
-            if (_openFileButton != null) {
-                _openFileButton.Click += OpenFileButtonOnClick;
-            }
-
             _cancelButton = this.Find<Button>("CancelBtn");
-            if (_cancelButton != null) {
-                _cancelButton.Click += HideConnectionView;
-            }
-
             _cultureBox = this.Find<ComboBox>("CultureBox");
-            if (_cultureBox != null) {
-                _cultureBox.Items = CultureInfo.GetCultures(CultureTypes.AllCultures)
-                    .Select(x => x.LCID)
-                    .Distinct()
-                    .Where(x => x != 4096)
-                    .Select(x => CultureInfo.GetCultureInfo(x).Name)
-                    .ToList();
-            }
-
             _sortBox = this.Find<ComboBox>("SortBox");
-            if (_sortBox != null) {
-                _sortBox.Items = Enum.GetNames(typeof(CompareOptions));
-            }
+            _selectedFile = this.Find<TextBox>("SelectedFile");
+            
+            _openFileButton.Click += OpenFileButtonOnClick;
+            _cancelButton.Click += HideConnectionView;
+
+            _cultureBox.Items = CultureInfo.GetCultures(CultureTypes.AllCultures)
+                .Select(x => x.LCID)
+                .Distinct()
+                .Where(x => x != 4096)
+                .Select(x => CultureInfo.GetCultureInfo(x).Name)
+                .ToList();
+            _sortBox.Items = Enum.GetNames(typeof(CompareOptions));
         }
 
         protected override void OnDataContextChanged(EventArgs e) {
@@ -67,10 +64,7 @@ namespace LiteDB.Studio.Cross.Views {
                     Title = "Open file", Directory = initialDirectory, InitialFileName = initialFileName
                 }.ShowAsync(GetWindow());
             if (result?.Length == 0) return;
-            _selectedFile = this.Find<TextBox>("SelectedFile");
-            if (_selectedFile != null) {
-                _selectedFile.Text = result?.First();
-            }
+            _selectedFile.Text = result?.First();
         }
 
         private void InitializeComponent() {
