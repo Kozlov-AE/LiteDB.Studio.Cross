@@ -48,10 +48,10 @@
 						</ListBox.ItemTemplate>
 					</ListBox>
 				</ScrollViewer>
-				<Button i:Attached.Icon="fa-regular fa-folder-open"
-						x:Name="OpenFileButton"
-						DockPanel.Dock="Right"
-						Margin="10 0 0 0" />
+				<Button x:Name="OpenFileButton"
+				        i:Attached.Icon="fa-regular fa-folder-open"
+				        DockPanel.Dock="Right"
+				        Margin="10 0 0 0" />
 				<TextBox x:Name="SelectedFile" Text="{Binding ConnectionOpts.DbPath, Mode=TwoWay}" Watermark="File path" />
 			</DockPanel>
 		</StackPanel>
@@ -59,13 +59,13 @@
 			<Label Classes="Group" Content="Parameters" />
 			<Grid ColumnDefinitions="110, *" RowDefinitions="Auto, Auto, Auto">
 				<Label Grid.Column="0" Grid.Row="0">Password</Label>
-				<TextBox Name="PasswordInput" Grid.Column="1" Grid.Row="0"
-						 PasswordChar="*"
-						 Watermark="Password"
-						 UseFloatingWatermark="False"
-						 TextInputOptions.ContentType="Password"
-						 Margin="0 0 0 10"
-						 Text="{Binding ConnectionOpts.Password}" />
+				<TextBox x:Name="PasswordInput" Grid.Column="1" Grid.Row="0"
+				         PasswordChar="*"
+				         Watermark="Password"
+				         UseFloatingWatermark="False"
+				         TextInputOptions.ContentType="Password"
+				         Margin="0 0 0 10"
+				         Text="{Binding ConnectionOpts.Password}" />
 				<Label Grid.Column="0" Grid.Row="1">Initial size (MB)</Label>
 				<TextBox Grid.Column="1" Grid.Row="1"
 						 Margin="0 0 0 10"
@@ -88,11 +88,11 @@
 			<CheckBox Content="Upgrade from LiteDB v4 (if needed)" IsChecked="{Binding ConnectionOpts.IsUpgrade}" />
 			<StackPanel Orientation="Horizontal"
 						Spacing="20" Height="30" HorizontalAlignment="Right">
-				<Button Name="ConnectBtn" Width="100" Content="Connect" 
+				<Button x:Name="ConnectBtn" Width="100" Content="Connect" 
 				        Command="{Binding ConnectCommand}" 
 				        CommandParameter="{Binding ConnectionOpts}"
 				        IsEnabled="{Binding ConnectionOpts.DbPath, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-				<Button Name="CancelBtn" Width="100" Content="Cancel" />
+				<Button x:Name="CancelBtn" Width="100" Content="Cancel" />
 			</StackPanel>
 		</StackPanel>
 	</DockPanel>
