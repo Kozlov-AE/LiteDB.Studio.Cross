@@ -2,8 +2,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tabControl="clr-namespace:LiteDB.Studio.Cross.Controls.TabControl;assembly=LiteDB.Studio.Cross.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ControlsPreview.MainWindow"
         Title="ControlsPreview">
-    Welcome to Avalonia!
+    <TabControl TabStripPlacement="Top">
+        <TabItem Header="AddableTabControl">
+            <tabControl:AddableTabControl TabStripPlacement="Top">
+                <TabItem Header="One">
+                    <Label Content="One" />
+                </TabItem>
+                <TabItem Header="Two">
+                    <Label Content="Two" />
+                </TabItem>
+            </tabControl:AddableTabControl>
+        </TabItem>
+    </TabControl>
 </Window>

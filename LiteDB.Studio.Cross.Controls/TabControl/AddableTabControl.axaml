@@ -14,13 +14,10 @@
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}">
           <DockPanel>
-            <StackPanel>
+            <StackPanel Name="PART_ItemsPanel" Orientation="Horizontal">
               <ItemsPresenter Name="PART_ItemsPresenter"
-                              ItemTemplate="{TemplateBinding ItemTemplate}"
-                              Items="{TemplateBinding Items}"
                               ItemsPanel="{TemplateBinding ItemsPanel}" />
-              <Button Name="PART_AddButton" 
-                      Content="{TemplateBinding AddButtonContent}" />
+              <Button Name="PART_AddButton" Content="+" Width="20" Background="Transparent" BorderThickness="0"/>
             </StackPanel>
             <ContentPresenter Name="PART_SelectedContentHost"
                               Margin="{TemplateBinding Padding}"
@@ -35,16 +32,16 @@
     <Style Selector="^[TabStripPlacement=Top]">
       <Setter Property="Padding" Value="0 4 0 0" />
     </Style>
-    <Style Selector="^[TabStripPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter">
+    <Style Selector="^[TabStripPlacement=Top] /template/ StackPanel#PART_ItemsPanel">
       <Setter Property="DockPanel.Dock" Value="Top" />
     </Style>
-    <Style Selector="^[TabStripPlacement=Bottom] /template/ ItemsPresenter#PART_ItemsPresenter">
+    <Style Selector="^[TabStripPlacement=Bottom] /template/ StackPanel#PART_ItemsPanel">
       <Setter Property="DockPanel.Dock" Value="Bottom" />
     </Style>
     <Style Selector="^[TabStripPlacement=Bottom]">
       <Setter Property="Padding" Value="0 0 0 4" />
     </Style>
-    <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter">
+    <Style Selector="^[TabStripPlacement=Left] /template/ StackPanel#PART_ItemsPanel">
       <Setter Property="DockPanel.Dock" Value="Left" />
     </Style>
     <Style Selector="^[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
@@ -53,7 +50,7 @@
     <Style Selector="^[TabStripPlacement=Left]">
       <Setter Property="Padding" Value="4 0 0 0" />
     </Style>
-    <Style Selector="^[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter">
+    <Style Selector="^[TabStripPlacement=Right] /template/ StackPanel#PART_ItemsPanel">
       <Setter Property="DockPanel.Dock" Value="Right" />
     </Style>
     <Style Selector="^[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter > WrapPanel">
