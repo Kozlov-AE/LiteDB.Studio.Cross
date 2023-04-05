@@ -10,6 +10,7 @@
     </Application.RequestedThemeVariant>
     <Application.Styles>
         <!-- <StyleInclude Source="avares://AvaloniaEdit/AvaloniaEdit.xaml" /> -->
+        <StyleInclude Source="avares://AvaloniaEdit/Themes/Simple/AvaloniaEdit.xaml" />
         <SimpleTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml"/>
     </Application.Styles>
