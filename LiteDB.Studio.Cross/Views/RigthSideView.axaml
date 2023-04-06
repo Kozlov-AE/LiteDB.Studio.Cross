@@ -4,12 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:views="clr-namespace:LiteDB.Studio.Cross.Views"
              xmlns:viewModels="clr-namespace:LiteDB.Studio.Cross.ViewModels"
+             xmlns:tabControl="clr-namespace:LiteDB.Studio.Cross.Controls.TabControl;assembly=LiteDB.Studio.Cross.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LiteDB.Studio.Cross.Views.RigthSideView">
     <Design.DataContext>
         <viewModels:DataBaseWorkspaceViewModel />
     </Design.DataContext>
-    <TabControl Items="{Binding Queries}">
+    <tabControl:AddableTabControl TabStripPlacement="Top" Items="{Binding Queries}">
         <TabControl.ItemTemplate>
             <DataTemplate>
                 <TextBlock Text="{Binding Name}" />
@@ -24,5 +25,5 @@
                 </Grid>
             </DataTemplate>
         </TabControl.ContentTemplate>
-    </TabControl>
+    </tabControl:AddableTabControl>
 </UserControl>
