@@ -41,10 +41,10 @@ namespace LiteDB.Studio.Cross.DbCommunicationV5 {
                 return null;
             }
 
-            QueryResultDto result;
+            QueryResultDto result = new() { QueryText = text };
+             
             using (reader) {
                 if (!reader.HasValues) return null;
-                result = new ();
                 while (reader.Read()) {
                     Dictionary<string, dynamic> item = new ();
                     var bson = reader.Current;

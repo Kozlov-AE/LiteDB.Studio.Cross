@@ -69,6 +69,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
         }
 
         public void SetQueryResult(QueryResultDto dto) {
+            Query = dto.QueryText;
             TableVm.SetTable(dto);
             var sOpts = new JsonSerializerOptions { WriteIndented = true };
             var json = System.Text.Json.JsonSerializer.Serialize(dto.Items, sOpts);

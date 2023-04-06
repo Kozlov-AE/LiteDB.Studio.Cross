@@ -73,10 +73,9 @@ namespace LiteDB.Studio.Cross.Services {
         public QueryResultDto? GetItems(string? name, int count, string id) {
             if (_connections.TryGetValue(id, out var connection)) {
                 var query = $@"SELECT $ FROM {name}";
-                if (count > 0) query.Concat($" LIMIT {count}");
+                if (count > 0) query += $" LIMIT {count}";
                 return connection.SendQuery(query);
             }
-
             return null;
         }
     }
