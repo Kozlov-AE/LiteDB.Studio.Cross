@@ -4,6 +4,7 @@ using LiteDB.Studio.Cross.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace LiteDB.Studio.Cross.Services {
     public class ConnectionsManager {
@@ -71,7 +72,8 @@ namespace LiteDB.Studio.Cross.Services {
         /// <returns><see cref="QueryResultDto"/> if successful or <see langword="null"/></returns>
         public QueryResultDto? GetItems(string? name, int count, string id) {
             if (_connections.TryGetValue(id, out var connection)) {
-                var query = $@"SELECT $ FROM {name} LIMIT {count}";
+                var query = $@"SELECT $ FROM {name}";
+                if (count > 0) query.Concat($" LIMIT {count}");
                 return connection.SendQuery(query);
             }
 
