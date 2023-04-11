@@ -26,7 +26,14 @@ namespace LiteDB.Studio.Cross.ViewModels {
         public DataBaseWorkspaceViewModel() {
             Queries = new ObservableCollection<QueryViewModel>();
             AddQueryModel();
+            this.PropertyChanged += (sender, args) => {
+                if (args.PropertyName == "SelectedQueryVm") {
+
+                }
+            };
         }
+
+        [RelayCommand]
         public void AddQueryModel() {
             var vm = new QueryViewModel();
             vm.Name = (Queries.Count + 1).ToString();

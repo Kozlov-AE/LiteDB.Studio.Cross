@@ -15,10 +15,6 @@ namespace LiteDB.Studio.Cross.Views {
             DataContextChanged += QueryResultTableView_DataContextChanged;
             _table = this.Find<DataGrid>("ResultTable");
         }
-        private void InitializeComponent() {
-            AvaloniaXamlLoader.Load(this);
-        }
-
 
         private void QueryResultTableView_DataContextChanged(object? sender, EventArgs e) {
             if (this.DataContext is DbTableViewModel tvm) {

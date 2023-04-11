@@ -6,9 +6,5 @@ namespace LiteDB.Studio.Cross.Views {
         public DataBaseWorkspaseView() {
             InitializeComponent();
         }
-
-        private void InitializeComponent() {
-            AvaloniaXamlLoader.Load(this);
-        }
     }
 }

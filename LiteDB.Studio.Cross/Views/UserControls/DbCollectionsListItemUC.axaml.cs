@@ -6,9 +6,5 @@ namespace LiteDB.Studio.Cross.Views.UserControls {
         public DbCollectionsListItemUC() {
             InitializeComponent();
         }
-
-        private void InitializeComponent() {
-            AvaloniaXamlLoader.Load(this);
-        }
     }
 }

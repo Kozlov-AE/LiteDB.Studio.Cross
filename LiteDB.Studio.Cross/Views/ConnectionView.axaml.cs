@@ -66,9 +66,5 @@ namespace LiteDB.Studio.Cross.Views {
             if (result?.Length == 0) return;
             _selectedFile.Text = result?.First();
         }
-
-        private void InitializeComponent() {
-            AvaloniaXamlLoader.Load(this);
-        }
     }
 }
