@@ -19,14 +19,14 @@ namespace LiteDB.Studio.Cross.Views {
         private void QueryResultTableView_DataContextChanged(object? sender, EventArgs e) {
             if (this.DataContext is DbTableViewModel tvm) {
                 _vm = tvm;
-                _vm.TableUpdated += () => LoadTable(_vm);
-                if (_vm.Rows.Any()) LoadTable(_vm);
+                _vm.TableUpdated += () => LoadTable();
+                LoadTable();
             }
         }
 
-        private void LoadTable(DbTableViewModel tvm) {
+        private void LoadTable() {
             _table.Columns.Clear();
-            foreach (var prop in tvm.Fields) {
+            foreach (var prop in _vm.Fields) {
                 DataGridColumn col = new DataGridTextColumn() {
                     Header = prop.Name,
                     CanUserSort = true,
@@ -36,7 +36,7 @@ namespace LiteDB.Studio.Cross.Views {
                 _table.Columns.Add(col);
             }
 
-            _table.Items = tvm.Rows;
+            _table.Items = _vm.Rows;
         } 
     }
 }

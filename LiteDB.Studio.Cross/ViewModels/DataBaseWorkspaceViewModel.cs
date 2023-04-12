@@ -69,6 +69,8 @@ namespace LiteDB.Studio.Cross.ViewModels {
 
         public QueryViewModel() {
             TableVm = new();
+            Json = String.Empty;
+            Query = String.Empty;
         }
         [RelayCommand]
         private async Task SendQuery(string text) {
