@@ -21,16 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlsPreview", "Controls
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteDB.Studio.Cross.Controls", "LiteDB.Studio.Cross.Controls\LiteDB.Studio.Cross.Controls.csproj", "{284C125B-448C-4975-80C1-3B0293F14BA5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AvaloniaEdit", "AvaloniaEdit", "{96BAF0DC-8987-4C40-8B86-65E8A505D7A1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit", "AvaloniaEdit\src\AvaloniaEdit\AvaloniaEdit.csproj", "{25D26FF4-D0D9-4C52-A40C-DAB79C8AFA3A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit.Demo", "AvaloniaEdit\src\AvaloniaEdit.Demo\AvaloniaEdit.Demo.csproj", "{CA9E62DB-722C-48A3-9F87-AF0F2E5CA079}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit.TextMate", "AvaloniaEdit\src\AvaloniaEdit.TextMate\AvaloniaEdit.TextMate.csproj", "{3C20D556-747C-44F8-8DC3-0DFECC6E0DCF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit.Tests", "AvaloniaEdit\test\AvaloniaEdit.Tests\AvaloniaEdit.Tests.csproj", "{49DA4EE1-6687-438E-B28C-9A9D403D8E7B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,22 +55,6 @@ Global
 		{284C125B-448C-4975-80C1-3B0293F14BA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{284C125B-448C-4975-80C1-3B0293F14BA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{284C125B-448C-4975-80C1-3B0293F14BA5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25D26FF4-D0D9-4C52-A40C-DAB79C8AFA3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25D26FF4-D0D9-4C52-A40C-DAB79C8AFA3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25D26FF4-D0D9-4C52-A40C-DAB79C8AFA3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25D26FF4-D0D9-4C52-A40C-DAB79C8AFA3A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA9E62DB-722C-48A3-9F87-AF0F2E5CA079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA9E62DB-722C-48A3-9F87-AF0F2E5CA079}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA9E62DB-722C-48A3-9F87-AF0F2E5CA079}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA9E62DB-722C-48A3-9F87-AF0F2E5CA079}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C20D556-747C-44F8-8DC3-0DFECC6E0DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C20D556-747C-44F8-8DC3-0DFECC6E0DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C20D556-747C-44F8-8DC3-0DFECC6E0DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C20D556-747C-44F8-8DC3-0DFECC6E0DCF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{49DA4EE1-6687-438E-B28C-9A9D403D8E7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{49DA4EE1-6687-438E-B28C-9A9D403D8E7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{49DA4EE1-6687-438E-B28C-9A9D403D8E7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{49DA4EE1-6687-438E-B28C-9A9D403D8E7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,9 +63,5 @@ Global
 		SolutionGuid = {D0FB1825-FD3A-48F6-970F-9CB3404DE4A1}
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{25D26FF4-D0D9-4C52-A40C-DAB79C8AFA3A} = {96BAF0DC-8987-4C40-8B86-65E8A505D7A1}
-		{CA9E62DB-722C-48A3-9F87-AF0F2E5CA079} = {96BAF0DC-8987-4C40-8B86-65E8A505D7A1}
-		{3C20D556-747C-44F8-8DC3-0DFECC6E0DCF} = {96BAF0DC-8987-4C40-8B86-65E8A505D7A1}
-		{49DA4EE1-6687-438E-B28C-9A9D403D8E7B} = {96BAF0DC-8987-4C40-8B86-65E8A505D7A1}
 	EndGlobalSection
 EndGlobal

@@ -12,7 +12,7 @@
     </Design.DataContext>
     <tabControl:AddableTabControl 
         TabStripPlacement="Top" 
-        Items="{Binding Queries}"
+        ItemsSource="{Binding Queries}"
         AddNewTabCommand="{Binding AddQueryModelCommand}"
         SelectedItem="{Binding SelectedQueryVm}">
         <TabControl.ItemTemplate>

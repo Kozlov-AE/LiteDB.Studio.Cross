@@ -10,7 +10,7 @@
         <viewModels:CollectionViewModel />
     </Design.DataContext>
     <Expander ExpandDirection="Down" Header="{Binding Name}">
-        <ListBox Items="{Binding Fields}">
+        <ListBox ItemsSource="{Binding Fields}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>

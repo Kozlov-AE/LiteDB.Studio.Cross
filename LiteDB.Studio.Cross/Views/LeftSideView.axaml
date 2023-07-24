@@ -11,7 +11,7 @@
         <viewModels:DataBaseExplorerViewModel />
     </Design.DataContext>
     <ListBox 
-        Items="{Binding Databases}"
+        ItemsSource="{Binding Databases}"
         SelectedItem="{Binding SelectedDbVm}">
         <ListBox.ItemTemplate>
             <DataTemplate>
@@ -22,7 +22,7 @@
                         <StackPanel Orientation="Vertical">
                             <Expander Header="System"
                                       Margin="5 0 0 0">
-                                <ListBox Items="{Binding SysCollections.Collections}">
+                                <ListBox ItemsSource="{Binding SysCollections.Collections}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <userControls:DbCollectionsListItemUC />
@@ -30,7 +30,7 @@
                                     </ListBox.ItemTemplate>
                                 </ListBox>
                             </Expander>
-                            <ListBox Items="{Binding DbCollections.Collections}">
+                            <ListBox ItemsSource="{Binding DbCollections.Collections}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <userControls:DbCollectionsListItemUC />
