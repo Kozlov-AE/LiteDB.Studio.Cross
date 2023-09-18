@@ -36,7 +36,7 @@ namespace LiteDB.Studio.Cross.Views {
                 _table.Columns.Add(col);
             }
 
-            _table.Items = _vm.Rows;
+            _table.ItemsSource = _vm.Rows;
         } 
     }
 }

@@ -35,14 +35,14 @@ namespace LiteDB.Studio.Cross.Views {
             
             _openFileButton.Click += OpenFileButtonOnClick;
             _cancelButton.Click += HideConnectionView;
-
-            _cultureBox.Items = CultureInfo.GetCultures(CultureTypes.AllCultures)
+            
+            _cultureBox.ItemsSource = CultureInfo.GetCultures(CultureTypes.AllCultures)
                 .Select(x => x.LCID)
                 .Distinct()
                 .Where(x => x != 4096)
                 .Select(x => CultureInfo.GetCultureInfo(x).Name)
                 .ToList();
-            _sortBox.Items = Enum.GetNames(typeof(CompareOptions));
+            _sortBox.ItemsSource = Enum.GetNames(typeof(CompareOptions));
         }
 
         protected override void OnDataContextChanged(EventArgs e) {

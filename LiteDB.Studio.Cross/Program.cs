@@ -17,12 +17,13 @@ namespace LiteDB.Studio.Cross {
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp() {
+            IconProvider.Current
+                .Register<FontAwesomeIconProvider>()
+                .Register<MaterialDesignIconProvider>();
+
             return AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .LogToTrace()
-                .WithIcons(container => container
-                    .Register<FontAwesomeIconProvider>()
-                    .Register<MaterialDesignIconProvider>());
+                .LogToTrace();
         }
     }
 }
