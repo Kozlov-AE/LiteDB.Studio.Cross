@@ -35,7 +35,7 @@
 				<ScrollViewer DockPanel.Dock="Bottom"
 					HorizontalScrollBarVisibility="Auto"
 					VerticalScrollBarVisibility="Auto">
-					<ListBox
+					<ListBox 
 						ItemsSource="{Binding ConnectionOpts.OpenDbHistory}"
 						Margin="0 5"
 						Height="50"

@@ -13,9 +13,6 @@ namespace TestDataGridView {
         public MainWindow() {
             InitializeComponent();
             _grid = Grid;
-            //_grid = this.Find<DataGrid>("Grid");
-            //LoadGrid(GenerateData());
-            //LoadGrid(GenerateDataInList());
             LoadGrid(GenerateDataDic());
         }
 
@@ -39,7 +36,7 @@ namespace TestDataGridView {
 
             var collectionView1 = new DataGridCollectionView(objs);
 
-            _grid.Items = collectionView1;
+            _grid.ItemsSource = collectionView1;
         }
 
         public void LoadGrid(BdRequestResultInList reqRes) {
@@ -54,7 +51,7 @@ namespace TestDataGridView {
                 _grid.Columns.Add(column);
             }
 
-            _grid.Items = reqRes.Docs;
+            _grid.ItemsSource = reqRes.Docs;
         }
         public void LoadGrid(BdRequestResultDic reqRes) {
             foreach (var key in reqRes.Keys) {
@@ -66,7 +63,7 @@ namespace TestDataGridView {
                 column.Binding = new Binding($"Properties[{key.Key}]");
                 _grid.Columns.Add(column);
             }
-            _grid.Items = reqRes.Docs;
+            _grid.ItemsSource = reqRes.Docs;
         }
 
         private BdRequestResult GenerateData() {

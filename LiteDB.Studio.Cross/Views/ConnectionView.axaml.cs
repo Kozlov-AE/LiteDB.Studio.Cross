@@ -35,7 +35,7 @@ namespace LiteDB.Studio.Cross.Views {
             
             _openFileButton.Click += OpenFileButtonOnClick;
             _cancelButton.Click += HideConnectionView;
-
+            
             _cultureBox.ItemsSource = CultureInfo.GetCultures(CultureTypes.AllCultures)
                 .Select(x => x.LCID)
                 .Distinct()

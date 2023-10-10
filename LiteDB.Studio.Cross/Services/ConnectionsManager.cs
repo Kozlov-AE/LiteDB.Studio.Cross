@@ -12,6 +12,7 @@ namespace LiteDB.Studio.Cross.Services {
         private readonly DbConnectionsFabric _connectionsFabric;
 
         public event Action<string> DatabaseDisconnected;
+        public event Action<QueryResultEventArgs> QueryResultReceived;
 
         public ConnectionsManager(DbConnectionsFabric connectionsFabric) {
             _connectionsFabric = connectionsFabric;
@@ -54,10 +55,12 @@ namespace LiteDB.Studio.Cross.Services {
 
         //todo Change from null to custom exception
         public QueryResultDto? SendQuery(string connectionId, string text) {
+            QueryResultDto resultDto = null;
             if (_connections.TryGetValue(connectionId, out var conn)) {
-                return conn.SendQuery(text);
+                resultDto = conn.SendQuery(text);
+                QueryResultReceived?.Invoke(new(){DatabaseId = connectionId, ResultDto = resultDto});
             }
-            return null;
+            return resultDto;
         }
 
         protected virtual void OnDatabaseDisconnected(string id) {
@@ -77,6 +80,11 @@ namespace LiteDB.Studio.Cross.Services {
                 return connection.SendQuery(query);
             }
             return null;
+        }
+        
+        public class QueryResultEventArgs : EventArgs {
+            public string DatabaseId { get; set; }
+            public QueryResultDto? ResultDto { get; set; }
         }
     }
 }

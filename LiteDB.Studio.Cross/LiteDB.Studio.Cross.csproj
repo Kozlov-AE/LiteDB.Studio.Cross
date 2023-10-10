@@ -29,22 +29,23 @@
         <TrimmableAssembly Include="Avalonia.Themes.Default" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.0.0" />
-        <PackageReference Include="Avalonia.AvaloniaEdit" Version="11.0.0" />
-        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.0.0" />
+        <PackageReference Include="Avalonia" Version="11.0.4" />
+        <PackageReference Include="Avalonia.AvaloniaEdit" Version="11.0.1" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.4" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.0.4" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0" />
-        <PackageReference Include="Avalonia.Themes.Simple" Version="11.0.0" />
-        <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.0.1" />
-        <PackageReference Include="Avalonia.Xaml.Interactions" Version="11.0.0.1" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.4" />
+        <PackageReference Include="Avalonia.Themes.Simple" Version="11.0.4" />
+        <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.2" />
+        <PackageReference Include="Avalonia.Xaml.Interactions" Version="11.0.2" />
+        <PackageReference Include="AvaloniaEdit.TextMate" Version="11.0.1" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-        <PackageReference Include="FluentAvaloniaUI" Version="2.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0-preview.6.23329.7" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.6.23329.7" />
-        <PackageReference Include="Projektanker.Icons.Avalonia" Version="8.0.0" />
-        <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome" Version="8.0.0" />
-        <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="8.0.0" />
+        <PackageReference Include="FluentAvaloniaUI" Version="2.0.4" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0-rc.1.23419.4" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-rc.1.23419.4" />
+        <PackageReference Include="Projektanker.Icons.Avalonia" Version="8.2.0" />
+        <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome" Version="8.2.0" />
+        <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="8.2.0" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\LiteDB.Studio.Cross.Contracts\LiteDB.Studio.Cross.Contracts.csproj" />

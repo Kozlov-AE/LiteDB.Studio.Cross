@@ -20,6 +20,7 @@ namespace LiteDB.Studio.Cross {
             IconProvider.Current
                 .Register<FontAwesomeIconProvider>()
                 .Register<MaterialDesignIconProvider>();
+
             return AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace();
