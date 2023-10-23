@@ -5,7 +5,7 @@ using System;
 
 namespace LiteDB.Studio.Cross.Behaviors {
     public class DocumentTextBindingBehavior : Behavior<TextEditor> {
-        private TextEditor _textEditor = null;
+        private TextEditor? _textEditor = null;
 
         public static readonly StyledProperty<string> TextProperty =
             AvaloniaProperty.Register<DocumentTextBindingBehavior, string>(nameof(Text));
@@ -20,7 +20,7 @@ namespace LiteDB.Studio.Cross.Behaviors {
         {
             base.OnAttached();
 
-            if (AssociatedObject is TextEditor textEditor)
+            if (AssociatedObject is { } textEditor)
             {
                 _textEditor = textEditor;
                 _textEditor.TextChanged += TextChanged;
@@ -38,21 +38,20 @@ namespace LiteDB.Studio.Cross.Behaviors {
             }
         }
 
-        private void TextChanged(object sender, EventArgs eventArgs)
+        private void TextChanged(object? sender, EventArgs eventArgs)
         {
-            if (_textEditor != null && _textEditor.Document != null)
+            if (_textEditor?.Document != null)
             {
                 Text = _textEditor.Document.Text;
             }
         }
 
-        private void TextPropertyChanged(string text)
+        private void TextPropertyChanged(string? text)
         {
-            if (_textEditor != null && _textEditor.Document != null && text != null)
+            if (_textEditor?.Document != null && text != null)
             {
-                var caretOffset = _textEditor.CaretOffset;
                 _textEditor.Document.Text = text;
-                _textEditor.CaretOffset = caretOffset;
+                _textEditor.CaretOffset = 0;
             }
         }
     }
