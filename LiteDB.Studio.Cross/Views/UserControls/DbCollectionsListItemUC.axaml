@@ -14,9 +14,9 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>
-                        <Run>{Binding Name}</Run>
-                        <Run>: </Run>
-                        <Run>{Binding FType}</Run>
+                        <Run Text="{Binding Name}"></Run>
+                        <Run Text=": "></Run>
+                        <Run Text="{Binding FType}"></Run>
                     </TextBlock>
                 </DataTemplate>
             </ListBox.ItemTemplate>

@@ -15,7 +15,7 @@ namespace LiteDB.Studio.Cross.ViewModels {
 
         [ObservableProperty] private DataBaseExplorerViewModel _dbExplorerVm;
         [ObservableProperty] private DataBaseWorkspaceViewModel _dbWorkspaceVm;
-        [ObservableProperty] private ConnectionParametersViewModel _connectionOpts;
+        [ObservableProperty] private ConnectionParametersViewModel? _connectionOpts;
         
         public MainWindowViewModel(
                     OpenDbHistoryService historyService, 
@@ -34,11 +34,13 @@ namespace LiteDB.Studio.Cross.ViewModels {
             if (DbExplorerVm.Databases.Any(d => d.Id == vm.DbPath)) return;
             var connection = _connectionsManager.Connect(vm.Map());
             if (connection != null) {
-                var dbVm = new DatabaseViewModel(_connectionsManager, connection);
-                DbExplorerVm.Databases.Add(dbVm);
-                IsLoadDatabaseNeeded = false;
-                _historyService.AddToStory(vm.DbPath!);
-                ConnectionOpts = null;
+                var dbVm = _vmFactory.GetDatabaseViewModel(connection);
+                if (dbVm != null) {
+                    DbExplorerVm.Databases.Add(dbVm);
+                    IsLoadDatabaseNeeded = false;
+                    _historyService.AddToStory(vm.DbPath!);
+                    ConnectionOpts = null;
+                }
             }
         }
         
