@@ -42,15 +42,15 @@ namespace DatabaseGenerator {
                         @case.State = fields[2];
                         @case.CountyName = fields[3];
                         @case.CountyNameLong = fields[4];
-                        @case.FipsCode = int.TryParse(fields[5], CultureInfo.InvariantCulture, out var val) ? val : 0;
-                        @case.TotalPopulation = double.TryParse(fields[9], CultureInfo.InvariantCulture, out var dval) ? dval : 0;
-                        @case.Confirmed = int.TryParse(fields[10], CultureInfo.InvariantCulture, out val) ? val : 0;
-                        @case.ConfirmedPer100000 = double.TryParse(fields[11], CultureInfo.InvariantCulture, out dval) ? dval : 0;
-                        @case.Deaths = int.TryParse(fields[12], CultureInfo.InvariantCulture, out val) ? val : 0;
-                        @case.Lat = double.TryParse(fields[6], CultureInfo.InvariantCulture, out dval) ? dval : 0;
-                        @case.Lon = double.TryParse(fields[7], CultureInfo.InvariantCulture, out dval) ? dval : 0;
+                        @case.FipsCode = int.TryParse(fields[5], out var val) ? val : 0;
+                        @case.TotalPopulation = double.TryParse(fields[9], out var dval) ? dval : 0;
+                        @case.Confirmed = int.TryParse(fields[10], out val) ? val : 0;
+                        @case.ConfirmedPer100000 = double.TryParse(fields[11], out dval) ? dval : 0;
+                        @case.Deaths = int.TryParse(fields[12], out val) ? val : 0;
+                        @case.Lat = double.TryParse(fields[6], out dval) ? dval : 0;
+                        @case.Lon = double.TryParse(fields[7], out dval) ? dval : 0;
                         @case.NchsUrbanization = fields[8];
-                        @case.DeathsPer100000 = double.TryParse(fields[13], CultureInfo.InvariantCulture, out dval) ? dval : 0;
+                        @case.DeathsPer100000 = double.TryParse(fields[13], out dval) ? dval : 0;
                         @case.Id = Guid.NewGuid().ToString();
                         result.Add(@case);
                     }
