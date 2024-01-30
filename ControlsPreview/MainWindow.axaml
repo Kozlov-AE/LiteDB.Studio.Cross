@@ -5,16 +5,80 @@
         xmlns:tabControl="clr-namespace:LiteDB.Studio.Cross.Controls.TabControl;assembly=LiteDB.Studio.Cross.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ControlsPreview.MainWindow"
-        Title="ControlsPreview">
+        xmlns:tvt="clr-namespace:ControlsPreview.treeviewTest"
+        Title="ControlsPreview"
+        x:DataType="tvt:TVTestVM">
+    <Design.DataContext>
+        <tvt:TVTestVM/>
+    </Design.DataContext>
     <TabControl TabStripPlacement="Top">
         <TabItem Header="AddableTabControl">
             <tabControl:AddableTabControl TabStripPlacement="Top">
                 <TabItem Header="One">
-                    <Label Content="One" />
+                    <TreeView ItemsSource="{Binding League}">
+                        <TreeView.DataTemplates>
+                            <TreeDataTemplate DataType="tvt:Conference" ItemsSource="{Binding Teams}">
+                                <TextBlock Foreground="Red" Text="{Binding ConferenceName}" />
+                            </TreeDataTemplate>
+							<TreeDataTemplate DataType="tvt:Player" ItemsSource="{Binding Positions}">
+								<TextBlock Text="{Binding Name}" />
+							</TreeDataTemplate>
+							<DataTemplate DataType="tvt:Coach">
+								<TextBlock Text="{Binding ProperName}" />
+							</DataTemplate>
+						</TreeView.DataTemplates>
+                    </TreeView>
                 </TabItem>
                 <TabItem Header="Two">
-                    <Label Content="Two" />
-                </TabItem>
+	                <ListBox ItemsSource="{Binding Teams}">
+		                <ListBox.ItemTemplate>
+			                <DataTemplate>
+				                <Expander ExpandDirection="Down" Header="{Binding TeamName}">
+					                <StackPanel>
+						                <Expander ExpandDirection="Down" Header="Players">
+							                <TreeView ItemsSource="{Binding Players}">
+								                <TreeView.DataTemplates>
+									                <TreeDataTemplate DataType="tvt:Player" ItemsSource="{Binding Positions}">
+										                <TextBlock Text="{Binding Name}" />
+									                </TreeDataTemplate>
+								                </TreeView.DataTemplates>
+							                </TreeView>
+										</Expander>
+						                <TreeView ItemsSource="{Binding Players}">
+							                <TreeView.DataTemplates>
+								                <DataTemplate DataType="tvt:Coach">
+									                <TextBlock Text="{Binding Name}" />
+								                </DataTemplate>
+							                </TreeView.DataTemplates>
+						                </TreeView>
+					                </StackPanel>
+				                </Expander>
+			                </DataTemplate>
+		                </ListBox.ItemTemplate>		                
+	                </ListBox>
+
+	                <!--             <TreeView ItemsSource="{Binding League}"> -->
+					<!-- 	<TreeView.DataTemplates> -->
+					<!-- 		<TreeDataTemplate DataType="tvt:Conference" ItemsSource="{Binding Teams}"> -->
+					<!-- 			<TextBlock Foreground="Red" Text="{Binding ConferenceName}" /> -->
+					<!-- 		</TreeDataTemplate> -->
+					<!-- 		<TreeDataTemplate DataType="tvt:Team" ItemsSource="{Binding Players}"> -->
+					<!-- 			<TextBlock Text="{Binding TeamName}" /> -->
+					<!-- 			<TreeView> -->
+					<!-- 				<TreeViewItem Header="Coaches" ItemsSource="{Binding Coaches}"> -->
+					<!-- 					<TextBlock Text="{Binding ProperName}" /> -->
+					<!-- 				</TreeViewItem> -->
+					<!-- 			</TreeView> -->
+					<!-- 		</TreeDataTemplate> -->
+					<!-- 		<TreeDataTemplate DataType="tvt:Player" ItemsSource="{Binding Positions}"> -->
+					<!-- 			<TextBlock Text="{Binding Name}" /> -->
+					<!-- 		</TreeDataTemplate> -->
+					<!-- 		<DataTemplate DataType="tvt:Coach"> -->
+					<!-- 			<TextBlock Text="{Binding ProperName}" /> -->
+					<!-- 		</DataTemplate> -->
+					<!-- 	</TreeView.DataTemplates> -->
+					<!-- </TreeView> -->
+				</TabItem>
             </tabControl:AddableTabControl>
         </TabItem>
     </TabControl>

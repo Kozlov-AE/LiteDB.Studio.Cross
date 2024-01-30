@@ -21,5 +21,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\LiteDB.Studio.Cross.Controls\LiteDB.Studio.Cross.Controls.csproj" />
+      <ProjectReference Include="..\LiteDB.Studio.Cross\LiteDB.Studio.Cross.csproj" />
     </ItemGroup>
 </Project>

@@ -13,7 +13,13 @@ public partial class DatabaseViewModel: ViewModelBase {
     [ObservableProperty] private CollectionSetViewModel _sysCollections;
     [ObservableProperty] private CollectionSetViewModel _dbCollections;
     [ObservableProperty] private DataBaseWorkspaceViewModel _workspace;
-
+    
+    /// <summary>
+    /// Use it for tests only!
+    /// </summary>
+    public DatabaseViewModel() {
+        
+    }
     public DatabaseViewModel(ConnectionsManager cManager, DataBaseDto dto) {
         _cManager = cManager;
         Id = dto.Id;

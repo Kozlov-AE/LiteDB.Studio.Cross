@@ -4,19 +4,48 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:LiteDB.Studio.Cross.ViewModels"
              xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
-             xmlns:userControls="clr-namespace:LiteDB.Studio.Cross.Views.UserControls"
+             xmlns:userControls="clr-namespace:LiteDB.Studio.Cross.Views.UserControls"             xmlns:vm="using:LiteDB.Studio.Cross.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LiteDB.Studio.Cross.Views.LeftSideView">
     <Design.DataContext>
         <viewModels:DataBaseExplorerViewModel />
     </Design.DataContext>
-    <ListBox 
+
+	<TreeView x:Name="DatabasesTreeView" ItemsSource="{Binding Databases}">
+		<TreeView.DataTemplates>
+			<TreeDataTemplate DataType="vm:DatabaseViewModel" ItemsSource="{Binding SysCollections.Collections}">
+				<TextBlock Text="{Binding Name}" />
+			</TreeDataTemplate>
+			<DataTemplate DataType="vm:CollectionSetViewModel">
+				<TextBlock Text="{Binding Name}" />
+			</DataTemplate>
+		</TreeView.DataTemplates>
+	</TreeView>
+	
+	<!--<ListBox
+        ItemsSource="{Binding Databases}"
+        SelectedItem="{Binding SelectedDbVm}">
+		<ListBox.ItemTemplate>
+			<DataTemplate>
+				<StackPanel Orientation="Vertical">
+				    <TreeView ItemsSource="{Binding SysCollections.Collections}">
+					    <TreeView.ItemTemplate>
+						    <TreeDataTemplate ItemsSource="{Binding SubNodes}">
+							    <TextBlock Text="{Binding Title}"/>
+						    </TreeDataTemplate>
+					    </TreeView.ItemTemplate>
+				    </TreeView>
+				</StackPanel>
+			</DataTemplate>
+		</ListBox.ItemTemplate>
+	</ListBox>-->
+    <!--<ListBox 
         ItemsSource="{Binding Databases}"
         SelectedItem="{Binding SelectedDbVm}">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">
-                    <!-- <Button i:Attached.Icon="fa-light fa-book"/> -->
+                    --><!-- <Button i:Attached.Icon="fa-light fa-book"/> --><!--
                     <Expander ExpandDirection="Down" Margin="10 0 0 0"
                             Header="{Binding Name}">   
                         <StackPanel Orientation="Vertical">
@@ -45,5 +74,5 @@
                 </StackPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>
-    </ListBox>    
+    </ListBox>-->    
 </UserControl>
