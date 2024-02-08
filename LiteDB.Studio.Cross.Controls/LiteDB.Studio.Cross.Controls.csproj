@@ -11,4 +11,8 @@
       <PackageReference Include="Avalonia" Version="11.0.7" />
     </ItemGroup>
 
+    <ItemGroup>
+      <UpToDateCheckInput Remove="LeftSideListControl\LeftSideListControl.axaml" />
+    </ItemGroup>
+
 </Project>

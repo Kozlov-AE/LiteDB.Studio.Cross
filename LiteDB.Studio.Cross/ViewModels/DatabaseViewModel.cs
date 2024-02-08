@@ -4,14 +4,15 @@ using LiteDB.Studio.Cross.Contracts.DTO;
 using LiteDB.Studio.Cross.Models.EventArgs;
 using LiteDB.Studio.Cross.Services;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace LiteDB.Studio.Cross.ViewModels;
 public partial class DatabaseViewModel: ViewModelBase {
     private readonly ConnectionsManager _cManager;
     public string Id { get; }
     [ObservableProperty] private string _name;
-    [ObservableProperty] private CollectionSetViewModel _sysCollections;
-    [ObservableProperty] private CollectionSetViewModel _dbCollections;
+    [ObservableProperty] private ObservableCollection<CollectionViewModel> _sysCollections = new ();
+    [ObservableProperty] private ObservableCollection<CollectionViewModel> _dbCollections = new ();
     [ObservableProperty] private DataBaseWorkspaceViewModel _workspace;
     
     /// <summary>
@@ -60,16 +61,14 @@ public partial class DatabaseViewModel: ViewModelBase {
     }
 
     public void SetSysCollections(IEnumerable<string> collections) {
-        SysCollections = new CollectionSetViewModel { Name = "System collections" };
         foreach (var name in collections) {
-            SysCollections.Collections.Add(CreateCollectionViewModel(nameof(SystemCollectionViewModel), name));
+            SysCollections.Add(new (name));
         }
     }
     
     public void SetDbCollections(IEnumerable<string> collections) {
-        DbCollections = new CollectionSetViewModel { Name = "User collections" };
         foreach (var name in collections) {
-            DbCollections.Collections.Add(CreateCollectionViewModel(nameof(CollectionViewModel), name));
+            DbCollections.Add(new (name));
         }
     }
     

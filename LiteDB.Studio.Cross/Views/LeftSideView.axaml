@@ -4,23 +4,59 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:LiteDB.Studio.Cross.ViewModels"
              xmlns:i="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
-             xmlns:userControls="clr-namespace:LiteDB.Studio.Cross.Views.UserControls"             xmlns:vm="using:LiteDB.Studio.Cross.ViewModels"
+             xmlns:userControls="clr-namespace:LiteDB.Studio.Cross.Views.UserControls"
+             xmlns:vm="using:LiteDB.Studio.Cross.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LiteDB.Studio.Cross.Views.LeftSideView">
     <Design.DataContext>
         <viewModels:DataBaseExplorerViewModel />
     </Design.DataContext>
 
-	<TreeView x:Name="DatabasesTreeView" ItemsSource="{Binding Databases}">
-		<TreeView.DataTemplates>
-			<TreeDataTemplate DataType="vm:DatabaseViewModel" ItemsSource="{Binding SysCollections.Collections}">
-				<TextBlock Text="{Binding Name}" />
-			</TreeDataTemplate>
-			<DataTemplate DataType="vm:CollectionSetViewModel">
-				<TextBlock Text="{Binding Name}" />
-			</DataTemplate>
-		</TreeView.DataTemplates>
-	</TreeView>
+    <ListBox 
+        Name="DbList"
+        ItemsSource="{Binding Databases}"
+        SelectionMode="Single"
+        SelectedItem="{Binding SelectedDbVm}">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <Expander 
+                    Name="DbExpander"
+                    ExpandDirection="Down" 
+                    Header="{Binding Name}">
+                    <StackPanel>
+                        <Expander 
+                            Name="SysCollectionsExpander"
+                            ExpandDirection="Down" 
+                            Header="System">
+                            <TreeView 
+                                Name="SysCollectionsTree"
+                                ItemsSource="{Binding SysCollections}">
+                                <TreeView.DataTemplates>
+                                    <DataTemplate DataType="vm:CollectionViewModel">
+                                        <userControls:DbCollectionsListItemUC />
+                                    </DataTemplate>
+                                </TreeView.DataTemplates>
+                            </TreeView>
+                        </Expander>
+                        <TreeView
+                            Name="DbCollectionsTree"
+                            ItemsSource="{Binding DbCollections}">
+                            <TreeView.DataTemplates>
+                                <DataTemplate DataType="vm:CollectionViewModel">
+                                    <userControls:DbCollectionsListItemUC />
+                                </DataTemplate>
+                            </TreeView.DataTemplates>
+                        </TreeView>
+                    </StackPanel>
+                </Expander>
+                    <Button i:Attached.Icon="fa-thin fa-circle-xmark"
+                            VerticalAlignment="Top"
+                            Command="{Binding DisconnectCommand} "/>
+                </StackPanel>
+            </DataTemplate>
+        </ListBox.ItemTemplate>		                
+    </ListBox>
 	
 	<!--<ListBox
         ItemsSource="{Binding Databases}"
