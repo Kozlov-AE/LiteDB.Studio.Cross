@@ -21,35 +21,35 @@
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">
                     <Expander 
-                    Name="DbExpander"
-                    ExpandDirection="Down" 
-                    Header="{Binding Name}">
-                    <StackPanel>
-                        <Expander 
-                            Name="SysCollectionsExpander"
-                            ExpandDirection="Down" 
-                            Header="System">
-                            <TreeView 
-                                Name="SysCollectionsTree"
-                                ItemsSource="{Binding SysCollections}">
+                        Name="DbExpander"
+                        ExpandDirection="Down" 
+                        Header="{Binding Name}">
+                        <StackPanel>
+                            <Expander 
+                                Name="SysCollectionsExpander"
+                                ExpandDirection="Down" 
+                                Header="System">
+                                <TreeView 
+                                    Name="SysCollectionsTree"
+                                    ItemsSource="{Binding SysCollections}">
+                                    <TreeView.DataTemplates>
+                                        <DataTemplate DataType="vm:CollectionViewModel">
+                                            <userControls:DbCollectionsListItemUC />
+                                        </DataTemplate>
+                                    </TreeView.DataTemplates>
+                                </TreeView>
+                            </Expander>
+                            <TreeView
+                                Name="DbCollectionsTree"
+                                ItemsSource="{Binding DbCollections}">
                                 <TreeView.DataTemplates>
                                     <DataTemplate DataType="vm:CollectionViewModel">
                                         <userControls:DbCollectionsListItemUC />
                                     </DataTemplate>
                                 </TreeView.DataTemplates>
                             </TreeView>
-                        </Expander>
-                        <TreeView
-                            Name="DbCollectionsTree"
-                            ItemsSource="{Binding DbCollections}">
-                            <TreeView.DataTemplates>
-                                <DataTemplate DataType="vm:CollectionViewModel">
-                                    <userControls:DbCollectionsListItemUC />
-                                </DataTemplate>
-                            </TreeView.DataTemplates>
-                        </TreeView>
-                    </StackPanel>
-                </Expander>
+                        </StackPanel>
+                    </Expander>
                     <Button i:Attached.Icon="fa-thin fa-circle-xmark"
                             VerticalAlignment="Top"
                             Command="{Binding DisconnectCommand} "/>
